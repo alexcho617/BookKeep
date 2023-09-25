@@ -17,7 +17,7 @@
 		57ADE0152AC1A38F00EA0EFE /* BookKeepUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADE0142AC1A38F00EA0EFE /* BookKeepUITestsLaunchTests.swift */; };
 		57ADE0252AC1A5D800EA0EFE /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADE0242AC1A5D800EA0EFE /* HomeViewModel.swift */; };
 		57ADE0282AC1A67D00EA0EFE /* Designs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADE0272AC1A67D00EA0EFE /* Designs.swift */; };
-		57ADE02C2AC1A73600EA0EFE /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADE02B2AC1A73600EA0EFE /* Key.swift */; };
+		57ADE02E2AC1A77D00EA0EFE /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADE02D2AC1A77D00EA0EFE /* Key.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +52,7 @@
 		57ADE0142AC1A38F00EA0EFE /* BookKeepUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookKeepUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		57ADE0242AC1A5D800EA0EFE /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		57ADE0272AC1A67D00EA0EFE /* Designs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Designs.swift; sourceTree = "<group>"; };
-		57ADE02B2AC1A73600EA0EFE /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		57ADE02D2AC1A77D00EA0EFE /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,7 +176,7 @@
 		57ADE02A2AC1A70100EA0EFE /* API */ = {
 			isa = PBXGroup;
 			children = (
-				57ADE02B2AC1A73600EA0EFE /* Key.swift */,
+				57ADE02D2AC1A77D00EA0EFE /* Key.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -316,7 +316,7 @@
 				57ADDFF22AC1A38D00EA0EFE /* AppDelegate.swift in Sources */,
 				57ADDFF42AC1A38D00EA0EFE /* SceneDelegate.swift in Sources */,
 				57ADE0252AC1A5D800EA0EFE /* HomeViewModel.swift in Sources */,
-				57ADE02C2AC1A73600EA0EFE /* Key.swift in Sources */,
+				57ADE02E2AC1A77D00EA0EFE /* Key.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
