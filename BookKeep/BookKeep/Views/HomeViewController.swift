@@ -7,12 +7,28 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
 
+    //Views
+    lazy var collectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
+        return view
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        print(#file, #function)
+        setView()
+        setConstraints()
+    }
+    func setView(){
+        
+    }
+    
+    func setConstraints(){
+        
+    }
+    func createCollectionViewLayout() -> UICollectionViewLayout{
+        return UICollectionViewLayout()
     }
 
 

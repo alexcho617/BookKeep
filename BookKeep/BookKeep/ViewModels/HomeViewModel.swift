@@ -7,5 +7,6 @@
 
 import Foundation
 class HomeViewModel{
-    
+    let booksReading = MockData.booksReading()
+    let booksToRead = MockData.booksWillRead()
 }
