@@ -10,6 +10,41 @@ import SnapKit
 import Kingfisher
 
 final class HomeViewController: UIViewController, UICollectionViewDelegate {
+    
+    //Variables
+    let vm = HomeViewModel()
+    var dataSource: UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>!
+    var snapshot = NSDiffableDataSourceSnapshot<SectionLayoutKind, RealmBook>()
+
+    //Views
+    var collectionView: UICollectionView! = nil
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureHierarchy()
+        setConstraints()
+        configureDataSource()
+        bindData()
+
+    }
+    
+    func configureHierarchy(){
+        view.backgroundColor = .systemBackground
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: generateLayoutBySection())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(collectionView)
+        collectionView.delegate = self
+    }
+    
+    func setConstraints(){
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+}
+
+extension HomeViewController{
+    
     enum SectionLayoutKind: Int, CaseIterable{
         case single, double
         var columnCount: Int{
@@ -22,65 +57,15 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         }
     }
     
-    //Variables
-    let vm = HomeViewModel()
-    var dataSource: UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>!
-    //Views
-    var collectionView: UICollectionView! = nil
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        configureHierarchy()
-        setConstraints()
-        configureDataSource()
+    enum SectionSupplementaryKind: String{
+        case readingHeader
+        case toReadHeader
     }
-    func configureHierarchy(){
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: generateLayoutBySection())
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(collectionView)
-        collectionView.delegate = self
-    }
-    
-    func setConstraints(){
-        
-    }
-    
-    func configureDataSource(){
-        //Cell 등록
-        let readingCellRegistration = UICollectionView.CellRegistration<ReadingCell, RealmBook> { cell, indexPath, itemIdentifier in
-            cell.label.text = itemIdentifier.title
-            cell.imageView.kf.setImage(with: URL(string: MockData.sampleImage))
-            cell.backgroundColor = .gray
-        }
-        
-        let toReadCellRegistration = UICollectionView.CellRegistration<ToReadCell, RealmBook> { cell, indexPath, itemIdentifier in
-            cell.label.text = itemIdentifier.title
-            cell.backgroundColor = .systemMint
-        }
-        //DS
-        dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            
-            let sectionType = SectionLayoutKind(rawValue: indexPath.section)
-            switch sectionType{
-            case .single:
-                return collectionView.dequeueConfiguredReusableCell(using: readingCellRegistration, for: indexPath, item: itemIdentifier)
-            case .double:
-                return collectionView.dequeueConfiguredReusableCell(using: toReadCellRegistration, for: indexPath, item: itemIdentifier)
-            case .none:
-                return UICollectionViewCell()
-            }
-        })
-        
-        //apply snapshot
-        var snapshot = NSDiffableDataSourceSnapshot<SectionLayoutKind, RealmBook>()
-        snapshot.appendSections([.single, .double])
-        snapshot.appendItems(vm.booksReading,toSection: .single)
-        snapshot.appendItems(vm.bookstoRead,toSection: .double)
-        dataSource.apply(snapshot)
-    }
-    
-    func generateLayoutBySection() -> UICollectionViewLayout{
+}
+
+extension HomeViewController{
+    //섹션에 따라 다른 레이아웃 적용
+    private func generateLayoutBySection() -> UICollectionViewLayout{
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int,
                                                             layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             let sectionKind = SectionLayoutKind(rawValue: sectionIndex)
@@ -97,24 +82,10 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         return layout
     }
     
+    //MARK: Reading Section Layout
     //가로 스크롤, 셀 하나씩 보여주는 섹션
-    func createBooksReadingLayout() -> NSCollectionLayoutSection{
+    private func createBooksReadingLayout() -> NSCollectionLayoutSection{
         
-        //Mine
-        //        let itemSize = NSCollectionLayoutSize(
-        //            widthDimension: .fractionalWidth(1.0),
-        //            heightDimension: .fractionalWidth(2/3))
-        //        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        //        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-        //
-        //        let groupSize = NSCollectionLayoutSize(
-        //            widthDimension: .fractionalWidth(1.0),
-        //            heightDimension: .fractionalWidth(2/3))
-        //
-        //        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
-        
-        
-        //Kodeco
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalWidth(2/3))
@@ -132,14 +103,20 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
             trailing: 5)
         
         let section = NSCollectionLayoutSection(group: group)
-        
         section.orthogonalScrollingBehavior = .groupPagingCentered
+        
+        //Header Layout
+        let sectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: sectionHeaderSize, elementKind: SectionSupplementaryKind.readingHeader.rawValue, alignment: .top)
+        
+        section.boundarySupplementaryItems = [sectionHeader]
         
         return section
     }
     
+    //MARK: To Read Section Layout
     //세로 스크롤, 셀 두개씩 보여주는 섹션
-    func createBooksToReadLayout() -> NSCollectionLayoutSection {
+    private func createBooksToReadLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
                                               heightDimension: .fractionalHeight(1.0))
         
@@ -154,7 +131,81 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         
         let section = NSCollectionLayoutSection(group: group)
         
+        //Header Layout
+        let sectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(100))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: sectionHeaderSize, elementKind: SectionSupplementaryKind.toReadHeader.rawValue, alignment: .top)
+        
+        section.boundarySupplementaryItems = [sectionHeader]
+        
         return section
     }
 }
 
+extension HomeViewController{
+    private func configureDataSource(){
+        //Cell Register
+        let readingCellRegistration = UICollectionView.CellRegistration<ReadingCell, RealmBook> { cell, indexPath, itemIdentifier in
+            cell.label.text = itemIdentifier.title
+            cell.imageView.kf.setImage(with: URL(string: MockData.sampleImage))
+            cell.backgroundColor = .gray
+        }
+        
+        let toReadCellRegistration = UICollectionView.CellRegistration<ToReadCell, RealmBook> { cell, indexPath, itemIdentifier in
+            cell.label.text = itemIdentifier.title
+            cell.backgroundColor = .systemMint
+        }
+        
+        //Supplementary Register
+        let readingHeaderRegistration = UICollectionView.SupplementaryRegistration<ReadingSectionHeaderView>(elementKind: SectionSupplementaryKind.readingHeader.rawValue) { supplementaryView, elementKind, indexPath in
+            //여기서 cell 처럼 header view 코드 실행 가능
+        }
+        
+        let toReadHeaderRegistration = UICollectionView.SupplementaryRegistration<ToReadSectionHeaderView>(elementKind: SectionSupplementaryKind.toReadHeader.rawValue) { supplementaryView, elementKind, indexPath in
+            //여기서 cell 처럼 header view 코드 실행 가능
+        }
+        
+        //DS
+        dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            
+            let sectionType = SectionLayoutKind(rawValue: indexPath.section)
+            switch sectionType{
+            case .single:
+                return collectionView.dequeueConfiguredReusableCell(using: readingCellRegistration, for: indexPath, item: itemIdentifier)
+            case .double:
+                return collectionView.dequeueConfiguredReusableCell(using: toReadCellRegistration, for: indexPath, item: itemIdentifier)
+            case .none:
+                return UICollectionViewCell()
+            }
+        })
+        
+        //Header apply
+        dataSource.supplementaryViewProvider = { (view, kind, index) in
+            let headerType = SectionSupplementaryKind(rawValue: kind)
+            switch headerType{
+            case .readingHeader:
+                return self.collectionView.dequeueConfiguredReusableSupplementary(using:  readingHeaderRegistration, for: index)
+            case .toReadHeader:
+                return self.collectionView.dequeueConfiguredReusableSupplementary(using:  toReadHeaderRegistration, for: index)
+            case .none:
+                return UICollectionReusableView()
+            }
+        }
+        
+    }
+    private func bindData(){
+        vm.booksReading.bind { [weak self] value in
+            guard let self = self else { return }
+            snapshot.appendSections([.single])
+            snapshot.appendItems(value,toSection: .single)
+            dataSource.apply(snapshot)
+        }
+        
+        vm.bookstoRead.bind { [weak self] value in
+            guard let self = self else { return }
+            snapshot.appendSections([.double])
+            snapshot.appendItems(value,toSection: .double)
+            dataSource.apply(snapshot)
+        }
+    }
+    
+}

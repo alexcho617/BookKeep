@@ -8,7 +8,9 @@
 import Foundation
 import UIKit
 
-class ReadingCell: UICollectionViewCell {
+final class ReadingCell: UICollectionViewCell {
+    
+    var book: RealmBook!
     var imageView = UIImageView()
     var label = UILabel()
     

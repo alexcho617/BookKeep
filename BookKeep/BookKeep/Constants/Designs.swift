@@ -7,5 +7,5 @@
 
 import Foundation
 enum Designs{
-    
+    static let defaultPadding: CGFloat = 8.0
 }

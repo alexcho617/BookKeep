@@ -7,8 +7,8 @@
 
 import Foundation
 class HomeViewModel{
-    let booksReading = MockData.booksReading()
-    let bookstoRead = MockData.booksToRead()
+    let booksReading = Observable(MockData.booksReading())
+    let bookstoRead = Observable(MockData.booksToRead())
     
     init() {
         

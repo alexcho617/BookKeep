@@ -16,6 +16,9 @@
 		577082C12AC2D9790052EA8A /* ReadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082C02AC2D9790052EA8A /* ReadingCell.swift */; };
 		577082C72AC2E1510052EA8A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 577082C62AC2E1510052EA8A /* Kingfisher */; };
 		577082C92AC2ED2B0052EA8A /* ToReadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082C82AC2ED2B0052EA8A /* ToReadCell.swift */; };
+		577082CC2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082CB2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift */; };
+		577082CE2AC3EFCA0052EA8A /* ToReadSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082CD2AC3EFCA0052EA8A /* ToReadSectionHeaderView.swift */; };
+		577082D02AC415F90052EA8A /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082CF2AC415F90052EA8A /* Observable.swift */; };
 		57ADDFF22AC1A38D00EA0EFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */; };
 		57ADDFF42AC1A38D00EA0EFE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */; };
 		57ADDFF62AC1A38D00EA0EFE /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */; };
@@ -52,6 +55,9 @@
 		577082BE2AC2D2110052EA8A /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		577082C02AC2D9790052EA8A /* ReadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingCell.swift; sourceTree = "<group>"; };
 		577082C82AC2ED2B0052EA8A /* ToReadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToReadCell.swift; sourceTree = "<group>"; };
+		577082CB2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingSectionHeaderView.swift; sourceTree = "<group>"; };
+		577082CD2AC3EFCA0052EA8A /* ToReadSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToReadSectionHeaderView.swift; sourceTree = "<group>"; };
+		577082CF2AC415F90052EA8A /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		57ADDFEE2AC1A38D00EA0EFE /* BookKeep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookKeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +104,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		577082CA2AC3E77B0052EA8A /* Cells and Supplementary Views */ = {
+			isa = PBXGroup;
+			children = (
+				577082C02AC2D9790052EA8A /* ReadingCell.swift */,
+				577082C82AC2ED2B0052EA8A /* ToReadCell.swift */,
+				577082CB2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift */,
+				577082CD2AC3EFCA0052EA8A /* ToReadSectionHeaderView.swift */,
+			);
+			path = "Cells and Supplementary Views";
+			sourceTree = "<group>";
+		};
 		57ADDFE52AC1A38D00EA0EFE = {
 			isa = PBXGroup;
 			children = (
@@ -157,8 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */,
-				577082C02AC2D9790052EA8A /* ReadingCell.swift */,
-				577082C82AC2ED2B0052EA8A /* ToReadCell.swift */,
+				577082CA2AC3E77B0052EA8A /* Cells and Supplementary Views */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -167,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				57ADE0242AC1A5D800EA0EFE /* HomeViewModel.swift */,
+				577082CF2AC415F90052EA8A /* Observable.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -348,12 +365,15 @@
 				577082BB2AC2C3090052EA8A /* RealmBook.swift in Sources */,
 				57ADDFF62AC1A38D00EA0EFE /* HomeViewController.swift in Sources */,
 				57ADE0282AC1A67D00EA0EFE /* Designs.swift in Sources */,
+				577082CE2AC3EFCA0052EA8A /* ToReadSectionHeaderView.swift in Sources */,
 				57ADDFF22AC1A38D00EA0EFE /* AppDelegate.swift in Sources */,
 				577082BF2AC2D2110052EA8A /* MockData.swift in Sources */,
 				577082C92AC2ED2B0052EA8A /* ToReadCell.swift in Sources */,
 				57ADDFF42AC1A38D00EA0EFE /* SceneDelegate.swift in Sources */,
 				577082C12AC2D9790052EA8A /* ReadingCell.swift in Sources */,
 				57ADE0252AC1A5D800EA0EFE /* HomeViewModel.swift in Sources */,
+				577082D02AC415F90052EA8A /* Observable.swift in Sources */,
+				577082CC2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift in Sources */,
 				577082BD2AC2C6E00052EA8A /* BooksRepository.swift in Sources */,
 				57ADE02E2AC1A77D00EA0EFE /* Key.swift in Sources */,
 			);

@@ -7,7 +7,8 @@
 
 
 import UIKit
-class ToReadCell: UICollectionViewCell {
+
+final class ToReadCell: UICollectionViewCell {
     var imageView = UIImageView()
     var label = UILabel()
     
