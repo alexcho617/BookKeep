@@ -7,7 +7,7 @@
 
 import Foundation
 enum MockData{
-    
+    static let sampleImage = "https://image.aladin.co.kr//product//6853//49//cover//8932917248_2.jpg"
     static func booksReading() -> [RealmBook] {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"

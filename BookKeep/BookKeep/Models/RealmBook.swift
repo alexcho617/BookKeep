@@ -35,8 +35,9 @@ class RealmBook: Object {
     @Persisted var expectScore: Int
     @Persisted var isDeleted: Bool
     
-    init(title: String, ownerId: String, coverUrl: String, author: String, descriptionOfBook: String, publisher: String, isbn: String, pageNumber: String, readingStatus: RealmReadStatus? = nil, startDate: Date? = nil, endDate: Date? = nil, rating: Int, currentReadingPage: Int, expectScore: Int, isDeleted: Bool) {
+    convenience init(title: String, ownerId: String, coverUrl: String, author: String, descriptionOfBook: String, publisher: String, isbn: String, pageNumber: String, readingStatus: RealmReadStatus? = nil, startDate: Date? = nil, endDate: Date? = nil, rating: Int, currentReadingPage: Int, expectScore: Int, isDeleted: Bool) {
         //from API
+        self.init()
         self.title = title
         self.ownerId = ownerId
         self.coverUrl = coverUrl
