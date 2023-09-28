@@ -8,9 +8,14 @@
 import UIKit
 
 final class ToReadSectionHeaderView: UICollectionReusableView {
+    
     private let title = {
         let view = UILabel()
-        view.text = "읽을 예정인 책"
+        view.text = Literal.secondSectionLabel
+        view.font = Design.fontSubTitle
+        view.textColor = Design.colorPrimaryAccent
+        view.backgroundColor = Design.colorPrimaryBackground
+
         return view
     }()
    
@@ -30,13 +35,14 @@ final class ToReadSectionHeaderView: UICollectionReusableView {
         print("DEBUG:",self.description, "registered")
     }
     private func setViews(){
-        backgroundColor = .systemGray
         addSubview(title)
+        title.layer.cornerRadius = Design.paddingDefault
+        title.clipsToBounds = true
     }
     private func setConstraints(){
         title.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.leading.equalToSuperview().inset(Designs.defaultPadding)
+            make.leading.equalToSuperview().inset(Design.paddingDefault)
             make.size.equalToSuperview().multipliedBy(0.5)
         }
      

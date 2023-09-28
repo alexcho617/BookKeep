@@ -15,7 +15,7 @@ enum MockData{
         let book1 = RealmBook(
             title: "살인자의 기억법",
             ownerId: "1",
-            coverUrl: "https://example.com/book1-cover.jpg",
+            coverUrl: "https://image.aladin.co.kr/product/6853/49/cover/8932917248_2.jpg",
             author: "김영하",
             descriptionOfBook: """
             "살인자의 기억법"은 한국 문학계의 거장, 김영하 작가의 대표작 중 하나입니다. 이 소설은 단순한 범죄 소설이 아닌, 범인의 시선에서 이야기가 풀려나가는 독특한 구성이 특징입니다. 살인범과 경찰, 피해자의 시선에서 서로 다른 이야기가 공존하며, 독자는 각 시각에서 벌어지는 사건을 체험할 수 있습니다. 김영하 작가의 탁월한 문장력과 감정 묘사는 이 작품을 더욱 특별하게 만듭니다.
@@ -35,7 +35,7 @@ enum MockData{
         let book2 = RealmBook(
             title: "해를 품은 달",
             ownerId: "2",
-            coverUrl: "https://example.com/book2-cover.jpg",
+            coverUrl: "https://image.aladin.co.kr/product/28050/46/cover/k102734432_1.jpg",
             author: "정은광",
             descriptionOfBook: """
             "해를 품은 달"은 한국 소설의 거장, 정은광 작가의 대표작 중 하나입니다. 이 작품은 귀족과 노예의 운명을 가볍지 않게 다루고 있으며, 사랑, 충성, 복수의 이야기가 복합적으로 얽혀있습니다. 역사적 배경과 인물들의 감정을 섬세하게 그린 이 소설은 독자들에게 깊은 감동을 선사합니다.
@@ -55,7 +55,7 @@ enum MockData{
         let book3 = RealmBook(
             title: "피와 뼈",
             ownerId: "3",
-            coverUrl: "https://example.com/book3-cover.jpg",
+            coverUrl: "https://image.aladin.co.kr/product/23/49/cover/8949190133_2.jpg",
             author: "정유정",
             descriptionOfBook: """
             "피와 뼈"은 한국 대중 소설의 명작 중 하나입니다. 이 소설은 한국 전쟁 시기를 배경으로 하며, 가족과 동료, 사랑에 대한 감정을 다룹니다. 작가 정유정의 생생한 문장과 감정 묘사로 독자들에게 강한 감동을 선사하는 이 작품은 여러 상을 수상한 바 있습니다.
@@ -75,7 +75,7 @@ enum MockData{
         let book4 = RealmBook(
             title: "백설공주",
             ownerId: "4",
-            coverUrl: "https://example.com/book4-cover.jpg",
+            coverUrl: "https://image.aladin.co.kr/product/26016/89/cover/k062737858_1.jpg",
             author: "그림 협회",
             descriptionOfBook: """
             "백설공주"는 전래동화의 대표작 중 하나로, 전세계 어린이들에게 사랑받는 이야기입니다. 이 동화는 아름다운 공주와 독한 여왕, 아랫집 일곱 난쟁이 등 다양한 캐릭터로 이루어진 독특한 이야기를 담고 있으며, 화려한 그림과 함께 아이들에게 교훈을 전합니다.
@@ -95,7 +95,7 @@ enum MockData{
         let book5 = RealmBook(
             title: "어린왕자",
             ownerId: "5",
-            coverUrl: "https://example.com/book5-cover.jpg",
+            coverUrl: "https://image.aladin.co.kr/product/11830/53/cover/k722531529_1.jpg",
             author: "앙투안 드 생텍쥐페리",
             descriptionOfBook: """
             "어린왕자"는 세계문학의 걸작 중 하나로, 어린 왕자와 조종사의 이야기를 통해 인생의 무한한 질문을 던지는 작품입니다. 작가 앙투안 드 생텍쥐페리의 철학적 내용과 아름다운 삽화가 독자들에게 영감을 주며, 이 작품을 통해 새로운 시각을 얻을 수 있습니다.

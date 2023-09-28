@@ -6,11 +6,12 @@
 //
 
 import Foundation
-class HomeViewModel{
-    let booksReading = Observable(MockData.booksReading())
-    let bookstoRead = Observable(MockData.booksToRead())
+final class HomeViewModel{
+    var booksReading = Observable([RealmBook]())
+    var booksToRead = Observable([RealmBook]())
     
     init() {
-        
+        booksReading.value = MockData.booksReading()
+        booksToRead.value = MockData.booksToRead()
     }
 }

@@ -18,28 +18,49 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
 
     //Views
     var collectionView: UICollectionView! = nil
-    
+    var baseView: UIStackView!
     override func viewDidLoad() {
         super.viewDidLoad()
         configureHierarchy()
+        setViewDesign()
         setConstraints()
         configureDataSource()
         bindData()
 
     }
     
-    func configureHierarchy(){
-        view.backgroundColor = .systemBackground
+    private func configureHierarchy(){
+        baseView = addBaseView()
+        view.addSubview(baseView)
+        
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: generateLayoutBySection())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
         collectionView.delegate = self
     }
     
-    func setConstraints(){
+    private func setConstraints(){
+        baseView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    private func setViewDesign(){
+        collectionView.backgroundColor = .clear
+        
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = Design.colorPrimaryAccent
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.hidesBarsOnSwipe = true
+        title = "홈"
+        
+        
+        
     }
 }
 
@@ -90,8 +111,8 @@ extension HomeViewController{
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalWidth(2/3))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupFractionalWidth = 0.95
-        let groupFractionalHeight: Float = 2/3
+        let groupFractionalWidth = 0.90
+        let groupFractionalHeight: Float = 0.60
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(CGFloat(groupFractionalWidth)),
             heightDimension: .fractionalWidth(CGFloat(groupFractionalHeight)))
@@ -106,7 +127,7 @@ extension HomeViewController{
         section.orthogonalScrollingBehavior = .groupPagingCentered
         
         //Header Layout
-        let sectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
+        let sectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.3))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: sectionHeaderSize, elementKind: SectionSupplementaryKind.readingHeader.rawValue, alignment: .top)
         
         section.boundarySupplementaryItems = [sectionHeader]
@@ -126,13 +147,13 @@ extension HomeViewController{
         
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalWidth(0.4))
+                                               heightDimension: .estimated(250))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         
         //Header Layout
-        let sectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(100))
+        let sectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.2))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: sectionHeaderSize, elementKind: SectionSupplementaryKind.toReadHeader.rawValue, alignment: .top)
         
         section.boundarySupplementaryItems = [sectionHeader]
@@ -145,9 +166,9 @@ extension HomeViewController{
     private func configureDataSource(){
         //Cell Register
         let readingCellRegistration = UICollectionView.CellRegistration<ReadingCell, RealmBook> { cell, indexPath, itemIdentifier in
-            cell.label.text = itemIdentifier.title
-            cell.imageView.kf.setImage(with: URL(string: MockData.sampleImage))
-            cell.backgroundColor = .gray
+            cell.book = itemIdentifier
+            cell.setView()
+            cell.setConstraint()
         }
         
         let toReadCellRegistration = UICollectionView.CellRegistration<ToReadCell, RealmBook> { cell, indexPath, itemIdentifier in
@@ -200,7 +221,7 @@ extension HomeViewController{
             dataSource.apply(snapshot)
         }
         
-        vm.bookstoRead.bind { [weak self] value in
+        vm.booksToRead.bind { [weak self] value in
             guard let self = self else { return }
             snapshot.appendSections([.double])
             snapshot.appendItems(value,toSection: .double)
