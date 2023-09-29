@@ -13,12 +13,25 @@ final class ToReadSectionHeaderView: UICollectionReusableView {
         let view = UILabel()
         view.text = Literal.secondSectionLabel
         view.font = Design.fontSubTitle
-        view.textColor = Design.colorPrimaryAccent
+        view.textColor = Design.colorTextSubTitle
         view.backgroundColor = Design.colorPrimaryBackground
-
+        view.textAlignment = .center
         return view
     }()
-   
+    
+    private func setViews(){
+        addSubview(title)
+        title.layer.cornerRadius = Design.paddingDefault
+        title.clipsToBounds = true
+    }
+    private func setConstraints(){
+        title.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().inset(Design.paddingDefault)
+            make.size.equalToSuperview().multipliedBy(0.4)
+        }
+     
+    }
     
     //Codebase initialize
     override init(frame: CGRect){
@@ -31,20 +44,6 @@ final class ToReadSectionHeaderView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    func checkRegistration(){
-        print("DEBUG:",self.description, "registered")
-    }
-    private func setViews(){
-        addSubview(title)
-        title.layer.cornerRadius = Design.paddingDefault
-        title.clipsToBounds = true
-    }
-    private func setConstraints(){
-        title.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalToSuperview().inset(Design.paddingDefault)
-            make.size.equalToSuperview().multipliedBy(0.5)
-        }
-     
-    }
+   
+   
 }

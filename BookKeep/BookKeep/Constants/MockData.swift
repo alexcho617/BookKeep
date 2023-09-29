@@ -13,7 +13,7 @@ enum MockData{
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
         let book1 = RealmBook(
-            title: "살인자의 기억법",
+            title: "어린왕자: 더 어린왕자 더 어리고 어린 더 어린왕자",
             ownerId: "1",
             coverUrl: "https://image.aladin.co.kr/product/6853/49/cover/8932917248_2.jpg",
             author: "김영하",
@@ -124,7 +124,7 @@ enum MockData{
         let book1 = RealmBook(
             title: "죄와 벌",
             ownerId: "1",
-            coverUrl: "https://example.com/book1-cover.jpg",
+            coverUrl: "https://image.aladin.co.kr/product/32310/18/letslook/K472834051_f.jpg",
             author: "피천득",
             descriptionOfBook: """
             "죄와 벌"은 러시아 문학의 걸작 중 하나로, 범죄와 벌을 다루는 소설입니다. 대부분의 인물들이 범죄자로서 등장하며, 벌을 받거나 벌을 주는 과정을 통해 인간의 본성과 도덕적 문제를 탐구합니다.
@@ -144,7 +144,7 @@ enum MockData{
         let book2 = RealmBook(
             title: "1984",
             ownerId: "2",
-            coverUrl: "https://example.com/book2-cover.jpg",
+            coverUrl: "https://image.aladin.co.kr/product/32471/12/letslook/K122935400_f.jpg",
             author: "조지 오웰",
             descriptionOfBook: """
             "1984"는 미래 사회를 배경으로 한 과학 소설로, 감시와 통제가 주제입니다. 빅 브라더, 뉴스피크, 더블씽크 등의 개념을 소개하며, 개인의 자유와 개인정보 보호를 논의합니다.
@@ -164,7 +164,7 @@ enum MockData{
         let book3 = RealmBook(
             title: "데미안",
             ownerId: "3",
-            coverUrl: "https://example.com/book3-cover.jpg",
+            coverUrl: "https://image.aladin.co.kr/product/32129/40/letslook/8954695051_f.jpg",
             author: "헤르만 헤세",
             descriptionOfBook: """
             "데미안"은 자아 탐구와 성장의 과정을 다루는 소설로, 청소년 시절의 고민과 성인이 되는 과정을 그립니다. 주인공 데미안이 자신의 삶과 세계를 탐구하며 도전하는 모습을 통해 자아 발견의 여정을 그립니다.
@@ -184,7 +184,7 @@ enum MockData{
         let book4 = RealmBook(
             title: "호밀밭의 파수꾼",
             ownerId: "4",
-            coverUrl: "https://example.com/book4-cover.jpg",
+            coverUrl: "https://image.aladin.co.kr/product/31934/54/letslook/8962632535_f.jpg",
             author: "J.D. 샐린저",
             descriptionOfBook: """
             "호밀밭의 파수꾼"은 청소년의 고독과 무력함, 사회적 불만을 다루는 소설입니다. 주인공 홀덴 코필드의 내면 고백을 통해 성장과 아픔을 그립니다.
@@ -204,7 +204,7 @@ enum MockData{
         let book5 = RealmBook(
             title: "노르웨이의 숲",
             ownerId: "5",
-            coverUrl: "https://example.com/book5-cover.jpg",
+            coverUrl: "https://image.aladin.co.kr/product/32178/64/letslook/8964362446_f.jpg",
             author: "하루키 무라카미",
             descriptionOfBook: """
             "노르웨이의 숲"은 청춘과 사랑, 소외와 죽음을 그리는 소설로, 일본 문학의 대표작 중 하나입니다. 주인공 와타나베의 시선에서 풀려나가는 이야기는 청춘의 아름다움과 상실을 그립니다.
@@ -221,107 +221,8 @@ enum MockData{
             isDeleted: false
         )
 
-        let book6 = RealmBook(
-            title: "빨강머리 앤",
-            ownerId: "6",
-            coverUrl: "https://example.com/book6-cover.jpg",
-            author: "루시 모드 몽고메리",
-            descriptionOfBook: """
-            "빨강머리 앤"은 캐나다 문학의 명작 중 하나로, 빨강머리 소녀 앤의 성장 이야기를 다룹니다. 앤은 활기차고 밝은 성격으로 주변 사람들에게 사랑을 받으며 여러 모험과 이야기를 펼칩니다.
-            """,
-            publisher: "민음사",
-            isbn: "9788937484903",
-            pageNumber: "320",
-            readingStatus: .toRead,
-            startDate: nil,
-            endDate: nil,
-            rating: 0,
-            currentReadingPage: 0,
-            expectScore: 0,
-            isDeleted: false
-        )
+        return [book1, book2, book3, book4, book5]
 
-        let book7 = RealmBook(
-            title: "죄와 벌",
-            ownerId: "7",
-            coverUrl: "https://example.com/book7-cover.jpg",
-            author: "피천득",
-            descriptionOfBook: """
-            "죄와 벌"은 러시아 문학의 걸작 중 하나로, 범죄와 벌을 다루는 소설입니다. 대부분의 인물들이 범죄자로서 등장하며, 벌을 받거나 벌을 주는 과정을 통해 인간의 본성과 도덕적 문제를 탐구합니다.
-            """,
-            publisher: "민음사",
-            isbn: "9788937472504",
-            pageNumber: "550",
-            readingStatus: .toRead,
-            startDate: nil,
-            endDate: nil,
-            rating: 0,
-            currentReadingPage: 0,
-            expectScore: 0,
-            isDeleted: false
-        )
-
-        let book8 = RealmBook(
-            title: "1984",
-            ownerId: "8",
-            coverUrl: "https://example.com/book8-cover.jpg",
-            author: "조지 오웰",
-            descriptionOfBook: """
-            "1984"는 미래 사회를 배경으로 한 과학 소설로, 감시와 통제가 주제입니다. 빅 브라더, 뉴스피크, 더블씽크 등의 개념을 소개하며, 개인의 자유와 개인정보 보호를 논의합니다.
-            """,
-            publisher: "민음사",
-            isbn: "9788937487478",
-            pageNumber: "400",
-            readingStatus: .toRead,
-            startDate: nil,
-            endDate: nil,
-            rating: 0,
-            currentReadingPage: 0,
-            expectScore: 0,
-            isDeleted: false
-        )
-
-        let book9 = RealmBook(
-            title: "데미안",
-            ownerId: "9",
-            coverUrl: "https://example.com/book9-cover.jpg",
-            author: "헤르만 헤세",
-            descriptionOfBook: """
-            "데미안"은 자아 탐구와 성장의 과정을 다루는 소설로, 청소년 시절의 고민과 성인이 되는 과정을 그립니다. 주인공 데미안이 자신의 삶과 세계를 탐구하며 도전하는 모습을 통해 자아 발견의 여정을 그립니다.
-            """,
-            publisher: "민음사",
-            isbn: "9788937486181",
-            pageNumber: "220",
-            readingStatus: .toRead,
-            startDate: nil,
-            endDate: nil,
-            rating: 0,
-            currentReadingPage: 0,
-            expectScore: 0,
-            isDeleted: false
-        )
-
-        let book10 = RealmBook(
-            title: "호밀밭의 파수꾼",
-            ownerId: "10",
-            coverUrl: "https://example.com/book10-cover.jpg",
-            author: "J.D. 샐린저",
-            descriptionOfBook: """
-            "호밀밭의 파수꾼"은 청소년의 고독과 무력함, 사회적 불만을 다루는 소설입니다. 주인공 홀덴 코필드의 내면 고백을 통해 성장과 아픔을 그립니다.
-            """,
-            publisher: "민음사",
-            isbn: "9788937486686",
-            pageNumber: "240",
-            readingStatus: .toRead,
-            startDate: nil,
-            endDate: nil,
-            rating: 0,
-            currentReadingPage: 0,
-            expectScore: 0,
-            isDeleted: false
-        )
-
-        return [book1, book2, book3, book4, book5, book6, book7, book8, book9, book10]
     }
 
     

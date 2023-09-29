@@ -24,15 +24,15 @@ final class ReadingCell: UICollectionViewCell {
     func setView(){
         guard let book = book else { return }
         contentView.backgroundColor = Design.colorPrimaryBackground
-
-        contentView.addSubview(title)
         contentView.layer.cornerRadius = Design.paddingDefault
         contentView.layer.shadowOffset = CGSize(width: 8, height: 8)
         contentView.layer.shadowOpacity = 0.5
-
+        
+        contentView.addSubview(title)
         title.text = book.title
-        title.font = Design.fontTitle
+        title.font = Design.fontSubTitle
         title.textColor = .label
+        title.numberOfLines = 0
         
         
         contentView.addSubview(imageView)

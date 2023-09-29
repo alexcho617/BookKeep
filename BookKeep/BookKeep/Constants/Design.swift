@@ -16,12 +16,14 @@ enum Design{
     static let colorSecondaryAccent = UIColor(named: "SecondaryAccent")
     
     static let colorTextTitle = colorSecondaryAccent
-    static let colorTextSubTitle = UIColor.systemGray4
+    static let colorTextSubTitle = colorPrimaryAccent
+    static let colorTextDefault = UIColor.systemGray
     
-    static let fontDefault: UIFont = .systemFont(ofSize: 16, weight: .medium)
     static let fontTitle: UIFont = .systemFont(ofSize: 28, weight: .bold)
     static let fontSubTitle: UIFont = .systemFont(ofSize: 24, weight: .semibold)
-    
+    static let fontDefault: UIFont = .systemFont(ofSize: 16, weight: .medium)
+    static let fontAccentDefault: UIFont = .systemFont(ofSize: 18, weight: .semibold)
+
     static let debugPink = UIColor.systemPink.withAlphaComponent(0.5)
     static let debugBlue = UIColor.systemBlue.withAlphaComponent(0.5)
 }

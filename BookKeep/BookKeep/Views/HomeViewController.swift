@@ -64,6 +64,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     }
 }
 
+//MARK: Enums
 extension HomeViewController{
     
     enum SectionLayoutKind: Int, CaseIterable{
@@ -84,6 +85,7 @@ extension HomeViewController{
     }
 }
 
+//MARK: Layout
 extension HomeViewController{
     //섹션에 따라 다른 레이아웃 적용
     private func generateLayoutBySection() -> UICollectionViewLayout{
@@ -112,7 +114,7 @@ extension HomeViewController{
             heightDimension: .fractionalWidth(2/3))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupFractionalWidth = 0.90
-        let groupFractionalHeight: Float = 0.60
+        let groupFractionalHeight: Float = 0.65
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(CGFloat(groupFractionalWidth)),
             heightDimension: .fractionalWidth(CGFloat(groupFractionalHeight)))
@@ -162,6 +164,7 @@ extension HomeViewController{
     }
 }
 
+//MARK: DataSource
 extension HomeViewController{
     private func configureDataSource(){
         //Cell Register
@@ -172,13 +175,16 @@ extension HomeViewController{
         }
         
         let toReadCellRegistration = UICollectionView.CellRegistration<ToReadCell, RealmBook> { cell, indexPath, itemIdentifier in
-            cell.label.text = itemIdentifier.title
-            cell.backgroundColor = .systemMint
+            cell.book = itemIdentifier
+            cell.setView()
+            cell.setConstraints()
         }
         
         //Supplementary Register
         let readingHeaderRegistration = UICollectionView.SupplementaryRegistration<ReadingSectionHeaderView>(elementKind: SectionSupplementaryKind.readingHeader.rawValue) { supplementaryView, elementKind, indexPath in
-            //여기서 cell 처럼 header view 코드 실행 가능
+            supplementaryView.eventHandler = {
+                self.present(SearchViewController(), animated: true)
+            }
         }
         
         let toReadHeaderRegistration = UICollectionView.SupplementaryRegistration<ToReadSectionHeaderView>(elementKind: SectionSupplementaryKind.toReadHeader.rawValue) { supplementaryView, elementKind, indexPath in
