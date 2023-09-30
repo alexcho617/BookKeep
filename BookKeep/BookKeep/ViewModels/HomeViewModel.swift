@@ -11,7 +11,7 @@ final class HomeViewModel{
     var booksToRead = Observable([RealmBook]())
     
     init() {
-        booksReading.value = MockData.booksReading()
-        booksToRead.value = MockData.booksToRead()
+//        booksReading.value = MockData.booksReading()
+//        booksToRead.value = MockData.booksToRead()
     }
 }

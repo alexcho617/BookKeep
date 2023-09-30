@@ -61,6 +61,7 @@ class SearchViewController: UIViewController{
     }
     
     private func bindData(){
+        print("DEBUG: SearchViewController-bindData(): 데이터 변경 감지")
         vm.searchResult.bind { _ in
             self.collectionView.reloadData()
         }
