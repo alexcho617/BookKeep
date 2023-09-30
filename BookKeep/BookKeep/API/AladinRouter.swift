@@ -11,17 +11,18 @@ import Alamofire
 enum AladinRouter: URLRequestConvertible{
     
     case search(keyword: String)
+    case lookup(itemId: String)
     //TODO: lookup case 추가
     private var baseURL: URL{
         return URL(string: "https://www.aladin.co.kr/ttb/api/")!
     }
     
-//https://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=ttbexist50051416002&version=20131101&QueryType=Title&start=1&SearchTarget=Book&output=js
-    
     private var path: String{
         switch self {
         case .search:
             return "ItemSearch.aspx"
+        case .lookup:
+            return "ItemLookUp.aspx"
         }
     }
     
@@ -41,6 +42,13 @@ enum AladinRouter: URLRequestConvertible{
                     "Cover": "Big",
                     "Output": "JS"
             ]
+        case .lookup(let itemId):
+            return ["ttbkey": Key.aladin,
+                    "ItemId": itemId,
+                    "version": "20131101",
+                    "Cover": "Big",
+                    "Output": "JS"
+            ]
         }
     }
     
@@ -49,7 +57,6 @@ enum AladinRouter: URLRequestConvertible{
         var request = URLRequest(url: url)
         request.method = method
         request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(queries, into: request)
-        //TODO: URL은 정상, Decoding Error 발생
         return request
     }
     

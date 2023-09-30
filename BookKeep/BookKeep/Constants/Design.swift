@@ -26,4 +26,6 @@ enum Design{
 
     static let debugPink = UIColor.systemPink.withAlphaComponent(0.5)
     static let debugBlue = UIColor.systemBlue.withAlphaComponent(0.5)
+    static let debugGray = UIColor.systemGray.withAlphaComponent(0.5)
+
 }

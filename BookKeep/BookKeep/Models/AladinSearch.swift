@@ -8,7 +8,8 @@
 import Foundation
 
 // MARK: - AladinSearch
-struct AladinSearch: Codable {
+struct AladinSearch: Hashable,Codable {
+    let id = UUID().uuidString
     let version: String
     let logo: String
     let title: String
@@ -28,7 +29,7 @@ struct AladinSearch: Codable {
 }
 
 // MARK: - Item
-struct Item: Codable {
+struct Item: Hashable,Codable {
     let title: String
     let link: String
     let author, pubDate, description, isbn: String
@@ -55,7 +56,7 @@ struct Item: Codable {
 }
 
 // MARK: - SeriesInfo
-struct SeriesInfo: Codable {
+struct SeriesInfo: Hashable, Codable {
     let seriesID: Int
     let seriesLink: String
     let seriesName: String
@@ -67,7 +68,7 @@ struct SeriesInfo: Codable {
 }
 
 // MARK: - SubInfo
-struct SubInfo: Codable {
+struct SubInfo: Hashable, Codable {
     let subTitle: String?
     let originalTitle: String?
     let itemPage: Int?

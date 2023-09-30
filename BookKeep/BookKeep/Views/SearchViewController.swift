@@ -94,6 +94,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("DEBUG:",#function)
         let vc = SearchDetailViewController()
         vc.isbn13 = vm.searchResult.value?.item[indexPath.item].isbn13 ?? ""
         navigationController?.pushViewController(vc, animated: true)

@@ -40,7 +40,6 @@ final class ToReadCell: UICollectionViewCell {
     }
     
     func setConstraints(){
-        //TODO: Variable Image height: 현재 mock 이미지가 다 같은 사이즈면 확인할 수가 없음
         imageView.snp.makeConstraints { make in
             make.top.leading.equalTo(contentView)
             make.width.equalTo(contentView).multipliedBy(0.8)
