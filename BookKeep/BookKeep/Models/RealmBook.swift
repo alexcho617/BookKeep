@@ -17,26 +17,30 @@ enum RealmReadStatus: String, PersistableEnum{
 }
 
 class RealmBook: Object {
-    @Persisted(primaryKey: true) var _id: ObjectId
-    @Persisted var title: String
-    @Persisted var ownerId: String
-    @Persisted var coverUrl: String
-    @Persisted var author: String
-    @Persisted var descriptionOfBook: String
-    @Persisted var publisher: String
-    @Persisted var isbn: String
-    @Persisted var pageNumber: String
+    //from API
+    @Persisted(primaryKey: true) var isbn: String
+    @Persisted var title: String = ""
+    @Persisted var ownerId: String = ""
+    @Persisted var coverUrl: String = ""
+    @Persisted var author: String = ""
+    @Persisted var descriptionOfBook: String = ""
+    @Persisted var publisher: String = ""
+    @Persisted var pageNumber: String = ""
     
-    @Persisted var readingStatus: RealmReadStatus?
-    @Persisted var startDate: Date?
-    @Persisted var endDate: Date?
-    @Persisted var rating: Int
-    @Persisted var currentReadingPage: Int
-    @Persisted var expectScore: Int
-    @Persisted var isDeleted: Bool
+    //app exclusive
+    @Persisted var readingStatus: RealmReadStatus = .toRead
+    @Persisted var startDate: Date = .now
+    @Persisted var endDate: Date = .now
+    @Persisted var rating: Int = 0
+    @Persisted var currentReadingPage: Int = 0
+    @Persisted var expectScore: Int = 0
+    @Persisted var isDeleted: Bool = false
     
-    convenience init(title: String, ownerId: String, coverUrl: String, author: String, descriptionOfBook: String, publisher: String, isbn: String, pageNumber: String, readingStatus: RealmReadStatus? = nil, startDate: Date? = nil, endDate: Date? = nil, rating: Int, currentReadingPage: Int, expectScore: Int, isDeleted: Bool) {
-        //from API
+    //Relationship Properties
+    @Persisted var readSessions: List<ReadSession>
+    @Persisted var memos: List<Memo>
+    
+    convenience init(title: String, ownerId: String, coverUrl: String, author: String, descriptionOfBook: String, publisher: String, isbn: String, pageNumber: String, readingStatus: RealmReadStatus, startDate: Date, endDate: Date, rating: Int, currentReadingPage: Int, expectScore: Int, isDeleted: Bool) {
         self.init()
         self.title = title
         self.ownerId = ownerId
@@ -47,7 +51,6 @@ class RealmBook: Object {
         self.isbn = isbn
         self.pageNumber = pageNumber
         
-        //app exclusive
         self.readingStatus = readingStatus
         self.startDate = startDate
         self.endDate = endDate
@@ -57,3 +60,30 @@ class RealmBook: Object {
         self.isDeleted = isDeleted
     }
 }
+
+class ReadSession: Object{
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var startTime: Date = .now
+    @Persisted var endTime: Date = .now
+    @Persisted var endPage: Int = 0
+    @Persisted var duration: Int = 0
+    @Persisted(originProperty: "readSessions") var ofBook: LinkingObjects<RealmBook>
+}
+
+
+class Memo: Object {
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var date: Date = .now
+    @Persisted var contents: String = ""
+    @Persisted var photo: String = ""
+    @Persisted(originProperty: "memos") var ofBook: LinkingObjects<RealmBook>
+
+    
+    convenience init(date: Date, contents: String, PhotoURL: String) {
+        self.init()
+        self.date = date
+        self.contents = contents
+        self.photo = PhotoURL
+    }
+}
+
