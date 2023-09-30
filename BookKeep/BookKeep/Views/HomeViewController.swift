@@ -37,6 +37,8 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
         collectionView.delegate = self
+        snapshot.appendSections([.homeReading])
+        snapshot.appendSections([.homeToRead])
     }
     
     private func setConstraints(){
@@ -58,8 +60,6 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.hidesBarsOnSwipe = true
         title = "홈"
-        
-        
         
     }
 }
@@ -223,14 +223,12 @@ extension HomeViewController{
     private func bindData(){
         vm.booksReading.bind { [weak self] value in
             guard let self = self else { return }
-            snapshot.appendSections([.homeReading])
             snapshot.appendItems(value,toSection: .homeReading)
             dataSource.apply(snapshot)
         }
         
         vm.booksToRead.bind { [weak self] value in
             guard let self = self else { return }
-            snapshot.appendSections([.homeToRead])
             snapshot.appendItems(value,toSection: .homeToRead)
             dataSource.apply(snapshot)
         }

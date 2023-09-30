@@ -27,7 +27,9 @@ class SearchViewController: UIViewController{
         setViewDesign()
         bindData()
     }
-    
+    override func viewDidDisappear(_ animated: Bool) {
+        print(#function)
+    }
     private func configureHierarchy(){
         baseView = addBaseView()
         searchBar.delegate = self
@@ -61,8 +63,8 @@ class SearchViewController: UIViewController{
     }
     
     private func bindData(){
-        print("DEBUG: SearchViewController-bindData(): 데이터 변경 감지")
-        vm.searchResult.bind { _ in
+        vm.searchResult.bind { result in
+//            print("DEBUG: SearchViewController-bindData(): 데이터 변경 감지")
             self.collectionView.reloadData()
         }
     }
@@ -95,7 +97,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("DEBUG:",#function)
+//        print("DEBUG:",#function)
         let vc = SearchDetailViewController()
         vc.isbn13 = vm.searchResult.value?.item[indexPath.item].isbn13 ?? ""
         navigationController?.pushViewController(vc, animated: true)
