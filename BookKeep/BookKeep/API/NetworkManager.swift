@@ -15,10 +15,8 @@ class NetworkManager{
         AF.request(api).responseDecodable(of: T.self) { response in
             switch response.result{
             case .success(let data):
-                print("DEBUG: CASE SUCCESS")
                 completion(.success(data))
             case .failure(let error):
-                print("DEBUG: CASE FAIL")
                 completion(.failure(error))
                 
             }

@@ -68,4 +68,7 @@ struct SeriesInfo: Codable {
 
 // MARK: - SubInfo
 struct SubInfo: Codable {
+    let subTitle: String?
+    let originalTitle: String?
+    let itemPage: Int?
 }

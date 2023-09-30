@@ -8,11 +8,18 @@
 import UIKit
 
 class SearchViewController: UIViewController{
-    
-    var baseView: UIStackView!
     let vm = SearchViewModel()
+    var baseView: UIStackView!
     let searchBar = UISearchBar()
-    
+    var collectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: SearchViewController.getCollectionViewLayout())
+        return view
+    }()
+    static func getCollectionViewLayout() -> UICollectionViewLayout{
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 150)
+        return layout
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         configureHierarchy()
@@ -24,10 +31,15 @@ class SearchViewController: UIViewController{
     private func configureHierarchy(){
         baseView = addBaseView()
         searchBar.delegate = self
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.identifier)
+        
         view.addSubview(baseView)
         view.addSubview(searchBar)
+        view.addSubview(collectionView)
     }
-    
+  
     private func setConstraints(){
         baseView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -35,16 +47,23 @@ class SearchViewController: UIViewController{
         searchBar.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
-     
-    }
-    private func setViewDesign(){
         
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom).offset(Design.paddingDefault)
+            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+    
+    private func setViewDesign(){
+        collectionView.backgroundColor = .clear
+        title = "책 검색하기"
+       
     }
     
     private func bindData(){
-//        vm.list.bind { <#[RealmBook]#> in
-//            <#code#>
-//        }
+        vm.searchResult.bind { _ in
+            self.collectionView.reloadData()
+        }
     }
     
     deinit {
@@ -55,8 +74,32 @@ class SearchViewController: UIViewController{
 
 extension SearchViewController: UISearchBarDelegate{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("Key:",searchBar.text)
         vm.searchBook(query: searchBar.text)
     }
+    
+}
+
+extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return vm.searchResult.value?.item.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath) as! SearchCollectionViewCell
+        let row = vm.searchResult.value?.item[indexPath.item]
+        cell.item = row
+        cell.setView()
+        cell.setConstraints()
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = SearchDetailViewController()
+        vc.isbn13 = vm.searchResult.value?.item[indexPath.item].isbn13 ?? ""
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
+   
     
 }

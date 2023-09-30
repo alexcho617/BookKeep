@@ -183,7 +183,7 @@ extension HomeViewController{
         //Supplementary Register
         let readingHeaderRegistration = UICollectionView.SupplementaryRegistration<ReadingSectionHeaderView>(elementKind: SectionSupplementaryKind.readingHeader.rawValue) { supplementaryView, elementKind, indexPath in
             supplementaryView.eventHandler = {
-                self.present(SearchViewController(), animated: true)
+                self.present(UINavigationController(rootViewController: SearchViewController()), animated: true)
             }
         }
         

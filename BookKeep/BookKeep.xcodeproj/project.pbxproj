@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5754D2262AC725FE009C82C9 /* SearchDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754D2252AC725FE009C82C9 /* SearchDetailViewController.swift */; };
+		5754D2282AC728D9009C82C9 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754D2272AC728D9009C82C9 /* Enums.swift */; };
+		5754D22A2AC73A31009C82C9 /* SearchDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754D2292AC73A31009C82C9 /* SearchDetailViewModel.swift */; };
 		577082B42AC2BC230052EA8A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 577082B32AC2BC230052EA8A /* SnapKit */; };
 		577082B72AC2C1900052EA8A /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 577082B62AC2C1900052EA8A /* Realm */; };
 		577082B92AC2C1900052EA8A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 577082B82AC2C1900052EA8A /* RealmSwift */; };
@@ -20,13 +23,14 @@
 		577082CE2AC3EFCA0052EA8A /* ToReadSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082CD2AC3EFCA0052EA8A /* ToReadSectionHeaderView.swift */; };
 		577082D02AC415F90052EA8A /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082CF2AC415F90052EA8A /* Observable.swift */; };
 		577082D22AC420F10052EA8A /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082D12AC420F10052EA8A /* Literal.swift */; };
-		577082D42AC480CD0052EA8A /* ViewController + Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082D32AC480CD0052EA8A /* ViewController + Background.swift */; };
+		577082D42AC480CD0052EA8A /* ViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082D32AC480CD0052EA8A /* ViewController + Extension.swift */; };
 		577082D62AC68A170052EA8A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082D52AC68A170052EA8A /* SearchViewController.swift */; };
 		577082D82AC68A510052EA8A /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082D72AC68A510052EA8A /* SearchViewModel.swift */; };
 		577082DD2AC6ADB40052EA8A /* AladinSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082DC2AC6ADB40052EA8A /* AladinSearch.swift */; };
 		577082DF2AC6AEAE0052EA8A /* AladinRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082DE2AC6AEAE0052EA8A /* AladinRouter.swift */; };
 		577082E12AC6AEF70052EA8A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082E02AC6AEF70052EA8A /* NetworkManager.swift */; };
 		577082E42AC6B0BF0052EA8A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 577082E32AC6B0BF0052EA8A /* Alamofire */; };
+		577082E62AC6D1820052EA8A /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082E52AC6D1820052EA8A /* SearchCollectionViewCell.swift */; };
 		57ADDFF22AC1A38D00EA0EFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */; };
 		57ADDFF42AC1A38D00EA0EFE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */; };
 		57ADDFF62AC1A38D00EA0EFE /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */; };
@@ -58,6 +62,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5754D2252AC725FE009C82C9 /* SearchDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailViewController.swift; sourceTree = "<group>"; };
+		5754D2272AC728D9009C82C9 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		5754D2292AC73A31009C82C9 /* SearchDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailViewModel.swift; sourceTree = "<group>"; };
 		577082BA2AC2C3090052EA8A /* RealmBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmBook.swift; sourceTree = "<group>"; };
 		577082BC2AC2C6E00052EA8A /* BooksRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksRepository.swift; sourceTree = "<group>"; };
 		577082BE2AC2D2110052EA8A /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
@@ -67,12 +74,13 @@
 		577082CD2AC3EFCA0052EA8A /* ToReadSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToReadSectionHeaderView.swift; sourceTree = "<group>"; };
 		577082CF2AC415F90052EA8A /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		577082D12AC420F10052EA8A /* Literal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
-		577082D32AC480CD0052EA8A /* ViewController + Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController + Background.swift"; sourceTree = "<group>"; };
+		577082D32AC480CD0052EA8A /* ViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController + Extension.swift"; sourceTree = "<group>"; };
 		577082D52AC68A170052EA8A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		577082D72AC68A510052EA8A /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		577082DC2AC6ADB40052EA8A /* AladinSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AladinSearch.swift; sourceTree = "<group>"; };
 		577082DE2AC6AEAE0052EA8A /* AladinRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AladinRouter.swift; sourceTree = "<group>"; };
 		577082E02AC6AEF70052EA8A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		577082E52AC6D1820052EA8A /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		57ADDFEE2AC1A38D00EA0EFE /* BookKeep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookKeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -125,6 +133,7 @@
 			children = (
 				577082C02AC2D9790052EA8A /* ReadingCell.swift */,
 				577082C82AC2ED2B0052EA8A /* ToReadCell.swift */,
+				577082E52AC6D1820052EA8A /* SearchCollectionViewCell.swift */,
 				577082CB2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift */,
 				577082CD2AC3EFCA0052EA8A /* ToReadSectionHeaderView.swift */,
 			);
@@ -191,7 +200,8 @@
 			children = (
 				57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */,
 				577082D52AC68A170052EA8A /* SearchViewController.swift */,
-				577082D32AC480CD0052EA8A /* ViewController + Background.swift */,
+				5754D2252AC725FE009C82C9 /* SearchDetailViewController.swift */,
+				577082D32AC480CD0052EA8A /* ViewController + Extension.swift */,
 				577082CA2AC3E77B0052EA8A /* Cells and Supplementary Views */,
 			);
 			path = Views;
@@ -202,6 +212,7 @@
 			children = (
 				57ADE0242AC1A5D800EA0EFE /* HomeViewModel.swift */,
 				577082D72AC68A510052EA8A /* SearchViewModel.swift */,
+				5754D2292AC73A31009C82C9 /* SearchDetailViewModel.swift */,
 				577082CF2AC415F90052EA8A /* Observable.swift */,
 			);
 			path = ViewModels;
@@ -222,6 +233,7 @@
 				57ADE0272AC1A67D00EA0EFE /* Design.swift */,
 				577082D12AC420F10052EA8A /* Literal.swift */,
 				577082BE2AC2D2110052EA8A /* MockData.swift */,
+				5754D2272AC728D9009C82C9 /* Enums.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -389,9 +401,10 @@
 			files = (
 				577082BB2AC2C3090052EA8A /* RealmBook.swift in Sources */,
 				577082DD2AC6ADB40052EA8A /* AladinSearch.swift in Sources */,
+				577082E62AC6D1820052EA8A /* SearchCollectionViewCell.swift in Sources */,
 				57ADDFF62AC1A38D00EA0EFE /* HomeViewController.swift in Sources */,
 				577082E12AC6AEF70052EA8A /* NetworkManager.swift in Sources */,
-				577082D42AC480CD0052EA8A /* ViewController + Background.swift in Sources */,
+				577082D42AC480CD0052EA8A /* ViewController + Extension.swift in Sources */,
 				577082D62AC68A170052EA8A /* SearchViewController.swift in Sources */,
 				577082DF2AC6AEAE0052EA8A /* AladinRouter.swift in Sources */,
 				57ADE0282AC1A67D00EA0EFE /* Design.swift in Sources */,
@@ -406,7 +419,10 @@
 				57ADE0252AC1A5D800EA0EFE /* HomeViewModel.swift in Sources */,
 				577082D02AC415F90052EA8A /* Observable.swift in Sources */,
 				577082CC2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift in Sources */,
+				5754D2262AC725FE009C82C9 /* SearchDetailViewController.swift in Sources */,
 				577082BD2AC2C6E00052EA8A /* BooksRepository.swift in Sources */,
+				5754D22A2AC73A31009C82C9 /* SearchDetailViewModel.swift in Sources */,
+				5754D2282AC728D9009C82C9 /* Enums.swift in Sources */,
 				57ADE02E2AC1A77D00EA0EFE /* Key.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
