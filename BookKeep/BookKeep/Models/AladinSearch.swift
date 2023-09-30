@@ -8,8 +8,8 @@
 import Foundation
 
 // MARK: - AladinSearch
-struct AladinSearch: Hashable,Codable {
-    let id = UUID().uuidString
+struct AladinSearch: Hashable, Codable {
+    let identifier = UUID().uuidString
     let version: String
     let logo: String
     let title: String
@@ -20,7 +20,12 @@ struct AladinSearch: Hashable,Codable {
     let searchCategoryID: Int
     let searchCategoryName: String
     let item: [Item]
-
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(identifier)
+    }
+    static func == (lhs: AladinSearch, rhs: AladinSearch) -> Bool {
+           return lhs.identifier == rhs.identifier
+       }
     enum CodingKeys: String, CodingKey {
         case version, logo, title, link, pubDate, totalResults, startIndex, itemsPerPage, query
         case searchCategoryID = "searchCategoryId"
@@ -30,6 +35,7 @@ struct AladinSearch: Hashable,Codable {
 
 // MARK: - Item
 struct Item: Hashable,Codable {
+    let identifier = UUID().uuidString
     let title: String
     let link: String
     let author, pubDate, description, isbn: String
@@ -57,6 +63,7 @@ struct Item: Hashable,Codable {
 
 // MARK: - SeriesInfo
 struct SeriesInfo: Hashable, Codable {
+    let identifier = UUID().uuidString
     let seriesID: Int
     let seriesLink: String
     let seriesName: String
@@ -69,6 +76,7 @@ struct SeriesInfo: Hashable, Codable {
 
 // MARK: - SubInfo
 struct SubInfo: Hashable, Codable {
+    let identifier = UUID().uuidString
     let subTitle: String?
     let originalTitle: String?
     let itemPage: Int?

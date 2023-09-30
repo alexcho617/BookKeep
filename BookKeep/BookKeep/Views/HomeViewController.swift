@@ -68,12 +68,13 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
 extension HomeViewController{
     
     enum SectionLayoutKind: Int, CaseIterable{
-        case single, double
+        case homeReading
+        case homeToRead
         var columnCount: Int{
             switch self{
-            case .single:
+            case .homeReading:
                 return 1
-            case .double:
+            case .homeToRead:
                 return 2
             }
         }
@@ -93,8 +94,8 @@ extension HomeViewController{
                                                             layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             let sectionKind = SectionLayoutKind(rawValue: sectionIndex)
             switch sectionKind{
-            case .single: return self.createBooksReadingLayout()
-            case .double: return self.createBooksToReadLayout()
+            case .homeReading: return self.createBooksReadingLayout()
+            case .homeToRead: return self.createBooksToReadLayout()
             case .none:
                 return self.createBooksReadingLayout()
             }
@@ -196,9 +197,9 @@ extension HomeViewController{
             
             let sectionType = SectionLayoutKind(rawValue: indexPath.section)
             switch sectionType{
-            case .single:
+            case .homeReading:
                 return collectionView.dequeueConfiguredReusableCell(using: readingCellRegistration, for: indexPath, item: itemIdentifier)
-            case .double:
+            case .homeToRead:
                 return collectionView.dequeueConfiguredReusableCell(using: toReadCellRegistration, for: indexPath, item: itemIdentifier)
             case .none:
                 return UICollectionViewCell()
@@ -222,15 +223,15 @@ extension HomeViewController{
     private func bindData(){
         vm.booksReading.bind { [weak self] value in
             guard let self = self else { return }
-            snapshot.appendSections([.single])
-            snapshot.appendItems(value,toSection: .single)
+            snapshot.appendSections([.homeReading])
+            snapshot.appendItems(value,toSection: .homeReading)
             dataSource.apply(snapshot)
         }
         
         vm.booksToRead.bind { [weak self] value in
             guard let self = self else { return }
-            snapshot.appendSections([.double])
-            snapshot.appendItems(value,toSection: .double)
+            snapshot.appendSections([.homeToRead])
+            snapshot.appendItems(value,toSection: .homeToRead)
             dataSource.apply(snapshot)
         }
     }
