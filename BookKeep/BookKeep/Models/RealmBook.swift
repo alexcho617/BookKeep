@@ -18,14 +18,14 @@ enum RealmReadStatus: String, PersistableEnum{
 
 class RealmBook: Object {
     //from API
+    //MARK: 일단은 PK로 ObjectID 대신 String을 쓴 후 추후에 개선을 해보자.
     @Persisted(primaryKey: true) var isbn: String
-    @Persisted var title: String = ""
-    @Persisted var ownerId: String = ""
+    @Persisted()var title: String = ""
     @Persisted var coverUrl: String = ""
     @Persisted var author: String = ""
     @Persisted var descriptionOfBook: String = ""
     @Persisted var publisher: String = ""
-    @Persisted var pageNumber: String = ""
+    @Persisted var page: Int = 0
     
     //app exclusive
     @Persisted var readingStatus: RealmReadStatus = .toRead
@@ -40,24 +40,23 @@ class RealmBook: Object {
     @Persisted var readSessions: List<ReadSession>
     @Persisted var memos: List<Memo>
     
-    convenience init(title: String, ownerId: String, coverUrl: String, author: String, descriptionOfBook: String, publisher: String, isbn: String, pageNumber: String, readingStatus: RealmReadStatus, startDate: Date, endDate: Date, rating: Int, currentReadingPage: Int, expectScore: Int, isDeleted: Bool) {
+    convenience init(isbn: String, title: String, coverUrl: String, author: String, descriptionOfBook: String, publisher: String, page: Int) {
         self.init()
+        self.isbn = isbn
         self.title = title
-        self.ownerId = ownerId
         self.coverUrl = coverUrl
         self.author = author
         self.descriptionOfBook = descriptionOfBook
         self.publisher = publisher
-        self.isbn = isbn
-        self.pageNumber = pageNumber
+        self.page = page
         
-        self.readingStatus = readingStatus
-        self.startDate = startDate
-        self.endDate = endDate
-        self.rating = rating
-        self.currentReadingPage = currentReadingPage
-        self.expectScore = expectScore
-        self.isDeleted = isDeleted
+//        self.readingStatus = readingStatus
+//        self.startDate = startDate
+//        self.endDate = endDate
+//        self.rating = rating
+//        self.currentReadingPage = currentReadingPage
+//        self.expectScore = expectScore
+//        self.isDeleted = isDeleted
     }
 }
 
@@ -68,8 +67,16 @@ class ReadSession: Object{
     @Persisted var endPage: Int = 0
     @Persisted var duration: Int = 0
     @Persisted(originProperty: "readSessions") var ofBook: LinkingObjects<RealmBook>
+    
+//    convenience init(_id: ObjectId, startTime: Date, endTime: Date, endPage: Int, duration: Int, ofBook: LinkingObjects<RealmBook>) {
+//        self.init()
+//        self.startTime = startTime
+//        self.endTime = endTime
+//        self.endPage = endPage
+//        self.duration = duration
+//        self.ofBook = ofBook
+//    }
 }
-
 
 class Memo: Object {
     @Persisted(primaryKey: true) var _id: ObjectId
@@ -79,11 +86,11 @@ class Memo: Object {
     @Persisted(originProperty: "memos") var ofBook: LinkingObjects<RealmBook>
 
     
-    convenience init(date: Date, contents: String, PhotoURL: String) {
-        self.init()
-        self.date = date
-        self.contents = contents
-        self.photo = PhotoURL
-    }
+//    convenience init(date: Date, contents: String, PhotoURL: String) {
+//        self.init()
+//        self.date = date
+//        self.contents = contents
+//        self.photo = PhotoURL
+//    }
 }
 

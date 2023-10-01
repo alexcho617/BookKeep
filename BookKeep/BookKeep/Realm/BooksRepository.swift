@@ -8,9 +8,33 @@
 import Foundation
 import RealmSwift
 
-class BooksRepository {
-    let shared = BooksRepository()
-    let realm = Realm.safeInit()
+enum RealmError: String, Error, LocalizedError{
+    case primaryKey = "PK 에러가 났습니다"
+}
+class BooksRepository: Error, LocalizedError{
+    static let shared = BooksRepository()
+    private let realm = Realm.safeInit()
+    private init(){
+    }
+    
+    func create(_ book: RealmBook) throws {
+        //check pk existence
+        guard realm?.object(ofType: RealmBook.self, forPrimaryKey: book.isbn) == nil else {
+            throw RealmError.primaryKey
+        }
+        do {
+            try realm?.write{
+                realm?.add(book)
+            }
+        } catch {
+            throw RealmError.primaryKey
+        }
+        
+    }
+    
+    func realmURL(){
+        print(realm?.configuration.fileURL ?? "")
+    }
     
 }
 

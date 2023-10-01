@@ -63,7 +63,6 @@ struct Item: Hashable,Codable {
 
 // MARK: - SeriesInfo
 struct SeriesInfo: Hashable, Codable {
-    let identifier = UUID().uuidString
     let seriesID: Int
     let seriesLink: String
     let seriesName: String
@@ -76,7 +75,6 @@ struct SeriesInfo: Hashable, Codable {
 
 // MARK: - SubInfo
 struct SubInfo: Hashable, Codable {
-    let identifier = UUID().uuidString
     let subTitle: String?
     let originalTitle: String?
     let itemPage: Int?

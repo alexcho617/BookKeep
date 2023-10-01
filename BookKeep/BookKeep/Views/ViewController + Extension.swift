@@ -9,6 +9,16 @@ import UIKit
 import SnapKit
 
 extension UIViewController{
+    
+    func showAlert(title: String, message: String, handler: (()->Void)?){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            handler?()
+        }
+        alert.addAction(confirmAction)
+        present(alert,animated: true)
+    }
+    
     func addBaseView() -> UIStackView{
         var upper: UIView {
             let view = UIView()
@@ -28,25 +38,4 @@ extension UIViewController{
         return base
     }
     
-    func transition(style: TransitionStyle, viewController: UIViewController) //viewController의 타입 그 자체가 들어온다
-{
-//        let vc = T()
-        switch style {
-        case .present:
-            present(viewController,animated: true)
-            
-        case .presentWithNavigation:
-            let nc = UINavigationController(rootViewController: viewController)
-            present(nc, animated: true)
-            
-        case .presentWithFullNavigation:
-            let nc = UINavigationController(rootViewController: viewController)
-            nc.modalPresentationStyle = .fullScreen
-            present(nc,animated: true)
-            
-        case .push:
-            let nc = UINavigationController(rootViewController: viewController)
-            navigationController?.pushViewController(nc, animated: true)
-        }
-    }
 }
