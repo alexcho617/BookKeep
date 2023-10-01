@@ -8,8 +8,9 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import RealmSwift
 final class SearchDetailViewController: UIViewController {
-    var isbn13: String = ""
+    var isbn13Identifier: String = ""
     
     private let vm = SearchDetailViewModel()
     
@@ -151,7 +152,9 @@ final class SearchDetailViewController: UIViewController {
         setView()
         setConstraints()
         bindData()
-        vm.lookUp(id: isbn13)
+        vm.lookUp(id: isbn13Identifier)
+        BooksRepository.shared.realmURL()
+
 
     }
     
@@ -194,14 +197,24 @@ final class SearchDetailViewController: UIViewController {
             
         }
     }
+    
     @objc private func addToReadingList(){
-        print(#function)
-        //TODO:
-        //create RealmBook Object
-        //add to realm
-        //TOAST 띄우기
-        //go back to homescreen: 1.pop until homeview or 2.change rootview by using makeKeyAndVisible
+        guard let bookData = vm.lookupResult.value?.item.first else {return}
+        let book = RealmBook(isbn: bookData.isbn13, title: bookData.title, coverUrl: bookData.cover, author: bookData.author, descriptionOfBook: bookData.description, publisher: bookData.publisher, page: bookData.subInfo.itemPage ?? 0)
+        do {
+            try BooksRepository.shared.create(book)
+            showAlert(title: "🎉", message: "읽을 예정인 책에 추가되었습니다") {
+                self.navigationController?.popViewController(animated: true)
+            }
+        } catch {
+            dump(error)
+            showAlert(title: "에러", message: "이미 데이터베이스에 존재하는 책입니다", handler: nil)
+        }
+        
+       
     }
+    
+    
     
     deinit {
         print("SearchDetailViewController deinit")

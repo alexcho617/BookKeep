@@ -44,12 +44,12 @@ final class ReadingCell: UICollectionViewCell {
         imageView.layer.borderWidth = 2
         
         contentView.addSubview(startDate)
-        startDate.text = "시작 " + (book.startDate?.formatted(date: .abbreviated, time: .omitted) ?? "-")
+        startDate.text = "시작 " + (book.startDate.formatted(date: .abbreviated, time: .omitted) )
         startDate.font = Design.fontDefault
         startDate.textColor = .secondaryLabel
         
         contentView.addSubview(page)
-        page.text = "\(book.currentReadingPage) / \(book.pageNumber) 페이지"
+        page.text = "\(book.currentReadingPage) / \(book.page) 페이지"
         page.font = Design.fontDefault
         page.textColor = .secondaryLabel
 

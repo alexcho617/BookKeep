@@ -17,43 +17,80 @@ enum RealmReadStatus: String, PersistableEnum{
 }
 
 class RealmBook: Object {
-    @Persisted(primaryKey: true) var _id: ObjectId
-    @Persisted var title: String
-    @Persisted var ownerId: String
-    @Persisted var coverUrl: String
-    @Persisted var author: String
-    @Persisted var descriptionOfBook: String
-    @Persisted var publisher: String
-    @Persisted var isbn: String
-    @Persisted var pageNumber: String
+    //from API
+    //MARK: 일단은 PK로 ObjectID 대신 String을 쓴 후 추후에 개선을 해보자.
+    @Persisted(primaryKey: true) var isbn: String
+    @Persisted()var title: String = ""
+    @Persisted var coverUrl: String = ""
+    @Persisted var author: String = ""
+    @Persisted var descriptionOfBook: String = ""
+    @Persisted var publisher: String = ""
+    @Persisted var page: Int = 0
     
-    @Persisted var readingStatus: RealmReadStatus?
-    @Persisted var startDate: Date?
-    @Persisted var endDate: Date?
-    @Persisted var rating: Int
-    @Persisted var currentReadingPage: Int
-    @Persisted var expectScore: Int
-    @Persisted var isDeleted: Bool
+    //app exclusive
+    @Persisted var readingStatus: RealmReadStatus = .toRead
+    @Persisted var startDate: Date = .now
+    @Persisted var endDate: Date = .now
+    @Persisted var rating: Int = 0
+    @Persisted var currentReadingPage: Int = 0
+    @Persisted var expectScore: Int = 0
+    @Persisted var isDeleted: Bool = false
     
-    convenience init(title: String, ownerId: String, coverUrl: String, author: String, descriptionOfBook: String, publisher: String, isbn: String, pageNumber: String, readingStatus: RealmReadStatus? = nil, startDate: Date? = nil, endDate: Date? = nil, rating: Int, currentReadingPage: Int, expectScore: Int, isDeleted: Bool) {
-        //from API
+    //Relationship Properties
+    @Persisted var readSessions: List<ReadSession>
+    @Persisted var memos: List<Memo>
+    
+    convenience init(isbn: String, title: String, coverUrl: String, author: String, descriptionOfBook: String, publisher: String, page: Int) {
         self.init()
+        self.isbn = isbn
         self.title = title
-        self.ownerId = ownerId
         self.coverUrl = coverUrl
         self.author = author
         self.descriptionOfBook = descriptionOfBook
         self.publisher = publisher
-        self.isbn = isbn
-        self.pageNumber = pageNumber
+        self.page = page
         
-        //app exclusive
-        self.readingStatus = readingStatus
-        self.startDate = startDate
-        self.endDate = endDate
-        self.rating = rating
-        self.currentReadingPage = currentReadingPage
-        self.expectScore = expectScore
-        self.isDeleted = isDeleted
+//        self.readingStatus = readingStatus
+//        self.startDate = startDate
+//        self.endDate = endDate
+//        self.rating = rating
+//        self.currentReadingPage = currentReadingPage
+//        self.expectScore = expectScore
+//        self.isDeleted = isDeleted
     }
 }
+
+class ReadSession: Object{
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var startTime: Date = .now
+    @Persisted var endTime: Date = .now
+    @Persisted var endPage: Int = 0
+    @Persisted var duration: Int = 0
+    @Persisted(originProperty: "readSessions") var ofBook: LinkingObjects<RealmBook>
+    
+//    convenience init(_id: ObjectId, startTime: Date, endTime: Date, endPage: Int, duration: Int, ofBook: LinkingObjects<RealmBook>) {
+//        self.init()
+//        self.startTime = startTime
+//        self.endTime = endTime
+//        self.endPage = endPage
+//        self.duration = duration
+//        self.ofBook = ofBook
+//    }
+}
+
+class Memo: Object {
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var date: Date = .now
+    @Persisted var contents: String = ""
+    @Persisted var photo: String = ""
+    @Persisted(originProperty: "memos") var ofBook: LinkingObjects<RealmBook>
+
+    
+//    convenience init(date: Date, contents: String, PhotoURL: String) {
+//        self.init()
+//        self.date = date
+//        self.contents = contents
+//        self.photo = PhotoURL
+//    }
+}
+
