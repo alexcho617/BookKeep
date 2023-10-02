@@ -32,6 +32,18 @@ class BooksRepository: Error, LocalizedError{
         
     }
     
+    func fetchBooksToRead() -> Results<RealmBook> {
+        return realm!.objects(RealmBook.self).where{
+            return $0.readingStatus.rawValue == RealmReadStatus.toRead.rawValue
+        }
+    }
+    
+    func fetchBooksReading() -> Results<RealmBook> {
+        return realm!.objects(RealmBook.self).where{
+            return $0.readingStatus.rawValue == RealmReadStatus.reading.rawValue
+        }
+    }
+    
     func realmURL(){
         print(realm?.configuration.fileURL ?? "")
     }

@@ -6,12 +6,14 @@
 //
 
 import Foundation
+import RealmSwift
 final class HomeViewModel{
-    var booksReading = Observable([RealmBook]())
-    var booksToRead = Observable([RealmBook]())
+    var booksReading: Observable<Results<RealmBook>>
+    var booksToRead: Observable<Results<RealmBook>>
     
     init() {
-//        booksReading.value = MockData.booksReading()
-//        booksToRead.value = MockData.booksToRead()
+        booksReading = Observable(BooksRepository.shared.fetchBooksReading())
+        booksToRead = Observable(BooksRepository.shared.fetchBooksToRead())
+
     }
 }

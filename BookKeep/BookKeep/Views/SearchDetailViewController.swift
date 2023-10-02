@@ -193,14 +193,14 @@ final class SearchDetailViewController: UIViewController {
             introduction.text = book.description
             publisher.text = book.publisher
             isbn.text = book.isbn13
-            page.text = String(book.subInfo.itemPage ?? -1)
+            page.text = String(book.subInfo?.itemPage ?? -1)
             
         }
     }
     
     @objc private func addToReadingList(){
         guard let bookData = vm.lookupResult.value?.item.first else {return}
-        let book = RealmBook(isbn: bookData.isbn13, title: bookData.title, coverUrl: bookData.cover, author: bookData.author, descriptionOfBook: bookData.description, publisher: bookData.publisher, page: bookData.subInfo.itemPage ?? 0)
+        let book = RealmBook(isbn: bookData.isbn13, title: bookData.title, coverUrl: bookData.cover, author: bookData.author, descriptionOfBook: bookData.description, publisher: bookData.publisher, page: bookData.subInfo?.itemPage ?? 0)
         do {
             try BooksRepository.shared.create(book)
             showAlert(title: "🎉", message: "읽을 예정인 책에 추가되었습니다") {

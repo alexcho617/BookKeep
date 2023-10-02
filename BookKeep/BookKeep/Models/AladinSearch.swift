@@ -49,7 +49,7 @@ struct Item: Hashable,Codable {
     let salesPoint: Int
     let adult, fixedPrice: Bool
     let customerReviewRank: Int
-    let subInfo: SubInfo
+    let subInfo: SubInfo?
     let seriesInfo: SeriesInfo?
 
     enum CodingKeys: String, CodingKey {
@@ -63,9 +63,9 @@ struct Item: Hashable,Codable {
 
 // MARK: - SeriesInfo
 struct SeriesInfo: Hashable, Codable {
-    let seriesID: Int
-    let seriesLink: String
-    let seriesName: String
+    let seriesID: Int?
+    let seriesLink: String?
+    let seriesName: String?
 
     enum CodingKeys: String, CodingKey {
         case seriesID = "seriesId"

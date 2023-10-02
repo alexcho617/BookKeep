@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import RealmSwift
 
 final class HomeViewController: UIViewController, UICollectionViewDelegate {
     
@@ -66,7 +67,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
 
 //MARK: Enums
 extension HomeViewController{
-    
+    //Diffable: 섹션 종류
     enum SectionLayoutKind: Int, CaseIterable{
         case homeReading
         case homeToRead
@@ -80,6 +81,7 @@ extension HomeViewController{
         }
     }
     
+    //Diffable: 헤더 종류
     enum SectionSupplementaryKind: String{
         case readingHeader
         case toReadHeader
@@ -148,7 +150,7 @@ extension HomeViewController{
         item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
         
         
-        
+        //TODO: 현재 셀이 타이틀 길이에 따라 높이가 달라지고 있는데 itemsize가 변경되지않고있음. 타이틀 길이에 따라 길이가 변하도록 변경
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .estimated(250))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
@@ -220,16 +222,20 @@ extension HomeViewController{
         }
         
     }
+    
     private func bindData(){
         vm.booksReading.bind { [weak self] value in
             guard let self = self else { return }
-            snapshot.appendItems(value,toSection: .homeReading)
+            let booksReadingArray = Array(value)
+            snapshot.appendItems(booksReadingArray, toSection: .homeReading)
+            print("DEBUG: HomeViewController - bindData(): number of items in snapshot:",snapshot.numberOfItems)
             dataSource.apply(snapshot)
         }
         
         vm.booksToRead.bind { [weak self] value in
             guard let self = self else { return }
-            snapshot.appendItems(value,toSection: .homeToRead)
+            let booksToReadArray = Array(value)
+            snapshot.appendItems(booksToReadArray, toSection: .homeToRead)
             dataSource.apply(snapshot)
         }
     }

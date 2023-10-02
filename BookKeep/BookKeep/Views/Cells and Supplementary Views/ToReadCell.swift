@@ -36,6 +36,7 @@ final class ToReadCell: UICollectionViewCell {
         title.text = book.title
         title.font = Design.fontDefault
         title.textColor = Design.colorTextDefault
+        title.numberOfLines = 0
         
     }
     
@@ -50,6 +51,8 @@ final class ToReadCell: UICollectionViewCell {
         title.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(Design.paddingDefault)
             make.leading.equalTo(imageView).offset(Design.paddingDefault)
+            make.trailing.equalTo(contentView.snp.trailing).offset(-Design.paddingDefault)
+            
         }
     }
     
