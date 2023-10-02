@@ -36,6 +36,7 @@ class SearchViewController: UIViewController{
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.identifier)
+        collectionView.keyboardDismissMode = .onDrag
         
         view.addSubview(baseView)
         view.addSubview(searchBar)

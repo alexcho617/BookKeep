@@ -240,4 +240,12 @@ extension HomeViewController{
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedBook = dataSource.itemIdentifier(for: indexPath)
+        let vc = DetailViewController()
+        vc.isbn13Identifier = selectedBook?.isbn ?? ""
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    
 }

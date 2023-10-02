@@ -1,18 +1,18 @@
 //
-//  SearchDetailViewController.swift
+//  DetailViewController.swift
 //  BookKeep
 //
-//  Created by Alex Cho on 2023/09/30.
+//  Created by Alex Cho on 2023/10/02.
 //
 
 import UIKit
 import SnapKit
 import Kingfisher
 import RealmSwift
-final class SearchDetailViewController: UIViewController {
+
+final class DetailViewController: UIViewController {
     var isbn13Identifier: String = ""
-    
-    private let vm = SearchDetailViewModel()
+    private let vm = DetailViewModel()
     
     private var bookTitle = {
         let view = UILabel()
@@ -76,12 +76,7 @@ final class SearchDetailViewController: UIViewController {
         return view
     }()
     
-    private lazy var addButton: UIBarButtonItem = {
-        let view = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(addToReadingList))
-          return view
-      }()
     
-    var baseView: UIStackView!
     
     lazy var scrollView = {
         let view = UIScrollView()
@@ -89,24 +84,9 @@ final class SearchDetailViewController: UIViewController {
         return view
     }()
     
-    lazy var stackView = {
-        let view = UIStackView(arrangedSubviews: [
-            bookTitle,
-            coverImageView,
-            LabelViews.authorLabel,
-            author,
-            LabelViews.introductionLabel,
-            introduction,
-            LabelViews.publisherLabel,
-            publisher,
-            LabelViews.isbnLabel,
-            isbn,
-            LabelViews.pageLabel,
-            page
-        ])
-        view.axis = .vertical
-        view.alignment = .leading
-        view.spacing = Design.paddingDefault
+    lazy var baseView = {
+        let view = UIView()
+        view.backgroundColor = Design.debugPink
         return view
     }()
     
@@ -115,32 +95,31 @@ final class SearchDetailViewController: UIViewController {
         setView()
         setConstraints()
         bindData()
-        vm.lookUp(id: isbn13Identifier)
-        BooksRepository.shared.realmURL()
-
-
+        vm.fetchBookFromRealm(isbn: isbn13Identifier)
     }
     
     func setView(){
-        navigationItem.rightBarButtonItem = addButton
         view.backgroundColor = Design.colorPrimaryBackground
         view.addSubview(scrollView)
-        title = "책 추가하기"
-        scrollView.addSubview(stackView)
+        scrollView.addSubview(baseView)
+        baseView.addSubview(bookTitle)
+        baseView.addSubview(coverImageView)
     }
     
     func setConstraints(){
-
         scrollView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalTo(view)
         }
-        stackView.snp.makeConstraints { make in
+        
+        baseView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView.contentLayoutGuide).inset(Design.paddingDefault)
             make.width.equalTo(scrollView.snp.width).inset(Design.paddingDefault)
             make.height.greaterThanOrEqualTo(view.snp.height).priority(.low)
         }
+        
         bookTitle.snp.makeConstraints { make in
         }
+        
         coverImageView.snp.makeConstraints { make in
             make.width.equalTo(view.snp.width).multipliedBy(0.4)
             make.height.equalTo(coverImageView.snp.width).multipliedBy(1.4)
@@ -148,43 +127,25 @@ final class SearchDetailViewController: UIViewController {
     }
     
     func bindData(){
-        vm.lookupResult.bind { [self] response in
-            guard let book = response?.item.first else {return}
-            bookTitle.text = book.title
-            coverImageView.kf.setImage(with: URL(string: book.cover))
-            author.text = book.author
-            introduction.text = book.description
-            publisher.text = book.publisher
-            isbn.text = book.isbn13
-            page.text = String(book.subInfo?.itemPage ?? -1)
-            
-        }
-    }
-    
-    @objc private func addToReadingList(){
-        guard let bookData = vm.lookupResult.value?.item.first else {return}
-        let book = RealmBook(isbn: bookData.isbn13, title: bookData.title, coverUrl: bookData.cover, author: bookData.author, descriptionOfBook: bookData.description, publisher: bookData.publisher, page: bookData.subInfo?.itemPage ?? 0)
-        do {
-            try BooksRepository.shared.create(book)
-            showAlert(title: "🎉", message: "읽을 예정인 책에 추가되었습니다") {
-                self.navigationController?.popViewController(animated: true)
-            }
-        } catch {
-            dump(error)
-            showAlert(title: "에러", message: "이미 데이터베이스에 존재하는 책입니다", handler: nil)
+        vm.book.bind { [self] selectedBook in
+            guard let selectedBook = selectedBook else {return}
+            bookTitle.text = selectedBook.title
+            coverImageView.kf.setImage(with: URL(string: selectedBook.coverUrl))
+            author.text = selectedBook.author
+            introduction.text = selectedBook.descriptionOfBook
+            publisher.text = selectedBook.publisher
+            isbn.text = selectedBook.isbn
+            page.text = String(selectedBook.page)
         }
         
-       
     }
-    
-    
     
     deinit {
-        print("SearchDetailViewController deinit")
+        print("DetailViewController deinit")
     }
-
+    
 }
 
-extension SearchDetailViewController: UIScrollViewDelegate{
+extension DetailViewController: UIScrollViewDelegate{
     
 }

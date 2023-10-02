@@ -32,6 +32,15 @@ class BooksRepository: Error, LocalizedError{
         
     }
     
+    func fetchBookByPK(isbn: String) throws -> RealmBook? {
+        do {
+            return realm!.object(ofType: RealmBook.self, forPrimaryKey: isbn)
+
+        } catch {
+            print(error)
+//            throw RealmError.primaryKey
+        }
+    }
     func fetchBooksToRead() -> Results<RealmBook> {
         return realm!.objects(RealmBook.self).where{
             return $0.readingStatus.rawValue == RealmReadStatus.toRead.rawValue
