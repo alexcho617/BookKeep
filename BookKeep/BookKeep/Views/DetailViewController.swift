@@ -95,7 +95,16 @@ final class DetailViewController: UIViewController {
         setView()
         setConstraints()
         bindData()
-        vm.fetchBookFromRealm(isbn: isbn13Identifier)
+        
+        //get data from realm
+        do {
+            try vm.fetchBookFromRealm(isbn: isbn13Identifier)
+
+        } catch {
+            showAlert(title: "에러", message: "데이터베이스에서 책을 가져오는데 실패했습니다.") {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
     }
     
     func setView(){
@@ -104,6 +113,12 @@ final class DetailViewController: UIViewController {
         scrollView.addSubview(baseView)
         baseView.addSubview(bookTitle)
         baseView.addSubview(coverImageView)
+        baseView.addSubview(LabelViews.authorLabel)
+        baseView.addSubview(LabelViews.introductionLabel)
+        baseView.addSubview(LabelViews.publisherLabel)
+        baseView.addSubview(LabelViews.isbnLabel)
+        baseView.addSubview(LabelViews.pageLabel)
+        
     }
     
     func setConstraints(){

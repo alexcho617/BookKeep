@@ -10,6 +10,7 @@ import RealmSwift
 
 enum RealmError: String, Error, LocalizedError{
     case primaryKey = "PK 에러가 났습니다"
+    case nonExist = "데이터가 없습니다"
 }
 class BooksRepository: Error, LocalizedError{
     static let shared = BooksRepository()
@@ -34,11 +35,12 @@ class BooksRepository: Error, LocalizedError{
     
     func fetchBookByPK(isbn: String) throws -> RealmBook? {
         do {
-            return realm!.object(ofType: RealmBook.self, forPrimaryKey: isbn)
-
+            guard let result = realm!.object(ofType: RealmBook.self, forPrimaryKey: isbn) else{
+                throw RealmError.nonExist
+            }
+            return result
         } catch {
-            print(error)
-//            throw RealmError.primaryKey
+            throw RealmError.nonExist
         }
     }
     func fetchBooksToRead() -> Results<RealmBook> {

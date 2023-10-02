@@ -9,8 +9,14 @@ import Foundation
 class DetailViewModel{
     var book: Observable<RealmBook?> = Observable(nil)
 
-    func fetchBookFromRealm(isbn: String){
-        book.value = BooksRepository.shared.fetchBookByPK(isbn: isbn)
+    func fetchBookFromRealm(isbn: String) throws {
+        do {
+            try book.value = BooksRepository.shared.fetchBookByPK(isbn: isbn)
+        } catch let error {
+            throw error
+        }
+        
+        
     }
     
     deinit {
