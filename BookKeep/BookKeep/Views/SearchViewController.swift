@@ -56,13 +56,19 @@ class SearchViewController: UIViewController{
             make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
-    
     private func setViewDesign(){
         collectionView.backgroundColor = .clear
-        title = "책 검색하기"
-       
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = Design.colorPrimaryAccent
+        let buttonAppearance = UIBarButtonItemAppearance()
+        appearance.buttonAppearance = buttonAppearance
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.tintColor = Design.colorPrimaryBackground
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.standardAppearance = appearance
+        title = "검색하기"
     }
-    
+   
     private func bindData(){
         vm.searchResult.bind { result in
 //            print("DEBUG: SearchViewController-bindData(): 데이터 변경 감지")

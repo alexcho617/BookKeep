@@ -151,7 +151,14 @@ final class SearchDetailViewController: UIViewController {
         vm.lookupResult.bind { [self] response in
             guard let book = response?.item.first else {return}
             bookTitle.text = book.title
-            coverImageView.kf.setImage(with: URL(string: book.cover))
+            coverImageView.kf.setImage(
+                with: URL(string: book.cover),
+                placeholder: UIImage(named: "photo"),
+                options: [
+                    .scaleFactor(UIScreen.main.scale),
+                    .transition(.fade(1)),
+                    .cacheOriginalImage
+                ])
             author.text = book.author
             introduction.text = book.description
             publisher.text = book.publisher
@@ -166,6 +173,7 @@ final class SearchDetailViewController: UIViewController {
         let book = RealmBook(isbn: bookData.isbn13, title: bookData.title, coverUrl: bookData.cover, author: bookData.author, descriptionOfBook: bookData.description, publisher: bookData.publisher, page: bookData.subInfo?.itemPage ?? 0)
         do {
             try BooksRepository.shared.create(book)
+            //이걸 했으면 Homeviewmodel에도 추가되어야함
             showAlert(title: "🎉", message: "읽을 예정인 책에 추가되었습니다") {
                 self.navigationController?.popViewController(animated: true)
             }

@@ -14,7 +14,7 @@ enum RealmError: String, Error, LocalizedError{
 }
 class BooksRepository: Error, LocalizedError{
     static let shared = BooksRepository()
-    private let realm = Realm.safeInit()
+    let realm = Realm.safeInit()
     private init(){
     }
     

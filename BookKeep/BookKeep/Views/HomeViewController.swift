@@ -52,11 +52,12 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     }
     private func setViewDesign(){
         collectionView.backgroundColor = .clear
-        
-        
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = Design.colorPrimaryAccent
+        let buttonAppearance = UIBarButtonItemAppearance()
+        appearance.buttonAppearance = buttonAppearance
         navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.tintColor = Design.colorPrimaryBackground
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.hidesBarsOnSwipe = true
@@ -227,15 +228,33 @@ extension HomeViewController{
         vm.booksReading.bind { [weak self] value in
             guard let self = self else { return }
             let booksReadingArray = Array(value)
-            snapshot.appendItems(booksReadingArray, toSection: .homeReading)
-            print("DEBUG: HomeViewController - bindData(): number of items in snapshot:",snapshot.numberOfItems)
+            
+            //check if its snapshot or not
+            for book in booksReadingArray{
+                if self.snapshot.indexOfItem(book) != nil{
+                    self.snapshot.reloadItems([book])
+                } else {
+                    self.snapshot.appendItems([book], toSection: .homeReading)
+                }
+            }
+            print("DEBUG: HomeViewController - bindData() - homeReading: number of items in snapshot:",snapshot.numberOfItems)
             dataSource.apply(snapshot)
         }
         
         vm.booksToRead.bind { [weak self] value in
             guard let self = self else { return }
             let booksToReadArray = Array(value)
-            snapshot.appendItems(booksToReadArray, toSection: .homeToRead)
+            
+            
+            //check if its snapshot or not
+            for book in booksToReadArray{
+                if self.snapshot.indexOfItem(book) != nil{
+                    self.snapshot.reloadItems([book])
+                } else {
+                    self.snapshot.appendItems([book], toSection: .homeToRead)
+                }
+            }
+            print("DEBUG: HomeViewController - bindData() - homeToRead: number of items in snapshot:",snapshot.numberOfItems)
             dataSource.apply(snapshot)
         }
     }
