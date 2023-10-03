@@ -11,16 +11,15 @@ import Kingfisher
 final class ReadingCell: UICollectionViewCell {
     
     var book: RealmBook!
-    
     var title = UILabel()
     var imageView = UIImageView()
     var startDate = UILabel()
     var page = UILabel()
-    var readButton = UIButton()
-    var memoButton = UIButton()
-    
-    
-    
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        book = nil
+    }
     func setView(){
         guard let book = book else { return }
         contentView.backgroundColor = Design.colorPrimaryBackground
@@ -53,17 +52,9 @@ final class ReadingCell: UICollectionViewCell {
         page.font = Design.fontDefault
         page.textColor = .secondaryLabel
 
-        contentView.addSubview(readButton)
-        readButton.setImage(UIImage(systemName: "book.fill"), for: .normal)
-        readButton.backgroundColor = Design.colorSecondaryAccent
-        readButton.tintColor = .label
-        readButton.layer.cornerRadius = Design.paddingDefault
-        
-        contentView.addSubview(memoButton)
-        memoButton.setImage(UIImage(systemName: "pencil"), for: .normal)
-        memoButton.backgroundColor = Design.colorSecondaryAccent
-        memoButton.tintColor = .label
-        memoButton.layer.cornerRadius = Design.paddingDefault
+        contentView.addSubview(ButtonViews.readButton)
+        contentView.addSubview(ButtonViews.memoButton)
+
     }
     
     func setConstraint(){
@@ -90,17 +81,23 @@ final class ReadingCell: UICollectionViewCell {
             make.leading.equalTo(startDate)
         }
         
-        memoButton.snp.makeConstraints { make in
+        ButtonViews.memoButton.snp.makeConstraints { make in
             make.centerY.equalTo(contentView.snp.bottom)
             make.trailing.equalTo(contentView.snp.trailing).offset(-Design.paddingDefault)
-            make.size.equalTo(40)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.15)
+            make.height.greaterThanOrEqualTo(32)
+            
         }
         
-        readButton.snp.makeConstraints { make in
+        ButtonViews.readButton.snp.makeConstraints { make in
             make.centerY.equalTo(contentView.snp.bottom)
-            make.trailing.equalTo(memoButton.snp.leading).offset(-Design.paddingDefault)
-            make.size.equalTo(40)
+            make.trailing.equalTo(ButtonViews.memoButton.snp.leading).offset(-Design.paddingDefault)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.15)
+            make.height.greaterThanOrEqualTo(32)
+            
         }
+        
+        
 
     }
     

@@ -36,7 +36,7 @@ final class ToReadCell: UICollectionViewCell {
         title.text = book.title
         title.font = Design.fontDefault
         title.textColor = Design.colorTextDefault
-        title.numberOfLines = 0
+        title.numberOfLines = 1
         
     }
     

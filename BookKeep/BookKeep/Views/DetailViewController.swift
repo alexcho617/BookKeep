@@ -79,22 +79,15 @@ final class DetailViewController: UIViewController {
         return view
     }()
     
-    private var readButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "timer"), for: .normal)
-        button.backgroundColor = Design.colorPrimaryAccent
-        button.tintColor = Design.colorSecondaryAccent
-        button.layer.cornerRadius = Design.paddingDefault
-        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-        button.layer.shadowOpacity = 0.5
-        return button
-    }()
+   
     
-    private var memoButton = {
+    private var startReadingButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "note.text.badge.plus"), for: .normal)
+        button.setImage(UIImage(systemName: "book"), for: .normal)
+        button.setTitle("읽기 시작", for: .normal)
         button.backgroundColor = Design.colorPrimaryAccent
         button.tintColor = Design.colorSecondaryAccent
+        button.setTitleColor(Design.colorSecondaryAccent, for: .normal)
         button.layer.cornerRadius = Design.paddingDefault
         button.layer.shadowOffset = CGSize(width: 4, height: 4)
         button.layer.shadowOpacity = 0.5
@@ -149,16 +142,20 @@ final class DetailViewController: UIViewController {
         baseView.addSubview(bookTitle)
         baseView.addSubview(coverImageView)
         baseView.addSubview(author)
-        baseView.addSubview(readButton)
-        baseView.addSubview(memoButton)
-//        baseView.addSubview(introduction)
-//        baseView.addSubview(page)
+        baseView.addSubview(ButtonViews.readButton)
+        baseView.addSubview(ButtonViews.memoButton)
+        baseView.addSubview(startReadingButton)
+
+        baseView.addSubview(introduction)
+        baseView.addSubview(page)
         
-        baseView.addSubview(LabelViews.authorLabel)
-        baseView.addSubview(LabelViews.introductionLabel)
-        baseView.addSubview(LabelViews.publisherLabel)
-        baseView.addSubview(LabelViews.isbnLabel)
+//        baseView.addSubview(LabelViews.authorLabel)
+//        baseView.addSubview(LabelViews.introductionLabel)
+//        baseView.addSubview(LabelViews.publisherLabel)
+//        baseView.addSubview(LabelViews.isbnLabel)
         baseView.addSubview(LabelViews.pageLabel)
+        
+        startReadingButton.addTarget(self, action: #selector(startReading), for: .touchUpInside)
         
     }
     
@@ -196,19 +193,40 @@ final class DetailViewController: UIViewController {
             make.width.equalTo(baseView.snp.width).multipliedBy(0.55)
         }
         
-        readButton.snp.makeConstraints { make in
+        ButtonViews.readButton.snp.makeConstraints { make in
             make.bottom.equalTo(coverImageView)
             make.leading.equalTo(coverImageView.snp.trailing).offset(2*Design.paddingDefault)
             make.width.equalTo(baseView.snp.width).multipliedBy(0.15)
             make.height.greaterThanOrEqualTo(32)
         }
         
-        memoButton.snp.makeConstraints { make in
-            make.bottom.equalTo(readButton)
-            make.leading.equalTo(readButton.snp.trailing).offset(Design.paddingDefault)
+        ButtonViews.memoButton.snp.makeConstraints { make in
+            make.bottom.equalTo(ButtonViews.readButton)
+            make.leading.equalTo(ButtonViews.readButton.snp.trailing).offset(Design.paddingDefault)
             make.width.equalTo(baseView.snp.width).multipliedBy(0.15)
             make.height.greaterThanOrEqualTo(32)
         }
+        
+        startReadingButton.snp.makeConstraints { make in
+            make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
+            make.width.equalTo(baseView.snp.width).inset(Design.paddingDefault)
+            make.height.greaterThanOrEqualTo(32)
+            
+        }
+        
+        //MARK: Lower
+        LabelViews.pageLabel.snp.makeConstraints { make in
+            make.leading.equalTo(coverImageView)
+            make.top.equalTo(startReadingButton.snp.bottom).offset(Design.paddingDefault)
+
+        }
+        
+        page.snp.makeConstraints { make in
+            make.leading.equalTo(coverImageView)
+            make.top.equalTo(LabelViews.pageLabel.snp.bottom).offset(Design.paddingDefault)
+        }
+        
+   
     }
     @objc func showMenu(){
         showActionSheet(title: nil, message: nil)
@@ -224,6 +242,14 @@ final class DetailViewController: UIViewController {
             publisher.text = selectedBook.publisher
             isbn.text = selectedBook.isbn
             page.text = "\(selectedBook.currentReadingPage) / \(selectedBook.page)"
+            
+            //readbutton
+            if selectedBook.readingStatus == .reading{
+                ButtonViews.readButton.isHidden = false
+            }else{
+                ButtonViews.readButton.isHidden = true
+                
+            }
         }
         
     }
@@ -238,11 +264,23 @@ extension DetailViewController: UIScrollViewDelegate{
     
 }
 
+//MARK: functions
 extension DetailViewController{
+    
+    @objc func startReading(){
+        print(#function)
+        vm.startReading {
+            self.startReadingButton.isHidden = true
+            ButtonViews.readButton.isHidden = false
+
+        }
+    }
+    
+    //TODO: 삭제 기능
     private func showActionSheet(title: String?, message: String?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "책 삭제", style: .destructive) { _ in
-            print("Delete From Realm")
+            print("TODO: 삭제 기능 구현")
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         

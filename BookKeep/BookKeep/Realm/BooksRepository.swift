@@ -43,6 +43,17 @@ class BooksRepository: Error, LocalizedError{
             throw RealmError.nonExist
         }
     }
+    
+    func updateBookReadingStatus(isbn: String, to status: RealmReadStatus) {
+        let book = realm!.object(ofType: RealmBook.self, forPrimaryKey: isbn)
+        // Open a thread-safe transaction
+        try! realm?.write {
+            // Update some properties on the instance.
+            // These changes are saved to the realm
+            book?.readingStatus = status
+        }
+    }
+    
     func fetchBooksToRead() -> Results<RealmBook> {
         return realm!.objects(RealmBook.self).where{
             return $0.readingStatus.rawValue == RealmReadStatus.toRead.rawValue

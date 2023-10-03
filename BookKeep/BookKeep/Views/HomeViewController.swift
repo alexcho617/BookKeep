@@ -27,6 +27,8 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         setConstraints()
         configureDataSource()
         bindData()
+        //MARK: DEBUG
+        BooksRepository.shared.realmURL()
 
     }
     
@@ -38,8 +40,8 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
         collectionView.delegate = self
-        snapshot.appendSections([.homeReading])
-        snapshot.appendSections([.homeToRead])
+        snapshot.appendSections([.homeReading,.homeToRead])
+     
     }
     
     private func setConstraints(){
@@ -172,16 +174,21 @@ extension HomeViewController{
 extension HomeViewController{
     private func configureDataSource(){
         //Cell Register
+        //MARK: TODO DEBUG: 셀이 혼돈되어 사용되어지고 있음.
         let readingCellRegistration = UICollectionView.CellRegistration<ReadingCell, RealmBook> { cell, indexPath, itemIdentifier in
-            cell.book = itemIdentifier
-            cell.setView()
-            cell.setConstraint()
+            DispatchQueue.main.async {
+                cell.book = itemIdentifier
+                cell.setView()
+                cell.setConstraint()
+            }
         }
         
         let toReadCellRegistration = UICollectionView.CellRegistration<ToReadCell, RealmBook> { cell, indexPath, itemIdentifier in
-            cell.book = itemIdentifier
-            cell.setView()
-            cell.setConstraints()
+            DispatchQueue.main.async {
+                cell.book = itemIdentifier
+                cell.setView()
+                cell.setConstraints()
+            }
         }
         
         //Supplementary Register
@@ -228,33 +235,21 @@ extension HomeViewController{
         vm.booksReading.bind { [weak self] value in
             guard let self = self else { return }
             let booksReadingArray = Array(value)
-            
-            //check if its snapshot or not
-            for book in booksReadingArray{
-                if self.snapshot.indexOfItem(book) != nil{
-                    self.snapshot.reloadItems([book])
-                } else {
-                    self.snapshot.appendItems([book], toSection: .homeReading)
-                }
-            }
-            print("DEBUG: HomeViewController - bindData() - homeReading: number of items in snapshot:",snapshot.numberOfItems)
+            //clear all before updating? 여기서 어떻게 렘에 바뀐 값만 뺄 수 있을까? 제일 쉬운 방법은 없애고 다시 추가하는것
+            self.snapshot.deleteSections([.homeReading])
+            snapshot.appendSections([.homeReading])
+            self.snapshot.appendItems(booksReadingArray, toSection: .homeReading)
+            print("DEBUG: HomeViewController - bindData() - homeReading: number of items in snapshot:",snapshot.numberOfItems(inSection: .homeReading))
             dataSource.apply(snapshot)
         }
         
         vm.booksToRead.bind { [weak self] value in
             guard let self = self else { return }
             let booksToReadArray = Array(value)
-            
-            
-            //check if its snapshot or not
-            for book in booksToReadArray{
-                if self.snapshot.indexOfItem(book) != nil{
-                    self.snapshot.reloadItems([book])
-                } else {
-                    self.snapshot.appendItems([book], toSection: .homeToRead)
-                }
-            }
-            print("DEBUG: HomeViewController - bindData() - homeToRead: number of items in snapshot:",snapshot.numberOfItems)
+            self.snapshot.deleteSections([.homeToRead])
+            snapshot.appendSections([.homeToRead])
+            self.snapshot.appendItems(booksToReadArray, toSection: .homeToRead)
+            print("DEBUG: HomeViewController - bindData() - homeToRead: number of items in snapshot:",snapshot.numberOfItems(inSection: .homeToRead))
             dataSource.apply(snapshot)
         }
     }

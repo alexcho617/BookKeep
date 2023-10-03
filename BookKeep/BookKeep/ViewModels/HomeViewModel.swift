@@ -18,8 +18,9 @@ final class HomeViewModel{
         booksReading = Observable(BooksRepository.shared.fetchBooksReading())
         booksToRead = Observable(BooksRepository.shared.fetchBooksToRead())
         
-        observeRealmChanges(for: booksToRead)
         observeRealmChanges(for: booksReading)
+        observeRealmChanges(for: booksToRead)
+
     }
     
     //listen for changes of realm objects and update the observables

@@ -44,5 +44,28 @@ enum LabelViews{
         view.textColor = Design.colorTextSubTitle
         return view
     }()
+}
+
+enum ButtonViews {
+    static var readButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "timer"), for: .normal)
+        button.backgroundColor = Design.colorPrimaryAccent
+        button.tintColor = Design.colorSecondaryAccent
+        button.layer.cornerRadius = Design.paddingDefault
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowOpacity = 0.5
+        return button
+    }()
     
+    static var memoButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "note.text.badge.plus"), for: .normal)
+        button.backgroundColor = Design.colorPrimaryAccent
+        button.tintColor = Design.colorSecondaryAccent
+        button.layer.cornerRadius = Design.paddingDefault
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowOpacity = 0.5
+        return button
+    }()
 }
