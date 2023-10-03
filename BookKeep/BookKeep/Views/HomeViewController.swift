@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import RealmSwift
 
 final class HomeViewController: UIViewController, UICollectionViewDelegate {
     
@@ -51,11 +52,12 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     }
     private func setViewDesign(){
         collectionView.backgroundColor = .clear
-        
-        
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = Design.colorPrimaryAccent
+        let buttonAppearance = UIBarButtonItemAppearance()
+        appearance.buttonAppearance = buttonAppearance
         navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.tintColor = Design.colorPrimaryBackground
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.hidesBarsOnSwipe = true
@@ -66,7 +68,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
 
 //MARK: Enums
 extension HomeViewController{
-    
+    //Diffable: 섹션 종류
     enum SectionLayoutKind: Int, CaseIterable{
         case homeReading
         case homeToRead
@@ -80,6 +82,7 @@ extension HomeViewController{
         }
     }
     
+    //Diffable: 헤더 종류
     enum SectionSupplementaryKind: String{
         case readingHeader
         case toReadHeader
@@ -148,7 +151,7 @@ extension HomeViewController{
         item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
         
         
-        
+        //TODO: 현재 셀이 타이틀 길이에 따라 높이가 달라지고 있는데 itemsize가 변경되지않고있음. 타이틀 길이에 따라 길이가 변하도록 변경
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .estimated(250))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
@@ -220,18 +223,48 @@ extension HomeViewController{
         }
         
     }
+    
     private func bindData(){
         vm.booksReading.bind { [weak self] value in
             guard let self = self else { return }
-            snapshot.appendItems(value,toSection: .homeReading)
+            let booksReadingArray = Array(value)
+            
+            //check if its snapshot or not
+            for book in booksReadingArray{
+                if self.snapshot.indexOfItem(book) != nil{
+                    self.snapshot.reloadItems([book])
+                } else {
+                    self.snapshot.appendItems([book], toSection: .homeReading)
+                }
+            }
+            print("DEBUG: HomeViewController - bindData() - homeReading: number of items in snapshot:",snapshot.numberOfItems)
             dataSource.apply(snapshot)
         }
         
         vm.booksToRead.bind { [weak self] value in
             guard let self = self else { return }
-            snapshot.appendItems(value,toSection: .homeToRead)
+            let booksToReadArray = Array(value)
+            
+            
+            //check if its snapshot or not
+            for book in booksToReadArray{
+                if self.snapshot.indexOfItem(book) != nil{
+                    self.snapshot.reloadItems([book])
+                } else {
+                    self.snapshot.appendItems([book], toSection: .homeToRead)
+                }
+            }
+            print("DEBUG: HomeViewController - bindData() - homeToRead: number of items in snapshot:",snapshot.numberOfItems)
             dataSource.apply(snapshot)
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedBook = dataSource.itemIdentifier(for: indexPath)
+        let vc = DetailViewController()
+        vc.isbn13Identifier = selectedBook?.isbn ?? ""
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
     
 }

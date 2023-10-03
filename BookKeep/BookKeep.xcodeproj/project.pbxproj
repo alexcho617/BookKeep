@@ -42,6 +42,9 @@
 		57ADE0252AC1A5D800EA0EFE /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADE0242AC1A5D800EA0EFE /* HomeViewModel.swift */; };
 		57ADE0282AC1A67D00EA0EFE /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADE0272AC1A67D00EA0EFE /* Design.swift */; };
 		57ADE02E2AC1A77D00EA0EFE /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADE02D2AC1A77D00EA0EFE /* Key.swift */; };
+		57C79BEC2ACABB8B00E168F6 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BEB2ACABB8B00E168F6 /* DetailViewController.swift */; };
+		57C79BEE2ACABB9300E168F6 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */; };
+		57C79BF02ACAC42400E168F6 /* LabelViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BEF2ACAC42400E168F6 /* LabelViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +99,9 @@
 		57ADE0242AC1A5D800EA0EFE /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		57ADE0272AC1A67D00EA0EFE /* Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Design.swift; sourceTree = "<group>"; };
 		57ADE02D2AC1A77D00EA0EFE /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		57C79BEB2ACABB8B00E168F6 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		57C79BEF2ACAC42400E168F6 /* LabelViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelViews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */,
+				57C79BEB2ACABB8B00E168F6 /* DetailViewController.swift */,
 				577082D52AC68A170052EA8A /* SearchViewController.swift */,
 				5754D2252AC725FE009C82C9 /* SearchDetailViewController.swift */,
 				577082D32AC480CD0052EA8A /* ViewController + Extension.swift */,
@@ -214,6 +221,7 @@
 				577082D72AC68A510052EA8A /* SearchViewModel.swift */,
 				5754D2292AC73A31009C82C9 /* SearchDetailViewModel.swift */,
 				577082CF2AC415F90052EA8A /* Observable.swift */,
+				57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -234,6 +242,7 @@
 				577082D12AC420F10052EA8A /* Literal.swift */,
 				577082BE2AC2D2110052EA8A /* MockData.swift */,
 				5754D2272AC728D9009C82C9 /* Enums.swift */,
+				57C79BEF2ACAC42400E168F6 /* LabelViews.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -403,6 +412,7 @@
 				577082DD2AC6ADB40052EA8A /* AladinSearch.swift in Sources */,
 				577082E62AC6D1820052EA8A /* SearchCollectionViewCell.swift in Sources */,
 				57ADDFF62AC1A38D00EA0EFE /* HomeViewController.swift in Sources */,
+				57C79BEE2ACABB9300E168F6 /* DetailViewModel.swift in Sources */,
 				577082E12AC6AEF70052EA8A /* NetworkManager.swift in Sources */,
 				577082D42AC480CD0052EA8A /* ViewController + Extension.swift in Sources */,
 				577082D62AC68A170052EA8A /* SearchViewController.swift in Sources */,
@@ -412,6 +422,7 @@
 				577082D82AC68A510052EA8A /* SearchViewModel.swift in Sources */,
 				577082CE2AC3EFCA0052EA8A /* ToReadSectionHeaderView.swift in Sources */,
 				57ADDFF22AC1A38D00EA0EFE /* AppDelegate.swift in Sources */,
+				57C79BEC2ACABB8B00E168F6 /* DetailViewController.swift in Sources */,
 				577082BF2AC2D2110052EA8A /* MockData.swift in Sources */,
 				577082C92AC2ED2B0052EA8A /* ToReadCell.swift in Sources */,
 				57ADDFF42AC1A38D00EA0EFE /* SceneDelegate.swift in Sources */,
@@ -422,6 +433,7 @@
 				5754D2262AC725FE009C82C9 /* SearchDetailViewController.swift in Sources */,
 				577082BD2AC2C6E00052EA8A /* BooksRepository.swift in Sources */,
 				5754D22A2AC73A31009C82C9 /* SearchDetailViewModel.swift in Sources */,
+				57C79BF02ACAC42400E168F6 /* LabelViews.swift in Sources */,
 				5754D2282AC728D9009C82C9 /* Enums.swift in Sources */,
 				57ADE02E2AC1A77D00EA0EFE /* Key.swift in Sources */,
 			);

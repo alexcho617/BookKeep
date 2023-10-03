@@ -76,43 +76,6 @@ final class SearchDetailViewController: UIViewController {
         return view
     }()
     
-    //MARK: Labels
-    private var authorLabel = {
-        let view = UILabel()
-        view.text = "저자"
-        view.font = Design.fontAccentDefault
-        view.textColor = Design.colorTextSubTitle
-        return view
-    }()
-    private var introductionLabel = {
-        let view = UILabel()
-        view.text = "책 소개"
-        view.font = Design.fontAccentDefault
-        view.textColor = Design.colorTextSubTitle
-        return view
-    }()
-    private var publisherLabel = {
-        let view = UILabel()
-        view.text = "출판사"
-        view.font = Design.fontAccentDefault
-        view.textColor = Design.colorTextSubTitle
-        return view
-    }()
-    private var isbnLabel = {
-        let view = UILabel()
-        view.text = "ISBN"
-        view.font = Design.fontAccentDefault
-        view.textColor = Design.colorTextSubTitle
-        return view
-    }()
-    private var pageLabel = {
-        let view = UILabel()
-        view.text = "페이지"
-        view.font = Design.fontAccentDefault
-        view.textColor = Design.colorTextSubTitle
-        return view
-    }()
-    
     private lazy var addButton: UIBarButtonItem = {
         let view = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(addToReadingList))
           return view
@@ -130,15 +93,15 @@ final class SearchDetailViewController: UIViewController {
         let view = UIStackView(arrangedSubviews: [
             bookTitle,
             coverImageView,
-            authorLabel,
+            LabelViews.authorLabel,
             author,
-            introductionLabel,
+            LabelViews.introductionLabel,
             introduction,
-            publisherLabel,
+            LabelViews.publisherLabel,
             publisher,
-            isbnLabel,
+            LabelViews.isbnLabel,
             isbn,
-            pageLabel,
+            LabelViews.pageLabel,
             page
         ])
         view.axis = .vertical
@@ -173,7 +136,7 @@ final class SearchDetailViewController: UIViewController {
         }
         stackView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView.contentLayoutGuide).inset(Design.paddingDefault)
-            make.width.equalTo(scrollView.snp.width)
+            make.width.equalTo(scrollView.snp.width).inset(Design.paddingDefault)
             make.height.greaterThanOrEqualTo(view.snp.height).priority(.low)
         }
         bookTitle.snp.makeConstraints { make in
@@ -188,21 +151,29 @@ final class SearchDetailViewController: UIViewController {
         vm.lookupResult.bind { [self] response in
             guard let book = response?.item.first else {return}
             bookTitle.text = book.title
-            coverImageView.kf.setImage(with: URL(string: book.cover))
+            coverImageView.kf.setImage(
+                with: URL(string: book.cover),
+                placeholder: UIImage(named: "photo"),
+                options: [
+                    .scaleFactor(UIScreen.main.scale),
+                    .transition(.fade(1)),
+                    .cacheOriginalImage
+                ])
             author.text = book.author
             introduction.text = book.description
             publisher.text = book.publisher
             isbn.text = book.isbn13
-            page.text = String(book.subInfo.itemPage ?? -1)
+            page.text = String(book.subInfo?.itemPage ?? -1)
             
         }
     }
     
     @objc private func addToReadingList(){
         guard let bookData = vm.lookupResult.value?.item.first else {return}
-        let book = RealmBook(isbn: bookData.isbn13, title: bookData.title, coverUrl: bookData.cover, author: bookData.author, descriptionOfBook: bookData.description, publisher: bookData.publisher, page: bookData.subInfo.itemPage ?? 0)
+        let book = RealmBook(isbn: bookData.isbn13, title: bookData.title, coverUrl: bookData.cover, author: bookData.author, descriptionOfBook: bookData.description, publisher: bookData.publisher, page: bookData.subInfo?.itemPage ?? 0)
         do {
             try BooksRepository.shared.create(book)
+            //이걸 했으면 Homeviewmodel에도 추가되어야함
             showAlert(title: "🎉", message: "읽을 예정인 책에 추가되었습니다") {
                 self.navigationController?.popViewController(animated: true)
             }
