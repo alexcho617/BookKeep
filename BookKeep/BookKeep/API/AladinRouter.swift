@@ -12,7 +12,6 @@ enum AladinRouter: URLRequestConvertible{
     
     case search(keyword: String)
     case lookup(itemId: String)
-    //TODO: lookup case 추가
     private var baseURL: URL{
         return URL(string: "https://www.aladin.co.kr/ttb/api/")!
     }

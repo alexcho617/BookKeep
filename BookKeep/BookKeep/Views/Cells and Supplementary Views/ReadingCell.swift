@@ -11,15 +11,36 @@ import Kingfisher
 final class ReadingCell: UICollectionViewCell {
     
     var book: RealmBook!
-    
     var title = UILabel()
     var imageView = UIImageView()
     var startDate = UILabel()
     var page = UILabel()
-    var readButton = UIButton()
-    var memoButton = UIButton()
+    var readButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "timer"), for: .normal)
+        button.backgroundColor = Design.colorPrimaryAccent
+        button.tintColor = Design.colorSecondaryAccent
+        button.layer.cornerRadius = Design.paddingDefault
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowOpacity = 0.5
+        return button
+    }()
     
+    var memoButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "note.text.badge.plus"), for: .normal)
+        button.backgroundColor = Design.colorPrimaryAccent
+        button.tintColor = Design.colorSecondaryAccent
+        button.layer.cornerRadius = Design.paddingDefault
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowOpacity = 0.5
+        return button
+    }()
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        book = nil
+    }
     
     func setView(){
         guard let book = book else { return }
@@ -54,16 +75,8 @@ final class ReadingCell: UICollectionViewCell {
         page.textColor = .secondaryLabel
 
         contentView.addSubview(readButton)
-        readButton.setImage(UIImage(systemName: "book.fill"), for: .normal)
-        readButton.backgroundColor = Design.colorSecondaryAccent
-        readButton.tintColor = .label
-        readButton.layer.cornerRadius = Design.paddingDefault
-        
         contentView.addSubview(memoButton)
-        memoButton.setImage(UIImage(systemName: "pencil"), for: .normal)
-        memoButton.backgroundColor = Design.colorSecondaryAccent
-        memoButton.tintColor = .label
-        memoButton.layer.cornerRadius = Design.paddingDefault
+
     }
     
     func setConstraint(){
@@ -93,14 +106,20 @@ final class ReadingCell: UICollectionViewCell {
         memoButton.snp.makeConstraints { make in
             make.centerY.equalTo(contentView.snp.bottom)
             make.trailing.equalTo(contentView.snp.trailing).offset(-Design.paddingDefault)
-            make.size.equalTo(40)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.15)
+            make.height.greaterThanOrEqualTo(32)
+            
         }
         
         readButton.snp.makeConstraints { make in
             make.centerY.equalTo(contentView.snp.bottom)
             make.trailing.equalTo(memoButton.snp.leading).offset(-Design.paddingDefault)
-            make.size.equalTo(40)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.15)
+            make.height.greaterThanOrEqualTo(32)
+            
         }
+        
+        
 
     }
     

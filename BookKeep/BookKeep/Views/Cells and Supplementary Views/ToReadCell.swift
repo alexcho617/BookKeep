@@ -16,7 +16,10 @@ final class ToReadCell: UICollectionViewCell {
     var imageView = UIImageView()
     var title = UILabel()
     
-   
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        book = nil
+    }
     func setView(){
         guard let book = book else {return}
         contentView.backgroundColor = Design.colorPrimaryBackground
@@ -36,7 +39,7 @@ final class ToReadCell: UICollectionViewCell {
         title.text = book.title
         title.font = Design.fontDefault
         title.textColor = Design.colorTextDefault
-        title.numberOfLines = 0
+        title.numberOfLines = 1
         
     }
     

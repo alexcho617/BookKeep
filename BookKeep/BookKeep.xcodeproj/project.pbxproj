@@ -44,7 +44,7 @@
 		57ADE02E2AC1A77D00EA0EFE /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADE02D2AC1A77D00EA0EFE /* Key.swift */; };
 		57C79BEC2ACABB8B00E168F6 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BEB2ACABB8B00E168F6 /* DetailViewController.swift */; };
 		57C79BEE2ACABB9300E168F6 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */; };
-		57C79BF02ACAC42400E168F6 /* LabelViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BEF2ACAC42400E168F6 /* LabelViews.swift */; };
+		57C79BF02ACAC42400E168F6 /* ReusableViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BEF2ACAC42400E168F6 /* ReusableViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,7 +101,7 @@
 		57ADE02D2AC1A77D00EA0EFE /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		57C79BEB2ACABB8B00E168F6 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
-		57C79BEF2ACAC42400E168F6 /* LabelViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelViews.swift; sourceTree = "<group>"; };
+		57C79BEF2ACAC42400E168F6 /* ReusableViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,7 +242,7 @@
 				577082D12AC420F10052EA8A /* Literal.swift */,
 				577082BE2AC2D2110052EA8A /* MockData.swift */,
 				5754D2272AC728D9009C82C9 /* Enums.swift */,
-				57C79BEF2ACAC42400E168F6 /* LabelViews.swift */,
+				57C79BEF2ACAC42400E168F6 /* ReusableViews.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -433,7 +433,7 @@
 				5754D2262AC725FE009C82C9 /* SearchDetailViewController.swift in Sources */,
 				577082BD2AC2C6E00052EA8A /* BooksRepository.swift in Sources */,
 				5754D22A2AC73A31009C82C9 /* SearchDetailViewModel.swift in Sources */,
-				57C79BF02ACAC42400E168F6 /* LabelViews.swift in Sources */,
+				57C79BF02ACAC42400E168F6 /* ReusableViews.swift in Sources */,
 				5754D2282AC728D9009C82C9 /* Enums.swift in Sources */,
 				57ADE02E2AC1A77D00EA0EFE /* Key.swift in Sources */,
 			);

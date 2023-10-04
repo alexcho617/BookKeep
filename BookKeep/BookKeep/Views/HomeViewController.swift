@@ -16,7 +16,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     let vm = HomeViewModel()
     var dataSource: UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>!
     var snapshot = NSDiffableDataSourceSnapshot<SectionLayoutKind, RealmBook>()
-
+    
     //Views
     var collectionView: UICollectionView! = nil
     var baseView: UIStackView!
@@ -27,7 +27,9 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         setConstraints()
         configureDataSource()
         bindData()
-
+        //MARK: DEBUG
+        BooksRepository.shared.realmURL()
+        
     }
     
     private func configureHierarchy(){
@@ -38,8 +40,8 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
         collectionView.delegate = self
-        snapshot.appendSections([.homeReading])
-        snapshot.appendSections([.homeToRead])
+        snapshot.appendSections([.homeReading,.homeToRead])
+        
     }
     
     private func setConstraints(){
@@ -173,15 +175,19 @@ extension HomeViewController{
     private func configureDataSource(){
         //Cell Register
         let readingCellRegistration = UICollectionView.CellRegistration<ReadingCell, RealmBook> { cell, indexPath, itemIdentifier in
-            cell.book = itemIdentifier
-            cell.setView()
-            cell.setConstraint()
+            DispatchQueue.main.async {
+                cell.book = itemIdentifier
+                cell.setView()
+                cell.setConstraint()
+            }
         }
         
         let toReadCellRegistration = UICollectionView.CellRegistration<ToReadCell, RealmBook> { cell, indexPath, itemIdentifier in
-            cell.book = itemIdentifier
-            cell.setView()
-            cell.setConstraints()
+            DispatchQueue.main.async {
+                cell.book = itemIdentifier
+                cell.setView()
+                cell.setConstraints()
+            }
         }
         
         //Supplementary Register
@@ -195,17 +201,18 @@ extension HomeViewController{
             //여기서 cell 처럼 header view 코드 실행 가능
         }
         
-        //DS
+        //Data Source
+        //MARK: TODO ⚠️ 셀이 혼용되어 사용되어지고 있음. Snapshot안에 있는 데이터는 정상이나 해당 클로져에서 반영된 itemIdentifier를 보면 변경된 데이터가 아닌 다른 데이터를 참조하고 있음. 따라서 RealBook readingStatus가 변경 되었을때 status가 변경된 책과 맞지 않기 때문에 밑의 switch문에서 원하는 Cell을 사용하지 못하고 있음
         dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             
-            let sectionType = SectionLayoutKind(rawValue: indexPath.section)
-            switch sectionType{
-            case .homeReading:
+            let status = itemIdentifier.readingStatus
+            switch status {
+            case .reading:
                 return collectionView.dequeueConfiguredReusableCell(using: readingCellRegistration, for: indexPath, item: itemIdentifier)
-            case .homeToRead:
+            case .toRead:
                 return collectionView.dequeueConfiguredReusableCell(using: toReadCellRegistration, for: indexPath, item: itemIdentifier)
-            case .none:
-                return UICollectionViewCell()
+            default:
+                return collectionView.dequeueConfiguredReusableCell(using: toReadCellRegistration, for: indexPath, item: itemIdentifier)
             }
         })
         
@@ -221,45 +228,29 @@ extension HomeViewController{
                 return UICollectionReusableView()
             }
         }
-        
     }
     
     private func bindData(){
-        vm.booksReading.bind { [weak self] value in
-            guard let self = self else { return }
-            let booksReadingArray = Array(value)
-            
-            //check if its snapshot or not
-            for book in booksReadingArray{
-                if self.snapshot.indexOfItem(book) != nil{
-                    self.snapshot.reloadItems([book])
-                } else {
-                    self.snapshot.appendItems([book], toSection: .homeReading)
-                }
-            }
-            print("DEBUG: HomeViewController - bindData() - homeReading: number of items in snapshot:",snapshot.numberOfItems)
-            dataSource.apply(snapshot)
-        }
-        
-        vm.booksToRead.bind { [weak self] value in
-            guard let self = self else { return }
-            let booksToReadArray = Array(value)
-            
-            
-            //check if its snapshot or not
-            for book in booksToReadArray{
-                if self.snapshot.indexOfItem(book) != nil{
-                    self.snapshot.reloadItems([book])
-                } else {
-                    self.snapshot.appendItems([book], toSection: .homeToRead)
-                }
-            }
-            print("DEBUG: HomeViewController - bindData() - homeToRead: number of items in snapshot:",snapshot.numberOfItems)
-            dataSource.apply(snapshot)
+        vm.books.bind { [weak self] value in
+            guard let self else {return}
+            print("DEBUG: BIND!")
+            var newSnapshot = NSDiffableDataSourceSnapshot<SectionLayoutKind, RealmBook>()
+            let booksToRead = Array(value).filter { $0.readingStatus == .toRead }
+            let booksReading = Array(value).filter { $0.readingStatus == .reading }
+            newSnapshot.appendSections([.homeReading,.homeToRead])
+            newSnapshot.appendItems(booksToRead,toSection: .homeToRead)
+            newSnapshot.appendItems(booksReading,toSection: .homeReading)
+            print("DEBUG: Reading",newSnapshot.itemIdentifiers(inSection: .homeReading).count)
+            print("DEBUG:ToRead",newSnapshot.itemIdentifiers(inSection: .homeToRead).count)
+            dataSource.apply(newSnapshot)
         }
     }
-    
+}
+
+//Cell Select
+extension HomeViewController{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(#function)
         let selectedBook = dataSource.itemIdentifier(for: indexPath)
         let vc = DetailViewController()
         vc.isbn13Identifier = selectedBook?.isbn ?? ""
@@ -268,3 +259,4 @@ extension HomeViewController{
     }
     
 }
+
