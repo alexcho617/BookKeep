@@ -15,12 +15,7 @@ final class ToReadCell: UICollectionViewCell {
     
     var imageView = UIImageView()
     var title = UILabel()
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        print(#function, "ToReadCell")
-        book = nil
-    }
+
     func setView(){
         guard let book = book else {return}
         contentView.backgroundColor = Design.colorPrimaryBackground

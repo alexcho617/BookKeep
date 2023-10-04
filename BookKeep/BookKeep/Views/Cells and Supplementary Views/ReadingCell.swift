@@ -37,11 +37,7 @@ final class ReadingCell: UICollectionViewCell {
         return button
     }()
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        print(#function, "ReadingCell")
-        book = nil
-    }
+ 
     
     func setView(){
         guard let book = book else { return }
