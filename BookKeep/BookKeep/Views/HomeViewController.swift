@@ -40,6 +40,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
         collectionView.delegate = self
+        collectionView.register(EmptyCollectionViewCell.self, forCellWithReuseIdentifier: "emptyCell") //reuse 는 안함
         snapshot.appendSections([.homeReading,.homeToRead])
         
     }
@@ -172,23 +173,21 @@ extension HomeViewController{
 
 //MARK: DataSource
 extension HomeViewController{
+    
     private func configureDataSource(){
         //Cell Register
         let readingCellRegistration = UICollectionView.CellRegistration<ReadingCell, RealmBook> { cell, indexPath, itemIdentifier in
-            DispatchQueue.main.async {
-                cell.book = itemIdentifier
-                cell.setView()
-                cell.setConstraint()
-            }
+            cell.book = itemIdentifier
+            cell.setView()
+            cell.setConstraint()
         }
         
         let toReadCellRegistration = UICollectionView.CellRegistration<ToReadCell, RealmBook> { cell, indexPath, itemIdentifier in
-            DispatchQueue.main.async {
-                cell.book = itemIdentifier
-                cell.setView()
-                cell.setConstraints()
-            }
+            cell.book = itemIdentifier
+            cell.setView()
+            cell.setConstraints()
         }
+        
         
         //Supplementary Register
         let readingHeaderRegistration = UICollectionView.SupplementaryRegistration<ReadingSectionHeaderView>(elementKind: SectionSupplementaryKind.readingHeader.rawValue) { supplementaryView, elementKind, indexPath in

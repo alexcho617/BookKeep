@@ -8,12 +8,10 @@
 import Foundation
 import RealmSwift
 final class HomeViewModel{
-    let realm: Realm?
     var books: Observable<Results<RealmBook>>
 
     private var notificationTokens: [NotificationToken] = []
     init() {
-        realm = BooksRepository.shared.realm
         books = Observable(BooksRepository.shared.fetchAllBooks())
         observeRealmChanges(for: books)
     }

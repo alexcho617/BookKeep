@@ -18,6 +18,7 @@ final class ToReadCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        print(#function, "ToReadCell")
         book = nil
     }
     func setView(){

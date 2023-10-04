@@ -39,6 +39,7 @@ final class ReadingCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        print(#function, "ReadingCell")
         book = nil
     }
     
