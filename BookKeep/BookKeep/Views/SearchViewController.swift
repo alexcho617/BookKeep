@@ -11,15 +11,18 @@ class SearchViewController: UIViewController{
     let vm = SearchViewModel()
     var baseView: UIStackView!
     let searchBar = UISearchBar()
+    
     var collectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: SearchViewController.getCollectionViewLayout())
         return view
     }()
+    
     static func getCollectionViewLayout() -> UICollectionViewLayout{
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 150)
         return layout
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureHierarchy()
@@ -70,8 +73,8 @@ class SearchViewController: UIViewController{
     }
    
     private func bindData(){
+        //TODO: 검색하는동안 Progress Indicator 추가
         vm.searchResult.bind { result in
-//            print("DEBUG: SearchViewController-bindData(): 데이터 변경 감지")
             self.collectionView.reloadData()
         }
     }
@@ -104,7 +107,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        print("DEBUG:",#function)
         let vc = SearchDetailViewController()
         vc.isbn13Identifier = vm.searchResult.value?.item[indexPath.item].isbn13 ?? ""
         navigationController?.pushViewController(vc, animated: true)

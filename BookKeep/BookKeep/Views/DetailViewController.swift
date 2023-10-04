@@ -79,7 +79,7 @@ final class DetailViewController: UIViewController {
         return view
     }()
     
-    private var readButton = {
+    var readButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "timer"), for: .normal)
         button.backgroundColor = Design.colorPrimaryAccent
@@ -90,7 +90,7 @@ final class DetailViewController: UIViewController {
         return button
     }()
     
-    private var memoButton = {
+    var memoButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "note.text.badge.plus"), for: .normal)
         button.backgroundColor = Design.colorPrimaryAccent
@@ -101,11 +101,24 @@ final class DetailViewController: UIViewController {
         return button
     }()
     
+    private var startReadingButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "book"), for: .normal)
+        button.setTitle("읽기 시작", for: .normal)
+        button.backgroundColor = Design.colorPrimaryAccent
+        button.tintColor = Design.colorSecondaryAccent
+        button.setTitleColor(Design.colorSecondaryAccent, for: .normal)
+        button.layer.cornerRadius = Design.paddingDefault
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowOpacity = 0.5
+        return button
+    }()
+    
     private lazy var menuButton: UIBarButtonItem = {
         let view = UIBarButtonItem(title: "메뉴", style: .plain, target: self, action: #selector(showMenu))
         view.image = UIImage(systemName: "ellipsis")
-          return view
-      }()
+        return view
+    }()
     
     
     lazy var scrollView = {
@@ -116,7 +129,6 @@ final class DetailViewController: UIViewController {
     
     lazy var baseView = {
         let view = UIView()
-//        view.backgroundColor = Design.debugPink
         return view
     }()
     
@@ -126,39 +138,45 @@ final class DetailViewController: UIViewController {
         setViewDesign()
         setConstraints()
         bindData()
-        
+    }
+    
+    func setViewHierarchy(){
         //get data from realm
         do {
             try vm.fetchBookFromRealm(isbn: isbn13Identifier)
-
+            
         } catch {
             showAlert(title: "에러", message: "데이터베이스에서 책을 가져오는데 실패했습니다.") {
                 self.navigationController?.popViewController(animated: true)
             }
         }
-    }
-    
-    func setViewHierarchy(){
         navigationItem.rightBarButtonItem = menuButton
         
         view.addSubview(scrollView)
         
         scrollView.addSubview(baseView)
-
-
+        
+        
         baseView.addSubview(bookTitle)
         baseView.addSubview(coverImageView)
         baseView.addSubview(author)
         baseView.addSubview(readButton)
         baseView.addSubview(memoButton)
-//        baseView.addSubview(introduction)
-//        baseView.addSubview(page)
         
-        baseView.addSubview(LabelViews.authorLabel)
-        baseView.addSubview(LabelViews.introductionLabel)
-        baseView.addSubview(LabelViews.publisherLabel)
-        baseView.addSubview(LabelViews.isbnLabel)
+        baseView.addSubview(introduction)
+        baseView.addSubview(page)
+        
+        //        baseView.addSubview(LabelViews.authorLabel)
+        //        baseView.addSubview(LabelViews.introductionLabel)
+        //        baseView.addSubview(LabelViews.publisherLabel)
+        //        baseView.addSubview(LabelViews.isbnLabel)
         baseView.addSubview(LabelViews.pageLabel)
+        
+        if vm.book.value?.readingStatus == .toRead{
+            baseView.addSubview(startReadingButton)
+            startReadingButton.addTarget(self, action: #selector(startReading), for: .touchUpInside)
+        }
+        
         
     }
     
@@ -209,6 +227,33 @@ final class DetailViewController: UIViewController {
             make.width.equalTo(baseView.snp.width).multipliedBy(0.15)
             make.height.greaterThanOrEqualTo(32)
         }
+        if vm.book.value?.readingStatus == .toRead{
+            startReadingButton.snp.makeConstraints { make in
+                make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
+                make.width.equalTo(baseView.snp.width).inset(Design.paddingDefault)
+                make.height.greaterThanOrEqualTo(32)
+            }
+        }
+        
+        
+        //MARK: Lower
+        LabelViews.pageLabel.snp.makeConstraints { make in
+            make.leading.equalTo(coverImageView)
+            if vm.book.value?.readingStatus == .toRead{
+                make.top.equalTo(startReadingButton.snp.bottom).offset(Design.paddingDefault)
+            }else{
+                make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
+            }
+            
+            
+        }
+        
+        page.snp.makeConstraints { make in
+            make.leading.equalTo(coverImageView)
+            make.top.equalTo(LabelViews.pageLabel.snp.bottom).offset(Design.paddingDefault)
+        }
+        
+        
     }
     @objc func showMenu(){
         showActionSheet(title: nil, message: nil)
@@ -224,6 +269,14 @@ final class DetailViewController: UIViewController {
             publisher.text = selectedBook.publisher
             isbn.text = selectedBook.isbn
             page.text = "\(selectedBook.currentReadingPage) / \(selectedBook.page)"
+            
+            //readbutton
+            if selectedBook.readingStatus == .reading{
+                readButton.isHidden = false
+            }else{
+                readButton.isHidden = true
+                
+            }
         }
         
     }
@@ -238,14 +291,42 @@ extension DetailViewController: UIScrollViewDelegate{
     
 }
 
+//MARK: functions
 extension DetailViewController{
+    
+    @objc func startReading(){
+        print(#function)
+        if vm.book.value?.readingStatus == .toRead{
+            vm.startReading {
+                self.startReadingButton.isHidden = true
+                ButtonViews.readButton.isHidden = false
+                
+            }
+        }
+        
+    }
+    
     private func showActionSheet(title: String?, message: String?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "책 삭제", style: .destructive) { _ in
-            print("Delete From Realm")
+            self.confirmDelete(title: "주의", message: "삭제된 데이터는 복구되지 않습니다")
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        present(alert,animated: true)
+    }
+    
+    private func confirmDelete(title: String?, message: String?){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            //closure
+            self.vm.deleteBookFromRealm {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
         alert.addAction(delete)
         alert.addAction(cancel)
         present(alert,animated: true)

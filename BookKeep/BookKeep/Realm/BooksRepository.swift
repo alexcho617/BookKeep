@@ -19,10 +19,19 @@ class BooksRepository: Error, LocalizedError{
     }
     
     func create(_ book: RealmBook) throws {
-        //check pk existence
+        //PK exists: Check if it was deleted book
+        
         guard realm?.object(ofType: RealmBook.self, forPrimaryKey: book.isbn) == nil else {
-            throw RealmError.primaryKey
+            print(#function,"Old")
+            //Old record exists: then simply mark it's isDeleted to false and recover it.
+            let deletedBook = realm?.object(ofType: RealmBook.self, forPrimaryKey: book.isbn)
+            if deletedBook?.isDeleted == true{
+                recoverBook(isbn: book.isbn)
+            }
+         return
         }
+        print(#function,"NEW")
+        //PK doesnt exist:
         do {
             try realm?.write{
                 realm?.add(book)
@@ -31,6 +40,21 @@ class BooksRepository: Error, LocalizedError{
             throw RealmError.primaryKey
         }
         
+    }
+    
+    func deleteBook(isbn: String){
+        guard let target = realm?.object(ofType: RealmBook.self, forPrimaryKey: isbn) else {return}
+        
+        try! realm?.write {
+            realm?.delete(target)
+        }
+    }
+    func markDelete(isbn: String){
+        guard let book = realm?.object(ofType: RealmBook.self, forPrimaryKey: isbn) else {return}
+        
+        try! realm?.write {
+            book.isDeleted = true
+        }
     }
     
     func fetchBookByPK(isbn: String) throws -> RealmBook? {
@@ -43,18 +67,34 @@ class BooksRepository: Error, LocalizedError{
             throw RealmError.nonExist
         }
     }
-    func fetchBooksToRead() -> Results<RealmBook> {
-        return realm!.objects(RealmBook.self).where{
-            return $0.readingStatus.rawValue == RealmReadStatus.toRead.rawValue
+    
+    func updateBookReadingStatus(isbn: String, to status: RealmReadStatus) {
+        let book = realm!.object(ofType: RealmBook.self, forPrimaryKey: isbn)
+        try! realm?.write {
+            book?.readingStatus = status
+        }
+    }
+
+    func recoverBook(isbn: String){
+        let book = realm!.object(ofType: RealmBook.self, forPrimaryKey: isbn)
+        try! realm?.write {
+            book?.isDeleted = false
+            book?.readingStatus = .toRead
         }
     }
     
-    func fetchBooksReading() -> Results<RealmBook> {
+    func fetchBooksByStatus(_ status: RealmReadStatus) -> Results<RealmBook>{
         return realm!.objects(RealmBook.self).where{
-            return $0.readingStatus.rawValue == RealmReadStatus.reading.rawValue
+            return ($0.isDeleted == false) && ($0.readingStatus.rawValue == status.rawValue)
         }
     }
     
+    //Fetch all except the ones marked as deleted
+    func fetchAllBooks() -> Results<RealmBook>{
+        return realm!.objects(RealmBook.self).where {
+            $0.isDeleted == false
+        }
+    }
     func realmURL(){
         print(realm?.configuration.fileURL ?? "")
     }
