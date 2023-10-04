@@ -35,7 +35,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         title.font = Design.fontAccentDefault
         title.text = item.title
         title.textColor = Design.colorTextSubTitle
-        title.numberOfLines = 0
+        title.numberOfLines = 2
 
         contentView.addSubview(coverImage)
         coverImage.kf.setImage(with: URL(string: item.cover))
@@ -49,12 +49,14 @@ class SearchCollectionViewCell: UICollectionViewCell {
         author.font = Design.fontDefault
         author.text = item.author
         author.textColor = Design.colorTextDefault
+        author.numberOfLines = 1
         
         
         contentView.addSubview(publisher)
         publisher.text = item.publisher
         publisher.font = Design.fontDefault
         publisher.textColor = Design.colorTextDefault
+        publisher.numberOfLines = 1
         
     }
     
