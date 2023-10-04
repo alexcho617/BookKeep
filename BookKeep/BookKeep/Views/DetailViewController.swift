@@ -294,7 +294,6 @@ extension DetailViewController: UIScrollViewDelegate{
 //MARK: functions
 extension DetailViewController{
     
-    //TODO: Closure 말고 다른거 없나? Realm notification 을 해봤는데 복잡해서 일단 클로져를 씀
     @objc func startReading(){
         print(#function)
         if vm.book.value?.readingStatus == .toRead{
@@ -319,10 +318,6 @@ extension DetailViewController{
         present(alert,animated: true)
     }
     
-    //⚠️TODO: 삭제 기능 -> Realm삭제 되었으나 HomeView에서 runtime crash 발생
-    //대응1 실제 삭제 안하고 내부 프로퍼티만 삭제된걸로 변경처리함 -> 크래시 현상 해결 하지만 섹션 데이터가 뒤바뀌는 현상 발생
-    //⚠️TODO: Realm삭제표기시 섹션의 데이터가 뒤바뀌고 있으며 Cell도 혼용되고있음
-    //Diffable DataSource에서 snapshot관련 에러로 추정
     private func confirmDelete(title: String?, message: String?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in

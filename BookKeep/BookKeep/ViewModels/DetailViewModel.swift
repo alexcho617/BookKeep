@@ -19,16 +19,19 @@ class DetailViewModel{
         }
     }
     
-    func deleteBookFromRealm(handler: @escaping () -> Void){
+    func deleteBookFromRealm(permanantly: Bool = false, handler: @escaping () -> Void){
         if let book = book.value{
-            //TODO: 진짜로 지우진 말고 isDelete를 true로 변경처리해볼까? 이렇게 되면 CRUD 전반에서 PK랑 isDelete 둘다 확인해야한다.
-            //Read할때 isDelete == false조건 추가해야함
-//            BooksRepository.shared.deleteBook(isbn: book.isbn)
-            BooksRepository.shared.markDelete(isbn: book.isbn)
+            if permanantly == true{
+                BooksRepository.shared.deleteBook(isbn: book.isbn)
+            }else{
+                BooksRepository.shared.markDelete(isbn: book.isbn)
+            }
             handler()
         }
         
     }
+    
+    
     
     //view에도 반영
     func startReading(handler: @escaping () -> Void){

@@ -240,18 +240,23 @@ extension HomeViewController{
             newSnapshot.appendSections([.homeReading,.homeToRead])
             newSnapshot.appendItems(booksToRead,toSection: .homeToRead)
             newSnapshot.appendItems(booksReading,toSection: .homeReading)
-            print("DEBUG: Reading",newSnapshot.itemIdentifiers(inSection: .homeReading))
-            print("DEBUG:ToRead",newSnapshot.itemIdentifiers(inSection: .homeToRead))
+            print("DEBUG: Reading",newSnapshot.itemIdentifiers(inSection: .homeReading).count)
+            print("DEBUG:ToRead",newSnapshot.itemIdentifiers(inSection: .homeToRead).count)
             dataSource.apply(newSnapshot)
         }
-        
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            let selectedBook = dataSource.itemIdentifier(for: indexPath)
-            let vc = DetailViewController()
-            vc.isbn13Identifier = selectedBook?.isbn ?? ""
-            navigationController?.pushViewController(vc, animated: true)
-            
-        }
-        
     }
 }
+
+//Cell Select
+extension HomeViewController{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(#function)
+        let selectedBook = dataSource.itemIdentifier(for: indexPath)
+        let vc = DetailViewController()
+        vc.isbn13Identifier = selectedBook?.isbn ?? ""
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    
+}
+

@@ -18,12 +18,20 @@ class BooksRepository: Error, LocalizedError{
     private init(){
     }
     
-    //TODO: 이미 추가한 기록이 있으나 isDeleted로 표기 된 도서 핸들함. -> 근데 이걸 왜 해야하지? ViewUpdate가 조금 더 쉬워지긴 하고 안지우면 나중에 쓸 일이 있을것 같긴 한데..
     func create(_ book: RealmBook) throws {
-        //check pk existence
+        //PK exists: Check if it was deleted book
+        
         guard realm?.object(ofType: RealmBook.self, forPrimaryKey: book.isbn) == nil else {
-            throw RealmError.primaryKey
+            print(#function,"Old")
+            //Old record exists: then simply mark it's isDeleted to false and recover it.
+            let deletedBook = realm?.object(ofType: RealmBook.self, forPrimaryKey: book.isbn)
+            if deletedBook?.isDeleted == true{
+                recoverBook(isbn: book.isbn)
+            }
+         return
         }
+        print(#function,"NEW")
+        //PK doesnt exist:
         do {
             try realm?.write{
                 realm?.add(book)
@@ -66,6 +74,14 @@ class BooksRepository: Error, LocalizedError{
             book?.readingStatus = status
         }
     }
+
+    func recoverBook(isbn: String){
+        let book = realm!.object(ofType: RealmBook.self, forPrimaryKey: isbn)
+        try! realm?.write {
+            book?.isDeleted = false
+            book?.readingStatus = .toRead
+        }
+    }
     
     func fetchBooksByStatus(_ status: RealmReadStatus) -> Results<RealmBook>{
         return realm!.objects(RealmBook.self).where{
@@ -73,6 +89,7 @@ class BooksRepository: Error, LocalizedError{
         }
     }
     
+    //Fetch all except the ones marked as deleted
     func fetchAllBooks() -> Results<RealmBook>{
         return realm!.objects(RealmBook.self).where {
             $0.isDeleted == false
