@@ -7,7 +7,8 @@
 
 import UIKit
 
-//MARK: Labels
+//MARK: Label
+//⚠️이런식으로 재사용하면 안됨. enum이 값타입에 static은 type property
 enum LabelViews{
     static var authorLabel = {
         let view = UILabel()

@@ -79,7 +79,27 @@ final class DetailViewController: UIViewController {
         return view
     }()
     
-   
+    var readButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "timer"), for: .normal)
+        button.backgroundColor = Design.colorPrimaryAccent
+        button.tintColor = Design.colorSecondaryAccent
+        button.layer.cornerRadius = Design.paddingDefault
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowOpacity = 0.5
+        return button
+    }()
+    
+    var memoButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "note.text.badge.plus"), for: .normal)
+        button.backgroundColor = Design.colorPrimaryAccent
+        button.tintColor = Design.colorSecondaryAccent
+        button.layer.cornerRadius = Design.paddingDefault
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowOpacity = 0.5
+        return button
+    }()
     
     private var startReadingButton = {
         let button = UIButton()
@@ -97,8 +117,8 @@ final class DetailViewController: UIViewController {
     private lazy var menuButton: UIBarButtonItem = {
         let view = UIBarButtonItem(title: "메뉴", style: .plain, target: self, action: #selector(showMenu))
         view.image = UIImage(systemName: "ellipsis")
-          return view
-      }()
+        return view
+    }()
     
     
     lazy var scrollView = {
@@ -109,7 +129,6 @@ final class DetailViewController: UIViewController {
     
     lazy var baseView = {
         let view = UIView()
-//        view.backgroundColor = Design.debugPink
         return view
     }()
     
@@ -119,43 +138,45 @@ final class DetailViewController: UIViewController {
         setViewDesign()
         setConstraints()
         bindData()
-        
+    }
+    
+    func setViewHierarchy(){
         //get data from realm
         do {
             try vm.fetchBookFromRealm(isbn: isbn13Identifier)
-
+            
         } catch {
             showAlert(title: "에러", message: "데이터베이스에서 책을 가져오는데 실패했습니다.") {
                 self.navigationController?.popViewController(animated: true)
             }
         }
-    }
-    
-    func setViewHierarchy(){
         navigationItem.rightBarButtonItem = menuButton
         
         view.addSubview(scrollView)
         
         scrollView.addSubview(baseView)
-
-
+        
+        
         baseView.addSubview(bookTitle)
         baseView.addSubview(coverImageView)
         baseView.addSubview(author)
-        baseView.addSubview(ButtonViews.readButton)
-        baseView.addSubview(ButtonViews.memoButton)
-        baseView.addSubview(startReadingButton)
-
+        baseView.addSubview(readButton)
+        baseView.addSubview(memoButton)
+        
         baseView.addSubview(introduction)
         baseView.addSubview(page)
         
-//        baseView.addSubview(LabelViews.authorLabel)
-//        baseView.addSubview(LabelViews.introductionLabel)
-//        baseView.addSubview(LabelViews.publisherLabel)
-//        baseView.addSubview(LabelViews.isbnLabel)
+        //        baseView.addSubview(LabelViews.authorLabel)
+        //        baseView.addSubview(LabelViews.introductionLabel)
+        //        baseView.addSubview(LabelViews.publisherLabel)
+        //        baseView.addSubview(LabelViews.isbnLabel)
         baseView.addSubview(LabelViews.pageLabel)
         
-        startReadingButton.addTarget(self, action: #selector(startReading), for: .touchUpInside)
+        if vm.book.value?.readingStatus == .toRead{
+            baseView.addSubview(startReadingButton)
+            startReadingButton.addTarget(self, action: #selector(startReading), for: .touchUpInside)
+        }
+        
         
     }
     
@@ -193,32 +214,38 @@ final class DetailViewController: UIViewController {
             make.width.equalTo(baseView.snp.width).multipliedBy(0.55)
         }
         
-        ButtonViews.readButton.snp.makeConstraints { make in
+        readButton.snp.makeConstraints { make in
             make.bottom.equalTo(coverImageView)
             make.leading.equalTo(coverImageView.snp.trailing).offset(2*Design.paddingDefault)
             make.width.equalTo(baseView.snp.width).multipliedBy(0.15)
             make.height.greaterThanOrEqualTo(32)
         }
         
-        ButtonViews.memoButton.snp.makeConstraints { make in
-            make.bottom.equalTo(ButtonViews.readButton)
-            make.leading.equalTo(ButtonViews.readButton.snp.trailing).offset(Design.paddingDefault)
+        memoButton.snp.makeConstraints { make in
+            make.bottom.equalTo(readButton)
+            make.leading.equalTo(readButton.snp.trailing).offset(Design.paddingDefault)
             make.width.equalTo(baseView.snp.width).multipliedBy(0.15)
             make.height.greaterThanOrEqualTo(32)
         }
-        
-        startReadingButton.snp.makeConstraints { make in
-            make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
-            make.width.equalTo(baseView.snp.width).inset(Design.paddingDefault)
-            make.height.greaterThanOrEqualTo(32)
-            
+        if vm.book.value?.readingStatus == .toRead{
+            startReadingButton.snp.makeConstraints { make in
+                make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
+                make.width.equalTo(baseView.snp.width).inset(Design.paddingDefault)
+                make.height.greaterThanOrEqualTo(32)
+            }
         }
+        
         
         //MARK: Lower
         LabelViews.pageLabel.snp.makeConstraints { make in
             make.leading.equalTo(coverImageView)
-            make.top.equalTo(startReadingButton.snp.bottom).offset(Design.paddingDefault)
-
+            if vm.book.value?.readingStatus == .toRead{
+                make.top.equalTo(startReadingButton.snp.bottom).offset(Design.paddingDefault)
+            }else{
+                make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
+            }
+            
+            
         }
         
         page.snp.makeConstraints { make in
@@ -226,7 +253,7 @@ final class DetailViewController: UIViewController {
             make.top.equalTo(LabelViews.pageLabel.snp.bottom).offset(Design.paddingDefault)
         }
         
-   
+        
     }
     @objc func showMenu(){
         showActionSheet(title: nil, message: nil)
@@ -245,9 +272,9 @@ final class DetailViewController: UIViewController {
             
             //readbutton
             if selectedBook.readingStatus == .reading{
-                ButtonViews.readButton.isHidden = false
+                readButton.isHidden = false
             }else{
-                ButtonViews.readButton.isHidden = true
+                readButton.isHidden = true
                 
             }
         }
@@ -267,23 +294,44 @@ extension DetailViewController: UIScrollViewDelegate{
 //MARK: functions
 extension DetailViewController{
     
+    //TODO: Closure 말고 다른거 없나? Realm notification 을 해봤는데 복잡해서 일단 클로져를 씀
     @objc func startReading(){
         print(#function)
-        vm.startReading {
-            self.startReadingButton.isHidden = true
-            ButtonViews.readButton.isHidden = false
-
+        if vm.book.value?.readingStatus == .toRead{
+            vm.startReading {
+                self.startReadingButton.isHidden = true
+                ButtonViews.readButton.isHidden = false
+                
+            }
         }
+        
     }
     
-    //TODO: 삭제 기능
     private func showActionSheet(title: String?, message: String?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "책 삭제", style: .destructive) { _ in
-            print("TODO: 삭제 기능 구현")
+            self.confirmDelete(title: "주의", message: "삭제된 데이터는 복구되지 않습니다")
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        present(alert,animated: true)
+    }
+    
+    //⚠️TODO: 삭제 기능 -> Realm삭제 되었으나 HomeView에서 runtime crash 발생
+    //대응1 실제 삭제 안하고 내부 프로퍼티만 삭제된걸로 변경처리함 -> 크래시 현상 해결 하지만 섹션 데이터가 뒤바뀌는 현상 발생
+    //⚠️TODO: Realm삭제표기시 섹션의 데이터가 뒤바뀌고 있으며 Cell도 혼용되고있음
+    //Diffable DataSource에서 snapshot관련 에러로 추정
+    private func confirmDelete(title: String?, message: String?){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            //closure
+            self.vm.deleteBookFromRealm {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
         alert.addAction(delete)
         alert.addAction(cancel)
         present(alert,animated: true)

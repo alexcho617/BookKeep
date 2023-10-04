@@ -15,11 +15,33 @@ final class ReadingCell: UICollectionViewCell {
     var imageView = UIImageView()
     var startDate = UILabel()
     var page = UILabel()
-
+    var readButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "timer"), for: .normal)
+        button.backgroundColor = Design.colorPrimaryAccent
+        button.tintColor = Design.colorSecondaryAccent
+        button.layer.cornerRadius = Design.paddingDefault
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowOpacity = 0.5
+        return button
+    }()
+    
+    var memoButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "note.text.badge.plus"), for: .normal)
+        button.backgroundColor = Design.colorPrimaryAccent
+        button.tintColor = Design.colorSecondaryAccent
+        button.layer.cornerRadius = Design.paddingDefault
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowOpacity = 0.5
+        return button
+    }()
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         book = nil
     }
+    
     func setView(){
         guard let book = book else { return }
         contentView.backgroundColor = Design.colorPrimaryBackground
@@ -52,8 +74,8 @@ final class ReadingCell: UICollectionViewCell {
         page.font = Design.fontDefault
         page.textColor = .secondaryLabel
 
-        contentView.addSubview(ButtonViews.readButton)
-        contentView.addSubview(ButtonViews.memoButton)
+        contentView.addSubview(readButton)
+        contentView.addSubview(memoButton)
 
     }
     
@@ -81,7 +103,7 @@ final class ReadingCell: UICollectionViewCell {
             make.leading.equalTo(startDate)
         }
         
-        ButtonViews.memoButton.snp.makeConstraints { make in
+        memoButton.snp.makeConstraints { make in
             make.centerY.equalTo(contentView.snp.bottom)
             make.trailing.equalTo(contentView.snp.trailing).offset(-Design.paddingDefault)
             make.width.equalTo(contentView.snp.width).multipliedBy(0.15)
@@ -89,9 +111,9 @@ final class ReadingCell: UICollectionViewCell {
             
         }
         
-        ButtonViews.readButton.snp.makeConstraints { make in
+        readButton.snp.makeConstraints { make in
             make.centerY.equalTo(contentView.snp.bottom)
-            make.trailing.equalTo(ButtonViews.memoButton.snp.leading).offset(-Design.paddingDefault)
+            make.trailing.equalTo(memoButton.snp.leading).offset(-Design.paddingDefault)
             make.width.equalTo(contentView.snp.width).multipliedBy(0.15)
             make.height.greaterThanOrEqualTo(32)
             
