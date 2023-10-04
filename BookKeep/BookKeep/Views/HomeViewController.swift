@@ -174,7 +174,6 @@ extension HomeViewController{
 extension HomeViewController{
     private func configureDataSource(){
         //Cell Register
-        //MARK: TODO ⚠️ 셀이 혼용되어 사용되어지고 있음
         let readingCellRegistration = UICollectionView.CellRegistration<ReadingCell, RealmBook> { cell, indexPath, itemIdentifier in
             DispatchQueue.main.async {
                 cell.book = itemIdentifier
@@ -202,12 +201,11 @@ extension HomeViewController{
             //여기서 cell 처럼 header view 코드 실행 가능
         }
         
-        //DS
+        //Data Source
+        //MARK: TODO ⚠️ 셀이 혼용되어 사용되어지고 있음. Snapshot안에 있는 데이터는 정상이나 해당 클로져에서 반영된 itemIdentifier를 보면 변경된 데이터가 아닌 다른 데이터를 참조하고 있음. 따라서 RealBook readingStatus가 변경 되었을때 status가 변경된 책과 맞지 않기 때문에 밑의 switch문에서 원하는 Cell을 사용하지 못하고 있음
         dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             
-            //기존 index path기반으로 결정했던걸 itemidentifier.ReadingStatus 즉데이터 기반으로 변경
             let status = itemIdentifier.readingStatus
-            print(itemIdentifier)
             switch status {
             case .reading:
                 return collectionView.dequeueConfiguredReusableCell(using: readingCellRegistration, for: indexPath, item: itemIdentifier)
@@ -233,10 +231,6 @@ extension HomeViewController{
     }
     
     private func bindData(){
-        //item 섹션은 잘 바뀌고 있으나 섹션에 사용되는 아이템의 cell타입이 변경되지않음. cellReuse랑 관련될 수도?
-        
-        //차안으로 스냅샷 자체를 다시 생성해서 어플라이 해보자
-
         vm.books.bind { [weak self] value in
             guard let self else {return}
             print("DEBUG: BIND!")
@@ -248,79 +242,16 @@ extension HomeViewController{
             newSnapshot.appendItems(booksReading,toSection: .homeReading)
             print("DEBUG: Reading",newSnapshot.itemIdentifiers(inSection: .homeReading))
             print("DEBUG:ToRead",newSnapshot.itemIdentifiers(inSection: .homeToRead))
-            
-            
             dataSource.apply(newSnapshot)
-            
-            
-            
-//            self.snapshot.deleteSections([.homeReading,.homeToRead])
-//            self.snapshot.appendSections([.homeReading,.homeToRead])
-            //forloop 1
-//            for book in booksToRead{
-//                if self.snapshot.indexOfItem(book) != nil{
-//                    self.snapshot.reloadItems([book])
-//                } else {
-//                    self.snapshot.appendItems([book], toSection: .homeToRead)
-//                }
-//            }
-//            //forloop 2
-//            for book in booksReading{
-//                if self.snapshot.indexOfItem(book) != nil{
-//                    self.snapshot.reloadItems([book])
-//                } else {
-//                    self.snapshot.appendItems([book], toSection: .homeReading)
-//                }
-//            }
-//            dataSource.apply(snapshot)
         }
         
-        
-//        vm.booksReading.bind { [weak self] value in
-//            print("DEBUG: 1")
-//            guard let self = self else { return }
-//            let booksReadingArray = Array(value)
-//            //clear all before updating? 여기서 어떻게 렘에 바뀐 값만 뺄 수 있을까? 제일 쉬운 방법은 없애고 다시 추가하는것
-//            self.snapshot.deleteSections([.homeReading])
-//            snapshot.appendSections([.homeReading])
-//
-//            for book in booksReadingArray{
-//                if self.snapshot.indexOfItem(book) != nil{
-//                    self.snapshot.reloadItems([book])
-//                } else {
-//                    self.snapshot.appendItems([book], toSection: .homeReading)
-//                }
-//            }
-////            self.snapshot.appendItems(tempBook, toSection: .homeReading)
-//            print("DEBUG: HomeViewController - bindData() - homeReading: number of items in snapshot:",snapshot.numberOfItems(inSection: .homeReading))
-//            dataSource.apply(snapshot)
-//        }
-//
-//        vm.booksToRead.bind { [weak self] value in
-//            print("DEBUG: 2")
-//            guard let self = self else { return }
-//            let booksToReadArray = Array(value)
-//            self.snapshot.deleteSections([.homeToRead])
-//            snapshot.appendSections([.homeToRead])
-//
-//            for book in booksToReadArray{
-//                if self.snapshot.indexOfItem(book) != nil{
-//                    self.snapshot.reloadItems([book])
-//                } else {
-//                    self.snapshot.appendItems([book], toSection: .homeToRead)
-//                }
-//            }
-//            print("DEBUG: HomeViewController - bindData() - homeToRead: number of items in snapshot:",snapshot.numberOfItems(inSection: .homeToRead))
-//            dataSource.apply(snapshot)
-//        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedBook = dataSource.itemIdentifier(for: indexPath)
-        let vc = DetailViewController()
-        vc.isbn13Identifier = selectedBook?.isbn ?? ""
-        navigationController?.pushViewController(vc, animated: true)
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let selectedBook = dataSource.itemIdentifier(for: indexPath)
+            let vc = DetailViewController()
+            vc.isbn13Identifier = selectedBook?.isbn ?? ""
+            navigationController?.pushViewController(vc, animated: true)
+            
+        }
         
     }
-    
 }
