@@ -32,6 +32,7 @@
 		577082E42AC6B0BF0052EA8A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 577082E32AC6B0BF0052EA8A /* Alamofire */; };
 		577082E62AC6D1820052EA8A /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082E52AC6D1820052EA8A /* SearchCollectionViewCell.swift */; };
 		5790CEE42ACE9F6D0066D517 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEE32ACE9F6D0066D517 /* EditViewController.swift */; };
+		5790CEE62ACEC1AB0066D517 /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEE52ACEC1AB0066D517 /* EditViewModel.swift */; };
 		57ADDFF22AC1A38D00EA0EFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */; };
 		57ADDFF42AC1A38D00EA0EFE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */; };
 		57ADDFF62AC1A38D00EA0EFE /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */; };
@@ -87,6 +88,7 @@
 		577082E02AC6AEF70052EA8A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		577082E52AC6D1820052EA8A /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		5790CEE32ACE9F6D0066D517 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		5790CEE52ACEC1AB0066D517 /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
 		57ADDFEE2AC1A38D00EA0EFE /* BookKeep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookKeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				57ADE0242AC1A5D800EA0EFE /* HomeViewModel.swift */,
+				5790CEE52ACEC1AB0066D517 /* EditViewModel.swift */,
 				577082D72AC68A510052EA8A /* SearchViewModel.swift */,
 				5754D2292AC73A31009C82C9 /* SearchDetailViewModel.swift */,
 				577082CF2AC415F90052EA8A /* Observable.swift */,
@@ -421,6 +424,7 @@
 				57C79BEE2ACABB9300E168F6 /* DetailViewModel.swift in Sources */,
 				577082E12AC6AEF70052EA8A /* NetworkManager.swift in Sources */,
 				577082D42AC480CD0052EA8A /* ViewController + Extension.swift in Sources */,
+				5790CEE62ACEC1AB0066D517 /* EditViewModel.swift in Sources */,
 				577082D62AC68A170052EA8A /* SearchViewController.swift in Sources */,
 				577082DF2AC6AEAE0052EA8A /* AladinRouter.swift in Sources */,
 				57ADE0282AC1A67D00EA0EFE /* Design.swift in Sources */,

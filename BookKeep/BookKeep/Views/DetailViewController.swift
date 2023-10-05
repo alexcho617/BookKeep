@@ -136,7 +136,6 @@ final class DetailViewController: UIViewController {
         return view
     }()
     
-    //TODO: Edit SheetView
     lazy var scrollView = {
         let view = UIScrollView()
         view.delegate = self
@@ -164,7 +163,7 @@ final class DetailViewController: UIViewController {
             }
             return
         }
-        navigationItem.rightBarButtonItems = [menuButton, editButton]
+        navigationItem.rightBarButtonItems = vm.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
         view.addSubview(scrollView)
         scrollView.addSubview(baseView)
         baseView.addSubview(bookTitle)
@@ -186,7 +185,6 @@ final class DetailViewController: UIViewController {
             baseView.addSubview(startReadingButton)
             startReadingButton.addTarget(self, action: #selector(readBook), for: .touchUpInside)
         }
-        
         
     }
     
@@ -348,6 +346,7 @@ extension DetailViewController{
     
     private func showEditSheet(){
         let vc = EditViewController()
+        vc.isbn = isbn13Identifier
         if let sheet = vc.sheetPresentationController{
             sheet.detents = [.medium()]
         }

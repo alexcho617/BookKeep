@@ -176,7 +176,6 @@ final class SearchDetailViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         } catch {
-            dump(error)
             showAlert(title: "에러", message: "이미 데이터베이스에 존재하는 책입니다", handler: nil)
         }
         
