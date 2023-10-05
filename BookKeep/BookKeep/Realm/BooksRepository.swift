@@ -74,6 +74,12 @@ class BooksRepository: Error, LocalizedError{
             book?.readingStatus = status
         }
     }
+    func updateCurrentPage(isbn: String, to newPage: Int){
+        let book = realm!.object(ofType: RealmBook.self, forPrimaryKey: isbn)
+        try! realm?.write {
+            book?.currentReadingPage = newPage
+        }
+    }
 
     func recoverBook(isbn: String){
         let book = realm!.object(ofType: RealmBook.self, forPrimaryKey: isbn)

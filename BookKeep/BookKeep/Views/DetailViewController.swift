@@ -12,7 +12,7 @@ import RealmSwift
 
 final class DetailViewController: UIViewController {
     var isbn13Identifier: String = ""
-    private let vm = DetailViewModel()
+    private lazy var vm = DetailViewModel(isbn: isbn13Identifier)
     weak var delegate: DiffableDataSourceDelegate?
 
     
@@ -81,6 +81,14 @@ final class DetailViewController: UIViewController {
         return view
     }()
     
+    lazy var infoStack = {
+        let view = UIStackView(arrangedSubviews: [LabelViews.introductionLabel,introduction,LabelViews.publisherLabel,publisher, LabelViews.isbnLabel,isbn])
+        view.axis = .vertical
+        view.alignment = .fill
+        view.spacing = 4
+        return view
+    }()
+    
     var readButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "timer"), for: .normal)
@@ -106,7 +114,7 @@ final class DetailViewController: UIViewController {
     private var startReadingButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "book"), for: .normal)
-        button.setTitle("읽기 시작", for: .normal)
+        button.setTitle(Literal.startReadingLabel, for: .normal)
         button.backgroundColor = Design.colorPrimaryAccent
         button.tintColor = Design.colorSecondaryAccent
         button.setTitleColor(Design.colorSecondaryAccent, for: .normal)
@@ -122,6 +130,11 @@ final class DetailViewController: UIViewController {
         return view
     }()
     
+    private lazy var editButton: UIBarButtonItem = {
+        let view = UIBarButtonItem(title: "편집", style: .plain, target: self, action: #selector(showEdit))
+        view.image = UIImage(systemName: "pencil")
+        return view
+    }()
     
     lazy var scrollView = {
         let view = UIScrollView()
@@ -144,41 +157,36 @@ final class DetailViewController: UIViewController {
     
     func setViewHierarchy(){
         //get data from realm
-        do {
-            try vm.fetchBookFromRealm(isbn: isbn13Identifier)
-            
-        } catch {
+        guard vm.book.value != nil else {
             showAlert(title: "에러", message: "데이터베이스에서 책을 가져오는데 실패했습니다.") {
                 self.navigationController?.popViewController(animated: true)
             }
+            return
         }
-        navigationItem.rightBarButtonItem = menuButton
-        navigationController?.hidesBarsOnSwipe = false
+        navigationItem.rightBarButtonItems = vm.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
         view.addSubview(scrollView)
-        
         scrollView.addSubview(baseView)
-        
-        
         baseView.addSubview(bookTitle)
         baseView.addSubview(coverImageView)
         baseView.addSubview(author)
         baseView.addSubview(readButton)
         baseView.addSubview(memoButton)
         
-        baseView.addSubview(introduction)
-        baseView.addSubview(page)
         
-        //        baseView.addSubview(LabelViews.authorLabel)
-        //        baseView.addSubview(LabelViews.introductionLabel)
-        //        baseView.addSubview(LabelViews.publisherLabel)
-        //        baseView.addSubview(LabelViews.isbnLabel)
-        baseView.addSubview(LabelViews.pageLabel)
+        if vm.book.value?.readingStatus == .reading{
+            //TODO: SegmentControl/Tabman 으로 메모 섹션 구분
+            //TODO: 메모 뷰들 어떻게 구현할지? 하나의 메모가 셀 같은건데 스크롤 되게끔해야함. stackview 써도 될듯
+            baseView.addSubview(LabelViews.pageLabel)
+            baseView.addSubview(page)
+            //info stack
+            baseView.addSubview(infoStack)
+            
+        }
         
         if vm.book.value?.readingStatus == .toRead{
             baseView.addSubview(startReadingButton)
             startReadingButton.addTarget(self, action: #selector(readBook), for: .touchUpInside)
         }
-        
         
     }
     
@@ -187,7 +195,7 @@ final class DetailViewController: UIViewController {
     }
     
     func setConstraints(){
-        //MARK: Scroll + Base views
+        ///MARK: Scroll + Base views
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(view)
         }
@@ -198,7 +206,7 @@ final class DetailViewController: UIViewController {
             make.height.greaterThanOrEqualTo(view.snp.height).priority(.low)
         }
         
-        //MARK: Inner Layout
+        ///MARK: Upper Layout
         bookTitle.snp.makeConstraints { make in
             make.top.width.equalTo(baseView)
         }
@@ -229,6 +237,32 @@ final class DetailViewController: UIViewController {
             make.width.equalTo(baseView.snp.width).multipliedBy(0.15)
             make.height.greaterThanOrEqualTo(32)
         }
+
+        ///MARK: Lower
+        if vm.book.value?.readingStatus == .reading{
+            //page
+            LabelViews.pageLabel.snp.makeConstraints { make in
+                make.leading.equalTo(coverImageView)
+                if vm.book.value?.readingStatus == .toRead{
+                    make.top.equalTo(startReadingButton.snp.bottom).offset(Design.paddingDefault)
+                }else{
+                    make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
+                }
+                
+                
+            }
+            page.snp.makeConstraints { make in
+                make.leading.equalTo(coverImageView)
+                make.top.equalTo(LabelViews.pageLabel.snp.bottom).offset(Design.paddingDefault)
+            }
+            
+            //stackview
+            infoStack.snp.makeConstraints { make in
+                make.top.equalTo(page.snp.bottom).offset(Design.paddingDefault)
+                make.width.equalTo(baseView)
+            }
+        }
+        
         if vm.book.value?.readingStatus == .toRead{
             startReadingButton.snp.makeConstraints { make in
                 make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
@@ -236,33 +270,21 @@ final class DetailViewController: UIViewController {
                 make.height.greaterThanOrEqualTo(32)
             }
         }
-        
-        
-        //MARK: Lower
-        LabelViews.pageLabel.snp.makeConstraints { make in
-            make.leading.equalTo(coverImageView)
-            if vm.book.value?.readingStatus == .toRead{
-                make.top.equalTo(startReadingButton.snp.bottom).offset(Design.paddingDefault)
-            }else{
-                make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
-            }
-            
-            
-        }
-        
-        page.snp.makeConstraints { make in
-            make.leading.equalTo(coverImageView)
-            make.top.equalTo(LabelViews.pageLabel.snp.bottom).offset(Design.paddingDefault)
-        }
-        
-        
     }
+    
     @objc func showMenu(){
         showActionSheet(title: nil, message: nil)
+    }
+    
+    @objc func showEdit(){
+       showEditSheet()
     }
     func bindData(){
         vm.book.bind { [self] selectedBook in
             //update UI
+            setViewHierarchy()
+            setConstraints()
+            print("Bind:", selectedBook?.title)
             guard let selectedBook = selectedBook else {return}
             bookTitle.text = selectedBook.title
             coverImageView.kf.setImage(with: URL(string: selectedBook.coverUrl))
@@ -275,8 +297,10 @@ final class DetailViewController: UIViewController {
             //readbutton
             if selectedBook.readingStatus == .reading{
                 readButton.isHidden = false
+                memoButton.isHidden = false
             }else{
                 readButton.isHidden = true
+                memoButton.isHidden = true
                 
             }
         }
@@ -302,7 +326,6 @@ extension DetailViewController{
         if book.readingStatus == .toRead{
             vm.startReading {
                 self.startReadingButton.isHidden = true
-                ButtonViews.readButton.isHidden = false
                 
             }
 //            print("DEBUG: Detail Delegate: Move Section")
@@ -321,6 +344,15 @@ extension DetailViewController{
         alert.addAction(delete)
         alert.addAction(cancel)
         present(alert,animated: true)
+    }
+    
+    private func showEditSheet(){
+        let vc = EditViewController()
+        vc.isbn = isbn13Identifier
+        if let sheet = vc.sheetPresentationController{
+            sheet.detents = [.medium()]
+        }
+        present(vc, animated: true, completion: nil)
     }
     
     private func confirmDelete(title: String?, message: String?){

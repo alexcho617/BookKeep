@@ -127,17 +127,19 @@ final class SearchDetailViewController: UIViewController {
     }
     
     func setConstraints(){
-
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
+        
         stackView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView.contentLayoutGuide).inset(Design.paddingDefault)
             make.width.equalTo(scrollView.snp.width).inset(Design.paddingDefault)
             make.height.greaterThanOrEqualTo(view.snp.height).priority(.low)
         }
+        
         bookTitle.snp.makeConstraints { make in
         }
+        
         coverImageView.snp.makeConstraints { make in
             make.width.equalTo(view.snp.width).multipliedBy(0.4)
             make.height.equalTo(coverImageView.snp.width).multipliedBy(1.4)
@@ -176,7 +178,6 @@ final class SearchDetailViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         } catch {
-            dump(error)
             showAlert(title: "에러", message: "이미 데이터베이스에 존재하는 책입니다", handler: nil)
         }
         
