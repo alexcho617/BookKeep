@@ -174,11 +174,13 @@ final class DetailViewController: UIViewController {
         
         
         if vm.book.value?.readingStatus == .reading{
-            
+            //TODO: SegmentControl/Tabman 으로 메모 섹션 구분
+            //TODO: 메모 뷰들 어떻게 구현할지? 하나의 메모가 셀 같은건데 스크롤 되게끔해야함. stackview 써도 될듯
             baseView.addSubview(LabelViews.pageLabel)
             baseView.addSubview(page)
             //info stack
             baseView.addSubview(infoStack)
+            
         }
         
         if vm.book.value?.readingStatus == .toRead{
