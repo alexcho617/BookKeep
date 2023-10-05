@@ -44,6 +44,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
         collectionView.delegate = self
+        collectionView.register(EmptyCollectionViewCell.self, forCellWithReuseIdentifier: "emptyCell") //reuse 는 안함
         snapshot.appendSections([.homeReading,.homeToRead])
         
     }
@@ -155,23 +156,21 @@ extension HomeViewController{
 
 //MARK: DataSource
 extension HomeViewController{
+    
     private func configureDataSource(){
         //Cell Register
         let readingCellRegistration = UICollectionView.CellRegistration<ReadingCell, RealmBook> { cell, indexPath, itemIdentifier in
-            DispatchQueue.main.async {
-                cell.book = itemIdentifier
-                cell.setView()
-                cell.setConstraint()
-            }
+            cell.book = itemIdentifier
+            cell.setView()
+            cell.setConstraint()
         }
         
         let toReadCellRegistration = UICollectionView.CellRegistration<ToReadCell, RealmBook> { cell, indexPath, itemIdentifier in
-            DispatchQueue.main.async {
-                cell.book = itemIdentifier
-                cell.setView()
-                cell.setConstraints()
-            }
+            cell.book = itemIdentifier
+            cell.setView()
+            cell.setConstraints()
         }
+        
         
         //Supplementary Register
         let readingHeaderRegistration = UICollectionView.SupplementaryRegistration<ReadingSectionHeaderView>(elementKind: SectionSupplementaryKind.readingHeader.rawValue) { supplementaryView, elementKind, indexPath in
@@ -186,8 +185,15 @@ extension HomeViewController{
         
         //Data Source
         //MARK: TODO ⚠️ 셀이 혼용되어 사용되어지고 있음. Snapshot안에 있는 데이터는 정상이나 해당 클로져에서 반영된 itemIdentifier를 보면 변경된 데이터가 아닌 다른 데이터를 참조하고 있음. 따라서 RealBook readingStatus가 변경 되었을때 status가 변경된 책과 맞지 않기 때문에 밑의 switch문에서 원하는 Cell을 사용하지 못하고 있음
+        
+        
+        /*
+         MARK: Detail 화면에서 reading으로 변경했을때 closure가 안타고 있는게 문제임 ->Snapshot의 데이터는 바뀌었으나 cellProvider가 안불린다.. 왜 안탈까...? 섹션은 바뀌는데
+         Snapshot이 바뀌는건 확인 되었음. 그렇다면 스냅샷이 바뀌었다고해서 cellprovider가 꼭 재호출 되는게 아닌것 같은데 이걸 알아봐야ㅕ할듯
+         
+         */
         dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            print("DEBUG Cell Provider", itemIdentifier.title)
+            
             let status = itemIdentifier.readingStatus
             switch status {
             case .reading:
@@ -225,19 +231,30 @@ extension HomeViewController{
 
     }
     
-    private func bindData(){
+    private func bindData() {
         vm.books.bind { [weak self] value in
-            guard let self else {return}
+            guard let self = self else { return }
             print("DEBUG: BIND!")
-            var newSnapshot = NSDiffableDataSourceSnapshot<SectionLayoutKind, RealmBook>()
+            
             let booksToRead = Array(value).filter { $0.readingStatus == .toRead }
             let booksReading = Array(value).filter { $0.readingStatus == .reading }
-            newSnapshot.appendSections([.homeReading,.homeToRead])
-            newSnapshot.appendItems(booksToRead,toSection: .homeToRead)
-            newSnapshot.appendItems(booksReading,toSection: .homeReading)
-            print("DEBUG: Reading",newSnapshot.itemIdentifiers(inSection: .homeReading).count)
-            print("DEBUG:ToRead",newSnapshot.itemIdentifiers(inSection: .homeToRead).count)
-            dataSource.apply(newSnapshot)
+            
+            var newSnapshot = NSDiffableDataSourceSnapshot<SectionLayoutKind, RealmBook>()
+            newSnapshot.appendSections([.homeReading, .homeToRead])
+            newSnapshot.appendItems(booksToRead, toSection: .homeToRead)
+            newSnapshot.appendItems(booksReading, toSection: .homeReading)
+            
+            //MARK: sectiondata가 추가될때, 그리고 reusable mechanism에 의해 cell이 재사용 될때는 datasource의 cellProvider 클로져가 호출되어 정상적으로 동작하지만 readingStatus 변경으로는 호출되지 않고있다.
+//            DispatchQueue.main.async {
+//                // 다른지 확인
+//                if !self.snapshot.itemIdentifiers(inSection: .homeReading).elementsEqual(newSnapshot.itemIdentifiers(inSection: .homeReading)) ||
+//                    !self.snapshot.itemIdentifiers(inSection: .homeToRead).elementsEqual(newSnapshot.itemIdentifiers(inSection: .homeToRead)) {
+//                    self.snapshot = newSnapshot
+//                    self.dataSource.apply(self.snapshot, animatingDifferences: true)
+//                }
+//            }
+            dataSource.applySnapshotUsingReloadData(newSnapshot) //강제로 모든 item들을 cellProvider에 넣어버리지만 에니메이션 효과 상실
+            
         }
     }
 }
@@ -245,7 +262,6 @@ extension HomeViewController{
 //Cell Select
 extension HomeViewController{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(#function)
         let selectedBook = dataSource.itemIdentifier(for: indexPath)
         let vc = DetailViewController()
         vc.delegate = self

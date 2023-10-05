@@ -45,6 +45,7 @@
 		57C79BEC2ACABB8B00E168F6 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BEB2ACABB8B00E168F6 /* DetailViewController.swift */; };
 		57C79BEE2ACABB9300E168F6 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */; };
 		57C79BF02ACAC42400E168F6 /* ReusableViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BEF2ACAC42400E168F6 /* ReusableViews.swift */; };
+		57CA82342ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CA82332ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		57C79BEB2ACABB8B00E168F6 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		57C79BEF2ACAC42400E168F6 /* ReusableViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViews.swift; sourceTree = "<group>"; };
+		57CA82332ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				577082C02AC2D9790052EA8A /* ReadingCell.swift */,
+				57CA82332ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift */,
 				577082C82AC2ED2B0052EA8A /* ToReadCell.swift */,
 				577082E52AC6D1820052EA8A /* SearchCollectionViewCell.swift */,
 				577082CB2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift */,
@@ -430,6 +433,7 @@
 				57ADE0252AC1A5D800EA0EFE /* HomeViewModel.swift in Sources */,
 				577082D02AC415F90052EA8A /* Observable.swift in Sources */,
 				577082CC2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift in Sources */,
+				57CA82342ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift in Sources */,
 				5754D2262AC725FE009C82C9 /* SearchDetailViewController.swift in Sources */,
 				577082BD2AC2C6E00052EA8A /* BooksRepository.swift in Sources */,
 				5754D22A2AC73A31009C82C9 /* SearchDetailViewModel.swift in Sources */,
