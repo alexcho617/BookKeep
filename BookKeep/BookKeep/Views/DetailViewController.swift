@@ -13,6 +13,8 @@ import RealmSwift
 final class DetailViewController: UIViewController {
     var isbn13Identifier: String = ""
     private let vm = DetailViewModel()
+    weak var delegate: DiffableDataSourceDelegate?
+
     
     private let bookTitle = {
         let view = UILabel()
@@ -174,7 +176,7 @@ final class DetailViewController: UIViewController {
         
         if vm.book.value?.readingStatus == .toRead{
             baseView.addSubview(startReadingButton)
-            startReadingButton.addTarget(self, action: #selector(startReading), for: .touchUpInside)
+            startReadingButton.addTarget(self, action: #selector(readBook), for: .touchUpInside)
         }
         
         
@@ -294,14 +296,17 @@ extension DetailViewController: UIScrollViewDelegate{
 //MARK: functions
 extension DetailViewController{
     
-    @objc func startReading(){
+    @objc func readBook(){
         print(#function)
-        if vm.book.value?.readingStatus == .toRead{
+        guard let book = vm.book.value else {return}
+        if book.readingStatus == .toRead{
             vm.startReading {
                 self.startReadingButton.isHidden = true
                 ButtonViews.readButton.isHidden = false
                 
             }
+            print("DEBUG: Detail Delegate: Move Section")
+            delegate?.moveSection(itemToMove: book, from: .homeToRead, to: .homeReading)
         }
         
     }

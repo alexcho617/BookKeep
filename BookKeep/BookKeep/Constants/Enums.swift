@@ -13,3 +13,23 @@ enum TransitionStyle{
     case presentWithFullNavigation
     case push
 }
+
+//Diffable: 섹션 종류
+enum SectionLayoutKind: Int, CaseIterable{
+    case homeReading
+    case homeToRead
+    var columnCount: Int{
+        switch self{
+        case .homeReading:
+            return 1
+        case .homeToRead:
+            return 2
+        }
+    }
+}
+
+//Diffable: 헤더 종류
+enum SectionSupplementaryKind: String{
+    case readingHeader
+    case toReadHeader
+}
