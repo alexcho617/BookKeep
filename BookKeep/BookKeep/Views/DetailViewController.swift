@@ -12,7 +12,7 @@ import RealmSwift
 
 final class DetailViewController: UIViewController {
     var isbn13Identifier: String = ""
-    private let vm = DetailViewModel()
+    private lazy var vm = DetailViewModel(isbn: isbn13Identifier)
     weak var delegate: DiffableDataSourceDelegate?
 
     
@@ -106,7 +106,7 @@ final class DetailViewController: UIViewController {
     private var startReadingButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "book"), for: .normal)
-        button.setTitle("읽기 시작", for: .normal)
+        button.setTitle(Literal.startReadingLabel, for: .normal)
         button.backgroundColor = Design.colorPrimaryAccent
         button.tintColor = Design.colorSecondaryAccent
         button.setTitleColor(Design.colorSecondaryAccent, for: .normal)
@@ -144,13 +144,11 @@ final class DetailViewController: UIViewController {
     
     func setViewHierarchy(){
         //get data from realm
-        do {
-            try vm.fetchBookFromRealm(isbn: isbn13Identifier)
-            
-        } catch {
+        guard vm.book.value != nil else {
             showAlert(title: "에러", message: "데이터베이스에서 책을 가져오는데 실패했습니다.") {
                 self.navigationController?.popViewController(animated: true)
             }
+            return
         }
         navigationItem.rightBarButtonItem = menuButton
         navigationController?.hidesBarsOnSwipe = false
@@ -263,6 +261,7 @@ final class DetailViewController: UIViewController {
     func bindData(){
         vm.book.bind { [self] selectedBook in
             //update UI
+            print("Bind:", selectedBook?.title)
             guard let selectedBook = selectedBook else {return}
             bookTitle.text = selectedBook.title
             coverImageView.kf.setImage(with: URL(string: selectedBook.coverUrl))
@@ -275,8 +274,10 @@ final class DetailViewController: UIViewController {
             //readbutton
             if selectedBook.readingStatus == .reading{
                 readButton.isHidden = false
+                memoButton.isHidden = false
             }else{
                 readButton.isHidden = true
+                memoButton.isHidden = true
                 
             }
         }
@@ -302,7 +303,6 @@ extension DetailViewController{
         if book.readingStatus == .toRead{
             vm.startReading {
                 self.startReadingButton.isHidden = true
-                ButtonViews.readButton.isHidden = false
                 
             }
 //            print("DEBUG: Detail Delegate: Move Section")
