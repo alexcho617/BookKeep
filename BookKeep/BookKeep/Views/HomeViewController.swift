@@ -67,7 +67,6 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         navigationController?.navigationBar.tintColor = Design.colorPrimaryBackground
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.hidesBarsOnSwipe = true
         title = "홈"
         
     }

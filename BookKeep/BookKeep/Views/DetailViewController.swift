@@ -81,6 +81,14 @@ final class DetailViewController: UIViewController {
         return view
     }()
     
+    lazy var infoStack = {
+        let view = UIStackView(arrangedSubviews: [LabelViews.introductionLabel,introduction,LabelViews.publisherLabel,publisher, LabelViews.isbnLabel,isbn])
+        view.axis = .vertical
+        view.alignment = .fill
+        view.spacing = 4
+        return view
+    }()
+    
     var readButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "timer"), for: .normal)
@@ -122,7 +130,13 @@ final class DetailViewController: UIViewController {
         return view
     }()
     
+    private lazy var editButton: UIBarButtonItem = {
+        let view = UIBarButtonItem(title: "편집", style: .plain, target: self, action: #selector(showEdit))
+        view.image = UIImage(systemName: "pencil")
+        return view
+    }()
     
+    //TODO: Edit SheetView
     lazy var scrollView = {
         let view = UIScrollView()
         view.delegate = self
@@ -150,27 +164,23 @@ final class DetailViewController: UIViewController {
             }
             return
         }
-        navigationItem.rightBarButtonItem = menuButton
-        navigationController?.hidesBarsOnSwipe = false
+        navigationItem.rightBarButtonItems = [menuButton, editButton]
         view.addSubview(scrollView)
-        
         scrollView.addSubview(baseView)
-        
-        
         baseView.addSubview(bookTitle)
         baseView.addSubview(coverImageView)
         baseView.addSubview(author)
         baseView.addSubview(readButton)
         baseView.addSubview(memoButton)
         
-        baseView.addSubview(introduction)
-        baseView.addSubview(page)
         
-        //        baseView.addSubview(LabelViews.authorLabel)
-        //        baseView.addSubview(LabelViews.introductionLabel)
-        //        baseView.addSubview(LabelViews.publisherLabel)
-        //        baseView.addSubview(LabelViews.isbnLabel)
-        baseView.addSubview(LabelViews.pageLabel)
+        if vm.book.value?.readingStatus == .reading{
+            
+            baseView.addSubview(LabelViews.pageLabel)
+            baseView.addSubview(page)
+            //info stack
+            baseView.addSubview(infoStack)
+        }
         
         if vm.book.value?.readingStatus == .toRead{
             baseView.addSubview(startReadingButton)
@@ -185,7 +195,7 @@ final class DetailViewController: UIViewController {
     }
     
     func setConstraints(){
-        //MARK: Scroll + Base views
+        ///MARK: Scroll + Base views
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(view)
         }
@@ -196,7 +206,7 @@ final class DetailViewController: UIViewController {
             make.height.greaterThanOrEqualTo(view.snp.height).priority(.low)
         }
         
-        //MARK: Inner Layout
+        ///MARK: Upper Layout
         bookTitle.snp.makeConstraints { make in
             make.top.width.equalTo(baseView)
         }
@@ -227,6 +237,32 @@ final class DetailViewController: UIViewController {
             make.width.equalTo(baseView.snp.width).multipliedBy(0.15)
             make.height.greaterThanOrEqualTo(32)
         }
+
+        ///MARK: Lower
+        if vm.book.value?.readingStatus == .reading{
+            //page
+            LabelViews.pageLabel.snp.makeConstraints { make in
+                make.leading.equalTo(coverImageView)
+                if vm.book.value?.readingStatus == .toRead{
+                    make.top.equalTo(startReadingButton.snp.bottom).offset(Design.paddingDefault)
+                }else{
+                    make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
+                }
+                
+                
+            }
+            page.snp.makeConstraints { make in
+                make.leading.equalTo(coverImageView)
+                make.top.equalTo(LabelViews.pageLabel.snp.bottom).offset(Design.paddingDefault)
+            }
+            
+            //stackview
+            infoStack.snp.makeConstraints { make in
+                make.top.equalTo(page.snp.bottom).offset(Design.paddingDefault)
+                make.width.equalTo(baseView)
+            }
+        }
+        
         if vm.book.value?.readingStatus == .toRead{
             startReadingButton.snp.makeConstraints { make in
                 make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
@@ -234,33 +270,20 @@ final class DetailViewController: UIViewController {
                 make.height.greaterThanOrEqualTo(32)
             }
         }
-        
-        
-        //MARK: Lower
-        LabelViews.pageLabel.snp.makeConstraints { make in
-            make.leading.equalTo(coverImageView)
-            if vm.book.value?.readingStatus == .toRead{
-                make.top.equalTo(startReadingButton.snp.bottom).offset(Design.paddingDefault)
-            }else{
-                make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
-            }
-            
-            
-        }
-        
-        page.snp.makeConstraints { make in
-            make.leading.equalTo(coverImageView)
-            make.top.equalTo(LabelViews.pageLabel.snp.bottom).offset(Design.paddingDefault)
-        }
-        
-        
     }
+    
     @objc func showMenu(){
         showActionSheet(title: nil, message: nil)
+    }
+    
+    @objc func showEdit(){
+       showEditSheet()
     }
     func bindData(){
         vm.book.bind { [self] selectedBook in
             //update UI
+            setViewHierarchy()
+            setConstraints()
             print("Bind:", selectedBook?.title)
             guard let selectedBook = selectedBook else {return}
             bookTitle.text = selectedBook.title
@@ -321,6 +344,14 @@ extension DetailViewController{
         alert.addAction(delete)
         alert.addAction(cancel)
         present(alert,animated: true)
+    }
+    
+    private func showEditSheet(){
+        let vc = EditViewController()
+        if let sheet = vc.sheetPresentationController{
+            sheet.detents = [.medium()]
+        }
+        present(vc, animated: true, completion: nil)
     }
     
     private func confirmDelete(title: String?, message: String?){
