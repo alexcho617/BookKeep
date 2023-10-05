@@ -31,7 +31,8 @@ class SearchViewController: UIViewController{
         bindData()
     }
     override func viewDidDisappear(_ animated: Bool) {
-        print(#function)
+        super.viewDidDisappear(animated)
+//        print(#function)
     }
     private func configureHierarchy(){
         baseView = addBaseView()

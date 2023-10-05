@@ -116,9 +116,6 @@ final class SearchDetailViewController: UIViewController {
         setConstraints()
         bindData()
         vm.lookUp(id: isbn13Identifier)
-        BooksRepository.shared.realmURL()
-
-
     }
     
     func setView(){

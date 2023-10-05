@@ -153,7 +153,7 @@ final class DetailViewController: UIViewController {
             }
         }
         navigationItem.rightBarButtonItem = menuButton
-        
+        navigationController?.hidesBarsOnSwipe = false
         view.addSubview(scrollView)
         
         scrollView.addSubview(baseView)
@@ -297,7 +297,7 @@ extension DetailViewController: UIScrollViewDelegate{
 extension DetailViewController{
     
     @objc func readBook(){
-        print(#function)
+//        print(#function)
         guard let book = vm.book.value else {return}
         if book.readingStatus == .toRead{
             vm.startReading {
@@ -305,7 +305,7 @@ extension DetailViewController{
                 ButtonViews.readButton.isHidden = false
                 
             }
-            print("DEBUG: Detail Delegate: Move Section")
+//            print("DEBUG: Detail Delegate: Move Section")
             delegate?.moveSection(itemToMove: book, from: .homeToRead, to: .homeReading)
         }
         

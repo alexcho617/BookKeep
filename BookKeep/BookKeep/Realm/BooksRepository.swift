@@ -22,7 +22,7 @@ class BooksRepository: Error, LocalizedError{
         //PK exists: Check if it was deleted book
         
         guard realm?.object(ofType: RealmBook.self, forPrimaryKey: book.isbn) == nil else {
-            print(#function,"Old")
+//            print(#function,"Old")
             //Old record exists: then simply mark it's isDeleted to false and recover it.
             let deletedBook = realm?.object(ofType: RealmBook.self, forPrimaryKey: book.isbn)
             if deletedBook?.isDeleted == true{
@@ -30,7 +30,7 @@ class BooksRepository: Error, LocalizedError{
             }
          return
         }
-        print(#function,"NEW")
+//        print(#function,"NEW")
         //PK doesnt exist:
         do {
             try realm?.write{
