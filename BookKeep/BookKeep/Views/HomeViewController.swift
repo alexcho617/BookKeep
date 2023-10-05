@@ -10,7 +10,11 @@ import SnapKit
 import Kingfisher
 import RealmSwift
 
-final class HomeViewController: UIViewController, UICollectionViewDelegate {
+protocol DiffableDataSourceDelegate: AnyObject {
+    func moveSection(itemToMove: RealmBook,from sourceSection: SectionLayoutKind, to destinationSection: SectionLayoutKind)
+}
+
+final class HomeViewController: UIViewController, UICollectionViewDelegate, DiffableDataSourceDelegate {
     
     //Variables
     let vm = HomeViewModel()
@@ -68,28 +72,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     }
 }
 
-//MARK: Enums
-extension HomeViewController{
-    //Diffable: 섹션 종류
-    enum SectionLayoutKind: Int, CaseIterable{
-        case homeReading
-        case homeToRead
-        var columnCount: Int{
-            switch self{
-            case .homeReading:
-                return 1
-            case .homeToRead:
-                return 2
-            }
-        }
-    }
-    
-    //Diffable: 헤더 종류
-    enum SectionSupplementaryKind: String{
-        case readingHeader
-        case toReadHeader
-    }
-}
+
 
 //MARK: Layout
 extension HomeViewController{
@@ -204,7 +187,7 @@ extension HomeViewController{
         //Data Source
         //MARK: TODO ⚠️ 셀이 혼용되어 사용되어지고 있음. Snapshot안에 있는 데이터는 정상이나 해당 클로져에서 반영된 itemIdentifier를 보면 변경된 데이터가 아닌 다른 데이터를 참조하고 있음. 따라서 RealBook readingStatus가 변경 되었을때 status가 변경된 책과 맞지 않기 때문에 밑의 switch문에서 원하는 Cell을 사용하지 못하고 있음
         dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            
+            print("DEBUG Cell Provider", itemIdentifier.title)
             let status = itemIdentifier.readingStatus
             switch status {
             case .reading:
@@ -228,6 +211,18 @@ extension HomeViewController{
                 return UICollectionReusableView()
             }
         }
+    }
+    //TODO 해결!!: Delegate 사용해서 DetailViewController에서 remove + append 조합으로 써보자
+    func moveSection(itemToMove: RealmBook,from sourceSection: SectionLayoutKind, to destinationSection: SectionLayoutKind) {
+        print(#function, itemToMove.title, sourceSection, destinationSection)
+        snapshot.deleteItems([itemToMove])
+        dataSource.apply(snapshot, animatingDifferences: true)
+        
+        //해결.... 하 ㅋㅋㅋㅋㅋ 이게 된 이유는 한 섹션에 없애고 다시 넣으면 뭔가 아이템이 그대로 있긴 하기 때문에 cell provider가 호출되지 않은것 같음.
+        //그런데 삭제 후 어플라이 를 했을땐 사라진걸로 인식하고 그리고 추가 후 바로 다시 어플라이를 하니까 섹션에 새로운게 추가된걸로 확싫히 인식함.
+        snapshot.appendItems([itemToMove], toSection: destinationSection) // Add the item to the destination section
+        dataSource.apply(snapshot, animatingDifferences: true)
+
     }
     
     private func bindData(){
@@ -253,6 +248,7 @@ extension HomeViewController{
         print(#function)
         let selectedBook = dataSource.itemIdentifier(for: indexPath)
         let vc = DetailViewController()
+        vc.delegate = self
         vc.isbn13Identifier = selectedBook?.isbn ?? ""
         navigationController?.pushViewController(vc, animated: true)
         
