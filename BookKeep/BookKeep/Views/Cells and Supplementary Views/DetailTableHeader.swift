@@ -49,7 +49,11 @@ class DetailTableHeader: UITableViewHeaderFooterView {
         page.text = "\(book.currentReadingPage) / \(book.page)"
         
     }
-    
+    func getHeaderHeight() -> CGFloat{
+        let height = baseView.frame.height
+        print(#function, height)
+        return height
+    }
     func setContents(){
         contentView.addSubview(baseView)
         contentView.addSubview(bookTitle)
@@ -61,7 +65,7 @@ class DetailTableHeader: UITableViewHeaderFooterView {
 
         
         baseView.snp.makeConstraints { make in
-            make.edges.equalTo(contentView).inset(Design.paddingDefault)
+            make.edges.equalTo(contentView).inset(30)
         }
         
         bookTitle.snp.makeConstraints { make in

@@ -16,12 +16,15 @@ enum DetailCellType: Int{
 
 class TableDetailViewController: UIViewController {
     var isbn13Identifier: String = ""
+    //안됨
+    var headerHeight: CGFloat = 800
+    
     private lazy var vm = DetailViewModel(isbn: isbn13Identifier)
     weak var delegate: DiffableDataSourceDelegate? //section 이동
     
     //views
     let views = DetailViewComponents()
-    var tableView = UITableView()
+    var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     lazy var menuButton: UIBarButtonItem = {
         let view = UIBarButtonItem(title: "메뉴", style: .plain, target: self, action: #selector(showMenu))
@@ -39,26 +42,33 @@ class TableDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setView()
-        setConstratins()
         bindView()
+        //update header size.
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.sectionHeaderHeight = headerHeight
+        tableView.reloadData()
     }
     func setView(){
-        view.addSubview(tableView)
+        
         navigationItem.rightBarButtonItems = vm.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
-
-        tableView.backgroundColor = Design.debugBlue
+        tableView.backgroundColor = Design.colorPrimaryBackground
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.sectionHeaderHeight = UITableView.automaticDimension
-        tableView.rowHeight = UITableView.automaticDimension
         tableView.register(DetailTableHeader.self, forHeaderFooterViewReuseIdentifier: "DetailTableHeader")
-    }
-    func setConstratins(){
+        tableView.sectionHeaderHeight = 800 //가변으로 안바뀜...
+        
+//        tableView.estimatedSectionHeaderHeight = UITableView.automaticDimension
+        view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
     }
+   
     
     func bindView(){
         vm.book.bind { book in
@@ -78,22 +88,26 @@ class TableDetailViewController: UIViewController {
 
 extension TableDetailViewController: UITableViewDelegate, UITableViewDataSource{
     
-   
-    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return 800
-    }
-    
+    //안됨
+//    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+//        print(#function)
+//        return 800
+//    }
+//
+    //⚠️TODO: 헤더 높이를 가변으로 하려는건 intro의 높이와 타이틀의 높이가 가변이기 때문인데 보통은 700을 넘어가지 않는다. 만약 헤더 높이를 가변으로 결국 하지 못한다면 intro의 높이라도 고정시켜야 할것 같다. intro에 textview사용 고려.
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableHeader") as? DetailTableHeader else {
             return UIView()
         }
+        
         guard let book = vm.book.value else {return UITableViewHeaderFooterView()}
         header.setData(book: book)
+        headerHeight = header.getHeaderHeight() //여기서 초기에 정해준 값 - 60이 나옴
         return header
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3 //TODO: vm.memos.count 같은걸로 구현
+        return 40 //TODO: vm.memos.count 같은걸로 구현
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
