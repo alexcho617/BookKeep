@@ -242,7 +242,8 @@ extension HomeViewController{
 extension HomeViewController{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedBook = dataSource.itemIdentifier(for: indexPath)
-        let vc = DetailViewController()
+//        let vc = DetailViewController()
+        let vc = TableDetailViewController()
         vc.delegate = self
         vc.isbn13Identifier = selectedBook?.isbn ?? ""
         navigationController?.pushViewController(vc, animated: true)

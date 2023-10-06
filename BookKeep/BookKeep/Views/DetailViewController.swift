@@ -13,7 +13,7 @@ import RealmSwift
 final class DetailViewController: UIViewController {
     var isbn13Identifier: String = ""
     private lazy var vm = DetailViewModel(isbn: isbn13Identifier)
-    weak var delegate: DiffableDataSourceDelegate?
+    weak var delegate: DiffableDataSourceDelegate? //section 이동
 
     
     private let bookTitle = {
@@ -284,7 +284,7 @@ final class DetailViewController: UIViewController {
             //update UI
             setViewHierarchy()
             setConstraints()
-            print("Bind:", selectedBook?.title)
+            print("Bind:", selectedBook?.title ?? "")
             guard let selectedBook = selectedBook else {return}
             bookTitle.text = selectedBook.title
             coverImageView.kf.setImage(with: URL(string: selectedBook.coverUrl))

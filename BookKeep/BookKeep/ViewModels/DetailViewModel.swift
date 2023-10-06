@@ -11,7 +11,10 @@ import RealmSwift
 class DetailViewModel{
     var isbn: String?
     var book: Observable<RealmBook?> = Observable(nil)
+    //TODO: Memos
     var objectNotificationToken: NotificationToken?
+    let numberOfRows = 4
+    
     
     init(isbn: String){
         fetchBookFromRealm(isbn: isbn)
