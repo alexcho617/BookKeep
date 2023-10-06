@@ -53,7 +53,7 @@ class TableDetailViewController: UIViewController {
         tableView.reloadData()
     }
     func setView(){
-        
+        //TODO: Reading.status 따라 보여주는 화면 다르게해야함. .toRead면 startReadingButton 추가하고 homeVC에서 섹션이동하는것 확인 필요
         navigationItem.rightBarButtonItems = vm.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
         tableView.backgroundColor = Design.colorPrimaryBackground
         tableView.delegate = self
