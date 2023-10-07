@@ -16,8 +16,6 @@ enum DetailCellType: Int{
 
 class TableDetailViewController: UIViewController {
     var isbn13Identifier: String = ""
-    //안됨
-    var headerHeight: CGFloat = 800
     
     private lazy var vm = DetailViewModel(isbn: isbn13Identifier)
     weak var delegate: DiffableDataSourceDelegate? //section 이동
@@ -43,32 +41,34 @@ class TableDetailViewController: UIViewController {
         super.viewDidLoad()
         setView()
         bindView()
-        //update header size.
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.sectionHeaderHeight = headerHeight
-        tableView.reloadData()
     }
+
+    
     func setView(){
         //TODO: Reading.status 따라 보여주는 화면 다르게해야함. .toRead면 startReadingButton 추가하고 homeVC에서 섹션이동하는것 확인 필요
         navigationItem.rightBarButtonItems = vm.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
         tableView.backgroundColor = Design.colorPrimaryBackground
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(DetailTableHeader.self, forHeaderFooterViewReuseIdentifier: "DetailTableHeader")
-        tableView.sectionHeaderHeight = 800 //가변으로 안바뀜...
         
-//        tableView.estimatedSectionHeaderHeight = UITableView.automaticDimension
+//        tableView.sectionHeaderHeight = UITableView.automaticDimension
+        tableView.estimatedSectionHeaderHeight = 700
+//        tableView.sectionHeaderHeight = 700
+        
+        tableView.register(TableHeader.self, forHeaderFooterViewReuseIdentifier: "TableHeader")
+        tableView.register(DetailTableHeader.self, forHeaderFooterViewReuseIdentifier: "DetailTableHeader")
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-
+        
     }
-   
+    
     
     func bindView(){
         vm.book.bind { book in
@@ -81,33 +81,48 @@ class TableDetailViewController: UIViewController {
     }
     
     @objc func showEdit(){
-       showEditSheet()
+        showEditSheet()
     }
-
+    
 }
 
 extension TableDetailViewController: UITableViewDelegate, UITableViewDataSource{
-    
-    //안됨
-//    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-//        print(#function)
-//        return 800
-//    }
-//
-    //⚠️TODO: 헤더 높이를 가변으로 하려는건 intro의 높이와 타이틀의 높이가 가변이기 때문인데 보통은 700을 넘어가지 않는다. 만약 헤더 높이를 가변으로 결국 하지 못한다면 intro의 높이라도 고정시켜야 할것 같다. intro에 textview사용 고려.
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "내가 추가한 메모"
+    }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableHeader") as? DetailTableHeader else {
             return UIView()
         }
+        guard let book = vm.book.value else {
+            return UITableViewHeaderFooterView()
+        }
         
-        guard let book = vm.book.value else {return UITableViewHeaderFooterView()}
+        // Set data to the header view to calculate its height
         header.setData(book: book)
-        headerHeight = header.getHeaderHeight() //여기서 초기에 정해준 값 - 60이 나옴
+        
+        // Update the constraints of the header view
+        header.setNeedsLayout()
+        header.layoutIfNeeded()
+        
+        // Return the header view
         return header
     }
+
+
+    //⚠️TODO: 헤더 높이를 가변으로 하려는건 intro의 높이와 타이틀의 높이가 가변이기 때문인데 보통은 700을 넘어가지 않는다. 만약 헤더 높이를 가변으로 결국 하지 못한다면 intro의 높이라도 고정시켜야 할것 같다. intro에 textview사용 고려.
+//        func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//
+//            guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableHeader") as? DetailTableHeader else {
+//                return UIView()
+//            }
+//            guard let book = vm.book.value else {return UITableViewHeaderFooterView()}
+//            header.setData(book: book)
+//            return header
+//        }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 40 //TODO: vm.memos.count 같은걸로 구현
+        return 20 //TODO: vm.memos.count 같은걸로 구현
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -125,14 +140,14 @@ extension TableDetailViewController: UITableViewDelegate, UITableViewDataSource{
 extension TableDetailViewController{
     
     @objc func readBook(){
-//        print(#function)
+        //        print(#function)
         guard let book = vm.book.value else {return}
         if book.readingStatus == .toRead{
             vm.startReading {
-//                self.startReadingButton.isHidden = true
+                //                self.startReadingButton.isHidden = true
                 
             }
-//            print("DEBUG: Detail Delegate: Move Section")
+            //            print("DEBUG: Detail Delegate: Move Section")
             delegate?.moveSection(itemToMove: book, from: .homeToRead, to: .homeReading)
         }
         

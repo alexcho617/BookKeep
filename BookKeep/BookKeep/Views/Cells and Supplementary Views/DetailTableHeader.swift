@@ -10,6 +10,7 @@
 
 import UIKit
 import SnapKit
+
 class DetailTableHeader: UITableViewHeaderFooterView {
     lazy var baseView = {
         let view = UIView()
@@ -34,6 +35,7 @@ class DetailTableHeader: UITableViewHeaderFooterView {
         view.spacing = 4
         return view
     }()
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setContents()
@@ -65,11 +67,11 @@ class DetailTableHeader: UITableViewHeaderFooterView {
 
         
         baseView.snp.makeConstraints { make in
-            make.edges.equalTo(contentView).inset(30)
+            make.edges.equalTo(contentView)
         }
         
         bookTitle.snp.makeConstraints { make in
-            make.top.width.equalTo(baseView)
+            make.top.width.equalTo(baseView).offset(Design.paddingDefault)
         }
         
         coverImageView.snp.makeConstraints { make in
@@ -100,9 +102,10 @@ class DetailTableHeader: UITableViewHeaderFooterView {
         }
         //stackview
         infoStack.snp.makeConstraints { make in
-            make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
-            make.width.equalTo(baseView)
-        }
+                make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
+                make.leading.trailing.equalTo(baseView) // Ensure it spans the entire width of the baseView
+            make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault) .priority(.high)// Specify a bottom constraint
+            }
         
     }
     
