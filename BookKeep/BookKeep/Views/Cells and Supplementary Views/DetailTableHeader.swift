@@ -5,9 +5,6 @@
 //  Created by Alex Cho on 2023/10/06.
 //
 
-//기존 detailview 전체를 헤더로 한다.
-// cell 에는 메모만 추가한다
-
 import UIKit
 import SnapKit
 
@@ -23,7 +20,7 @@ class DetailTableHeader: UITableViewHeaderFooterView {
     let readButton = DetailViewComponents.readButton
     let memoButton = DetailViewComponents.memoButton
     let page = DetailViewComponents.page
-
+    
     let introduction = DetailViewComponents.introduction
     let publisher = DetailViewComponents.publisher
     let isbn = DetailViewComponents.isbn
@@ -51,11 +48,7 @@ class DetailTableHeader: UITableViewHeaderFooterView {
         page.text = "\(book.currentReadingPage) / \(book.page)"
         
     }
-    func getHeaderHeight() -> CGFloat{
-        let height = baseView.frame.height
-        print(#function, height)
-        return height
-    }
+    
     func setContents(){
         contentView.addSubview(baseView)
         contentView.addSubview(bookTitle)
@@ -64,7 +57,7 @@ class DetailTableHeader: UITableViewHeaderFooterView {
         contentView.addSubview(readButton)
         contentView.addSubview(memoButton)
         contentView.addSubview(infoStack)
-
+        
         
         baseView.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
@@ -102,10 +95,11 @@ class DetailTableHeader: UITableViewHeaderFooterView {
         }
         //stackview
         infoStack.snp.makeConstraints { make in
-                make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
-                make.leading.trailing.equalTo(baseView) // Ensure it spans the entire width of the baseView
-            make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault) .priority(.high)// Specify a bottom constraint
-            }
+            make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
+            make.leading.trailing.equalTo(baseView)
+            make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high)// Specify a bottom constraint
+
+        }
         
     }
     

@@ -55,10 +55,8 @@ class TableDetailViewController: UIViewController {
         tableView.backgroundColor = Design.colorPrimaryBackground
         tableView.delegate = self
         tableView.dataSource = self
-        
-//        tableView.sectionHeaderHeight = UITableView.automaticDimension
-        tableView.estimatedSectionHeaderHeight = 700
-//        tableView.sectionHeaderHeight = 700
+
+        tableView.estimatedSectionHeaderHeight = 700 //placeholder
         
         tableView.register(TableHeader.self, forHeaderFooterViewReuseIdentifier: "TableHeader")
         tableView.register(DetailTableHeader.self, forHeaderFooterViewReuseIdentifier: "DetailTableHeader")
@@ -97,29 +95,21 @@ extension TableDetailViewController: UITableViewDelegate, UITableViewDataSource{
         guard let book = vm.book.value else {
             return UITableViewHeaderFooterView()
         }
-        
-        // Set data to the header view to calculate its height
+
         header.setData(book: book)
         
         // Update the constraints of the header view
-        header.setNeedsLayout()
-        header.layoutIfNeeded()
+        DispatchQueue.main.async {
+            header.setNeedsLayout()
+            header.layoutIfNeeded()
+        }
+        
         
         // Return the header view
         return header
     }
 
 
-    //⚠️TODO: 헤더 높이를 가변으로 하려는건 intro의 높이와 타이틀의 높이가 가변이기 때문인데 보통은 700을 넘어가지 않는다. 만약 헤더 높이를 가변으로 결국 하지 못한다면 intro의 높이라도 고정시켜야 할것 같다. intro에 textview사용 고려.
-//        func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//
-//            guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableHeader") as? DetailTableHeader else {
-//                return UIView()
-//            }
-//            guard let book = vm.book.value else {return UITableViewHeaderFooterView()}
-//            header.setData(book: book)
-//            return header
-//        }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 20 //TODO: vm.memos.count 같은걸로 구현
