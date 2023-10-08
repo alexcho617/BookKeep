@@ -24,15 +24,7 @@ class EditViewController: UIViewController{
         view.backgroundColor = .clear
         return view
     }()
-    
-//    var warningLabel: UILabel{
-//        let view = UILabel()
-//        view.textColor = .systemOrange
-//        view.font = Design.fontDefault
-//        view.text = "\(0) ~ \(vm.book?.page ?? -99)값을 입력하세요"
-//        return view
-//    }
-    
+
     let confirmButton = {
         let view = UIButton()
         view.setTitle("수정하기", for: .normal)

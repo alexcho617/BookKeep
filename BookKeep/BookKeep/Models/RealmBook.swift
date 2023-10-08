@@ -18,7 +18,6 @@ enum RealmReadStatus: String, PersistableEnum, Hashable{
 
 final class RealmBook: Object {
     //from API
-    //MARK: 일단은 PK로 ObjectID 대신 String을 쓴 후 추후에 개선을 해보자.
     @Persisted(primaryKey: true) var isbn: String
     @Persisted()var title: String = ""
     @Persisted var coverUrl: String = ""

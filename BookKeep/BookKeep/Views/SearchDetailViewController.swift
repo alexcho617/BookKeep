@@ -172,7 +172,7 @@ final class SearchDetailViewController: UIViewController {
         guard let bookData = vm.lookupResult.value?.item.first else {return}
         let book = RealmBook(isbn: bookData.isbn13, title: bookData.title, coverUrl: bookData.cover, author: bookData.author, descriptionOfBook: bookData.description, publisher: bookData.publisher, page: bookData.subInfo?.itemPage ?? 0)
         do {
-            //TODO: 여기선 VM을 거치지 않고 왜 Repository로 바로 갔지?
+            //MARK: 여기선 VM을 거치지 않고 왜 Repository로 바로 갔지?
             try BooksRepository.shared.create(book)
             showAlert(title: "🎉", message: "읽을 예정인 책에 추가되었습니다") {
                 self.navigationController?.popViewController(animated: true)

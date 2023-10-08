@@ -10,15 +10,15 @@ import Foundation
 // MARK: - AladinSearch
 struct AladinSearch: Hashable, Codable {
     let identifier = UUID().uuidString
-    let version: String
-    let logo: String
-    let title: String
-    let link: String
-    let pubDate: String
-    let totalResults, startIndex, itemsPerPage: Int
-    let query: String
-    let searchCategoryID: Int
-    let searchCategoryName: String
+    let version: String?
+    let logo: String?
+    let title: String?
+    let link: String?
+    let pubDate: String?
+    let totalResults, startIndex, itemsPerPage: Int?
+    let query: String?
+    let searchCategoryID: Int?
+    let searchCategoryName: String?
     let item: [Item]
     func hash(into hasher: inout Hasher) {
         hasher.combine(identifier)
