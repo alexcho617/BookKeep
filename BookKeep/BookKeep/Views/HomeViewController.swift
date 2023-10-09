@@ -44,6 +44,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
         collectionView.delegate = self
+        //TODO: empty cell 적용
         collectionView.register(EmptyCollectionViewCell.self, forCellWithReuseIdentifier: "emptyCell") //reuse 는 안함
         snapshot.appendSections([.homeReading,.homeToRead])
         
@@ -241,11 +242,11 @@ extension HomeViewController{
 //Cell Select
 extension HomeViewController{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedBook = dataSource.itemIdentifier(for: indexPath)
-//        let vc = DetailViewController()
-        let vc = TableDetailViewController()
-        vc.delegate = self
-        vc.isbn13Identifier = selectedBook?.isbn ?? ""
+        guard let selectedBook = dataSource.itemIdentifier(for: indexPath) else {return}
+        //헤더에서 vc 거치지 않고 바로 vm에서 처리하기위해 이렇게 했는데 괜찮은가?
+        let vc = DetailTableViewController()
+        vc.vm = DetailViewModel(isbn: selectedBook.isbn)
+        vc.vm?.delegate = self
         navigationController?.pushViewController(vc, animated: true)
         
     }

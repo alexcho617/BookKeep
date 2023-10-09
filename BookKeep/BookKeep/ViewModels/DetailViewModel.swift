@@ -11,6 +11,8 @@ import RealmSwift
 class DetailViewModel{
     var isbn: String?
     var book: Observable<RealmBook?> = Observable(nil)
+    weak var delegate: DiffableDataSourceDelegate? //section 이동
+
     //TODO: Memos
     var objectNotificationToken: NotificationToken?
     let numberOfRows = 4
@@ -64,10 +66,11 @@ class DetailViewModel{
     }
     
     //view에도 반영
-    func startReading(handler: @escaping () -> Void){
+    func startReading(){
         guard let book = book.value else {return}
+//        book.readingStatus = .reading 어차피 렘에서 바꾸면 다시 가져옴
         BooksRepository.shared.updateBookReadingStatus(isbn: book.isbn, to: .reading)
-        handler()
+        delegate?.moveSection(itemToMove: book, from: .homeToRead, to: .homeReading)
     }
     
     deinit{

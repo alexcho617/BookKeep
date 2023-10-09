@@ -33,10 +33,9 @@
 		577082E62AC6D1820052EA8A /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577082E52AC6D1820052EA8A /* SearchCollectionViewCell.swift */; };
 		5790CEE42ACE9F6D0066D517 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEE32ACE9F6D0066D517 /* EditViewController.swift */; };
 		5790CEE62ACEC1AB0066D517 /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEE52ACEC1AB0066D517 /* EditViewModel.swift */; };
-		5790CEF32AD023560066D517 /* TableDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEF22AD023550066D517 /* TableDetailViewController.swift */; };
+		5790CEF32AD023560066D517 /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEF22AD023550066D517 /* DetailTableViewController.swift */; };
 		5790CEF52AD0266A0066D517 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEF42AD0266A0066D517 /* DetailTableViewCell.swift */; };
 		5790CEF72AD026B00066D517 /* DetailTableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEF62AD026B00066D517 /* DetailTableHeader.swift */; };
-		5790CEF92AD169CF0066D517 /* SampleHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEF82AD169CF0066D517 /* SampleHeader.swift */; };
 		57ADDFF22AC1A38D00EA0EFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */; };
 		57ADDFF42AC1A38D00EA0EFE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */; };
 		57ADDFF62AC1A38D00EA0EFE /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */; };
@@ -93,10 +92,9 @@
 		577082E52AC6D1820052EA8A /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		5790CEE32ACE9F6D0066D517 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		5790CEE52ACEC1AB0066D517 /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
-		5790CEF22AD023550066D517 /* TableDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableDetailViewController.swift; sourceTree = "<group>"; };
+		5790CEF22AD023550066D517 /* DetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewController.swift; sourceTree = "<group>"; };
 		5790CEF42AD0266A0066D517 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		5790CEF62AD026B00066D517 /* DetailTableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableHeader.swift; sourceTree = "<group>"; };
-		5790CEF82AD169CF0066D517 /* SampleHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleHeader.swift; sourceTree = "<group>"; };
 		57ADDFEE2AC1A38D00EA0EFE /* BookKeep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookKeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -158,7 +156,6 @@
 				577082CB2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift */,
 				5790CEF42AD0266A0066D517 /* DetailTableViewCell.swift */,
 				5790CEF62AD026B00066D517 /* DetailTableHeader.swift */,
-				5790CEF82AD169CF0066D517 /* SampleHeader.swift */,
 				577082CD2AC3EFCA0052EA8A /* ToReadSectionHeaderView.swift */,
 			);
 			path = "Cells and Supplementary Views";
@@ -224,7 +221,7 @@
 			children = (
 				57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */,
 				57C79BEB2ACABB8B00E168F6 /* DetailViewController.swift */,
-				5790CEF22AD023550066D517 /* TableDetailViewController.swift */,
+				5790CEF22AD023550066D517 /* DetailTableViewController.swift */,
 				5790CEE32ACE9F6D0066D517 /* EditViewController.swift */,
 				577082D52AC68A170052EA8A /* SearchViewController.swift */,
 				5754D2252AC725FE009C82C9 /* SearchDetailViewController.swift */,
@@ -433,7 +430,6 @@
 				577082DD2AC6ADB40052EA8A /* AladinSearch.swift in Sources */,
 				577082E62AC6D1820052EA8A /* SearchCollectionViewCell.swift in Sources */,
 				57ADDFF62AC1A38D00EA0EFE /* HomeViewController.swift in Sources */,
-				5790CEF92AD169CF0066D517 /* SampleHeader.swift in Sources */,
 				57C79BEE2ACABB9300E168F6 /* DetailViewModel.swift in Sources */,
 				577082E12AC6AEF70052EA8A /* NetworkManager.swift in Sources */,
 				577082D42AC480CD0052EA8A /* ViewController + Extension.swift in Sources */,
@@ -451,7 +447,7 @@
 				577082C92AC2ED2B0052EA8A /* ToReadCell.swift in Sources */,
 				57ADDFF42AC1A38D00EA0EFE /* SceneDelegate.swift in Sources */,
 				577082C12AC2D9790052EA8A /* ReadingCell.swift in Sources */,
-				5790CEF32AD023560066D517 /* TableDetailViewController.swift in Sources */,
+				5790CEF32AD023560066D517 /* DetailTableViewController.swift in Sources */,
 				5790CEF52AD0266A0066D517 /* DetailTableViewCell.swift in Sources */,
 				57ADE0252AC1A5D800EA0EFE /* HomeViewModel.swift in Sources */,
 				5790CEE42ACE9F6D0066D517 /* EditViewController.swift in Sources */,

@@ -9,6 +9,9 @@ import UIKit
 import SnapKit
 
 class DetailTableHeader: UITableViewHeaderFooterView {
+    var detailBook: RealmBook?
+    var vm: DetailViewModel?
+    weak var delegate: DiffableDataSourceDelegate? //section 이동
     lazy var baseView = {
         let view = UIView()
         return view
@@ -20,6 +23,7 @@ class DetailTableHeader: UITableViewHeaderFooterView {
     let readButton = DetailViewComponents.readButton
     let memoButton = DetailViewComponents.memoButton
     let page = DetailViewComponents.page
+    let startReadingButton = DetailViewComponents.startReadingButton
     
     let introduction = DetailViewComponents.introduction
     let publisher = DetailViewComponents.publisher
@@ -35,29 +39,33 @@ class DetailTableHeader: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        setContents()
+        bindData()
     }
-    
-    func setData(book: RealmBook){
-        bookTitle.text = book.title
-        coverImageView.kf.setImage(with: URL(string: book.coverUrl))
-        author.text = book.author
-        introduction.text = book.descriptionOfBook
-        publisher.text = book.publisher
-        isbn.text = book.isbn
-        page.text = "\(book.currentReadingPage) / \(book.page)"
+    func bindData(){
+        vm?.book.bind({ [self] book in
+            setData()
+            setViews()
+        })
+    }
+    func setData(){
+        guard let detailBook = detailBook else {return}
+        bookTitle.text = detailBook.title
+        coverImageView.kf.setImage(with: URL(string: detailBook.coverUrl))
+        author.text = detailBook.author
+        introduction.text = detailBook.descriptionOfBook
+        publisher.text = detailBook.publisher
+        isbn.text = detailBook.isbn
+        page.text = "\(detailBook.currentReadingPage) / \(detailBook.page)"
         
     }
-    
-    func setContents(){
+    //TODO: Reading.status 따라 보여주는 화면 다르게해야함. .toRead면 startReadingButton 추가하고 homeVC delegate에서 섹션이동하는것 확인 필요
+    func setViews(){
+        guard let detailBook = detailBook else {return}
+        
         contentView.addSubview(baseView)
         contentView.addSubview(bookTitle)
         contentView.addSubview(coverImageView)
         contentView.addSubview(author)
-        contentView.addSubview(readButton)
-        contentView.addSubview(memoButton)
-        contentView.addSubview(infoStack)
-        
         
         baseView.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
@@ -80,29 +88,51 @@ class DetailTableHeader: UITableViewHeaderFooterView {
             make.width.equalTo(baseView.snp.width).multipliedBy(0.55)
         }
         
-        readButton.snp.makeConstraints { make in
-            make.bottom.equalTo(coverImageView)
-            make.leading.equalTo(coverImageView.snp.trailing).offset(2*Design.paddingDefault)
-            make.width.equalTo(baseView.snp.width).multipliedBy(0.15)
-            make.height.greaterThanOrEqualTo(32)
-        }
-        
-        memoButton.snp.makeConstraints { make in
-            make.bottom.equalTo(readButton)
-            make.leading.equalTo(readButton.snp.trailing).offset(Design.paddingDefault)
-            make.width.equalTo(baseView.snp.width).multipliedBy(0.15)
-            make.height.greaterThanOrEqualTo(32)
-        }
-        //stackview
-        infoStack.snp.makeConstraints { make in
-            make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
-            make.leading.trailing.equalTo(baseView)
-            make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high)// Specify a bottom constraint
+        if detailBook.readingStatus == .reading{
+            contentView.addSubview(readButton)
+            contentView.addSubview(memoButton)
+            contentView.addSubview(infoStack)
+            
+            
+            readButton.snp.makeConstraints { make in
+                make.bottom.equalTo(coverImageView)
+                make.leading.equalTo(coverImageView.snp.trailing).offset(2*Design.paddingDefault)
+                make.width.equalTo(baseView.snp.width).multipliedBy(0.15)
+                make.height.greaterThanOrEqualTo(32)
+            }
+            
+            memoButton.snp.makeConstraints { make in
+                make.bottom.equalTo(readButton)
+                make.leading.equalTo(readButton.snp.trailing).offset(Design.paddingDefault)
+                make.width.equalTo(baseView.snp.width).multipliedBy(0.15)
+                make.height.greaterThanOrEqualTo(32)
+            }
+            //stackview
+            infoStack.snp.makeConstraints { make in
+                make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
+                make.leading.trailing.equalTo(baseView)
+                make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high)// Specify a bottom constraint
+            }
+        }else if detailBook.readingStatus == .toRead{
+            contentView.addSubview(startReadingButton)
+            startReadingButton.addTarget(self, action: #selector(startReadingClicked), for: .touchUpInside)
+            
+            startReadingButton.snp.makeConstraints { make in
+                make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
+                make.horizontalEdges.equalTo(baseView)
+                
+                make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high)// Specify a bottom constraint
 
+            }
         }
-        
+     
     }
     
+    @objc func startReadingClicked(){
+        print(#function)
+        startReadingButton.isHidden = true
+        vm?.startReading()
+    }
     
     
     required init?(coder: NSCoder) {
