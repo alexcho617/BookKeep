@@ -40,12 +40,21 @@ class EditViewController: UIViewController{
         pageTextField.delegate = self
         bindView()
         setView()
+        
+        //페이지 존재하면 넣어줌
+        guard let page = vm.book?.currentReadingPage, page != 0 else {
+            pageTextField.text = nil
+            return
+        }
+        pageTextField.text = String(page)
     }
+    
     func bindView(){
         vm.pageInput.bind { page in
             self.pageTextField.text = page
         }
     }
+    
     func setView(){
         view.addSubview(pageTextField)
         view.addSubview(confirmButton)
@@ -66,11 +75,11 @@ class EditViewController: UIViewController{
             
         }
         
-        
     }
 }
 
 extension EditViewController: UITextFieldDelegate{
+    
     @objc func confirmButtonClicked(_ button: UIButton){
         if vm.validate(){
             view.endEditing(true)

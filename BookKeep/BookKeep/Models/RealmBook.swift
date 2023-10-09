@@ -58,6 +58,14 @@ class ReadSession: Object{
     @Persisted var endPage: Int = 0
     @Persisted var duration: Int = 0
     @Persisted(originProperty: "readSessions") var ofBook: LinkingObjects<RealmBook>
+    
+    convenience init(startTime: Date, endTime: Date, endPage: Int, duration: Int) {
+        self.init()
+        self.startTime = startTime
+        self.endTime = endTime
+        self.endPage = endPage
+        self.duration = duration
+    }
 }
 
 class Memo: Object {
@@ -66,6 +74,13 @@ class Memo: Object {
     @Persisted var contents: String = ""
     @Persisted var photo: String = ""
     @Persisted(originProperty: "memos") var ofBook: LinkingObjects<RealmBook>
+    
+    convenience init(date: Date, contents: String, photo: String) {
+        self.init()
+        self.date = date
+        self.contents = contents
+        self.photo = photo
+    }
     
     
 }

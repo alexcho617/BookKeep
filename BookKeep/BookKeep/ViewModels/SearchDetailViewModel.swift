@@ -10,7 +10,7 @@ import Foundation
 class SearchDetailViewModel{
     var lookupResult: Observable<AladinSearch?> = Observable(nil)
 
-    //TODO: 에러처리 -> 직접 추가하던가 해야할듯
+    //TODO: 에러처리 -> aladin에서 제공해주지 않기 때문에 직접에러타입을 만들어야함
     func lookUp(id: String){
         NetworkManager.shared.requestConvertible(type: AladinSearch.self, api: .lookup(itemId: id)) { response in
             switch response {

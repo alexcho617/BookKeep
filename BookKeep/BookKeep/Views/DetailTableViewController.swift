@@ -10,14 +10,8 @@ import SnapKit
 import RealmSwift
 import Kingfisher
 
-enum DetailCellType: Int{
-    case MemoCell
-}
-
-class TableDetailViewController: UIViewController {
-    var isbn13Identifier: String = ""
-    
-    private lazy var vm = DetailViewModel(isbn: isbn13Identifier)
+class DetailTableViewController: UIViewController {
+    var vm: DetailViewModel?
     weak var delegate: DiffableDataSourceDelegate? //section 이동
     
     //views
@@ -44,22 +38,16 @@ class TableDetailViewController: UIViewController {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    
     func setView(){
-        //TODO: Reading.status 따라 보여주는 화면 다르게해야함. .toRead면 startReadingButton 추가하고 homeVC에서 섹션이동하는것 확인 필요
-        navigationItem.rightBarButtonItems = vm.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
+        navigationItem.rightBarButtonItems = vm?.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
         tableView.backgroundColor = Design.colorPrimaryBackground
         tableView.delegate = self
         tableView.dataSource = self
 
         tableView.estimatedSectionHeaderHeight = 700 //placeholder
         
-        tableView.register(TableHeader.self, forHeaderFooterViewReuseIdentifier: "TableHeader")
         tableView.register(DetailTableHeader.self, forHeaderFooterViewReuseIdentifier: "DetailTableHeader")
+        tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: DetailTableViewCell.identifier)
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -69,7 +57,8 @@ class TableDetailViewController: UIViewController {
     
     
     func bindView(){
-        vm.book.bind { book in
+        vm?.book.bind { book in
+            self.setView()
             self.tableView.reloadData()
         }
     }
@@ -84,69 +73,94 @@ class TableDetailViewController: UIViewController {
     
 }
 
-extension TableDetailViewController: UITableViewDelegate, UITableViewDataSource{
+extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
+
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "내가 추가한 메모"
+        guard let book = vm?.book.value else {return nil}
+        let status = book.readingStatus
+        switch status {
+        case .reading:
+            if book.memos.count != 0{
+                return Literal.memoSectionTitle
+            }else{
+                return Literal.noMemoSectionTitle
+            }
+        case .toRead,.done,.paused,.stopped:
+            return nil
+        }
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableHeader") as? DetailTableHeader else {
             return UIView()
         }
-        guard let book = vm.book.value else {
+        guard let book = vm?.book.value else {
             return UITableViewHeaderFooterView()
         }
-
-        header.setData(book: book)
+        header.detailBook = book
+        header.vm = vm
+        header.memoButtonAction = {
+            let vc = MemoViewController()
+            vc.vm = self.vm
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        header.setViews()
+        header.setData()
         
         // Update the constraints of the header view
         DispatchQueue.main.async {
             header.setNeedsLayout()
             header.layoutIfNeeded()
         }
-        
-        
+
         // Return the header view
         return header
     }
 
-
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20 //TODO: vm.memos.count 같은걸로 구현
+        return vm?.book.value?.memos.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //create memocell
-        let cell = UITableViewCell()
-        cell.textLabel?.text = indexPath.description
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewCell.identifier) as? DetailTableViewCell else {return UITableViewCell() }
+        
+        guard let memoRow = vm?.book.value?.memos[indexPath.row] else {return UITableViewCell()}
+        cell.memo = memoRow
+        cell.setView()
         return cell
         
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        //TODO: swipe action delete
+        let delete = UIContextualAction(style: .destructive, title: "삭제"){_,_,_ in
+            self.confirmDeleteMemo(title: "주의", message: "정말 메모를 삭제하시겠습니까?", memo: self.vm?.book.value?.memos[indexPath.row])
+        }
+        delete.image = UIImage(systemName: "trash")
+        let config = UISwipeActionsConfiguration(actions: [delete])
+        return config
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let memoRow = vm?.book.value?.memos[indexPath.row] else {return }
+
+        let vc = MemoViewController()
+        vc.selectedMemo = memoRow
+        vc.vm = vm
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
 }
 
+
 //MARK: functions
-extension TableDetailViewController{
-    
-    @objc func readBook(){
-        //        print(#function)
-        guard let book = vm.book.value else {return}
-        if book.readingStatus == .toRead{
-            vm.startReading {
-                //                self.startReadingButton.isHidden = true
-                
-            }
-            //            print("DEBUG: Detail Delegate: Move Section")
-            delegate?.moveSection(itemToMove: book, from: .homeToRead, to: .homeReading)
-        }
-        
-    }
+extension DetailTableViewController{
     
     private func showActionSheet(title: String?, message: String?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "책 삭제", style: .destructive) { _ in
-            self.confirmDelete(title: "주의", message: "삭제된 데이터는 복구되지 않습니다")
+            self.confirmDelete(title: "주의", message: "정말 책을 삭제하시겠습니까?")
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         
@@ -155,20 +169,36 @@ extension TableDetailViewController{
         present(alert,animated: true)
     }
     
+ 
     private func showEditSheet(){
+        guard let isbn = vm?.book.value?.isbn else {return}
         let vc = EditViewController()
-        vc.isbn = isbn13Identifier
+        vc.isbn = isbn
         if let sheet = vc.sheetPresentationController{
             sheet.detents = [.medium()]
         }
         present(vc, animated: true, completion: nil)
+    }
+    private func confirmDeleteMemo(title: String?, message: String?, memo: Memo?){
+        print(#function, memo)
+        guard let memo = memo else { return }
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            //closure
+            self.vm?.deleteMemo(memo)
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        present(alert,animated: true)
     }
     
     private func confirmDelete(title: String?, message: String?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
             //closure
-            self.vm.deleteBookFromRealm {
+            self.vm?.deleteBookFromRealm() {
                 self.navigationController?.popViewController(animated: true)
             }
         }
