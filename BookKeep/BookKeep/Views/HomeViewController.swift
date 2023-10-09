@@ -228,7 +228,7 @@ extension HomeViewController{
     
     func reloadCollectionView(){
         //호출은 되는데 변경이 없네
-        print(#function)
+        print("HomeViewController-",#function)
 //        snapshot.reloadSections([section])
         collectionView.reloadData() //비효율적이지만 일단 이렇게 하고 넘어가자.
     }

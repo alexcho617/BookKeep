@@ -8,10 +8,12 @@
 import UIKit
 import SnapKit
 
-class DetailTableHeader: UITableViewHeaderFooterView {
+final class DetailTableHeader: UITableViewHeaderFooterView {
     var detailBook: RealmBook?
     var vm: DetailViewModel?
     weak var delegate: DiffableDataSourceDelegate? //section 이동
+    var memoButtonAction: (() -> Void)? // Closure property to hold the action for memoButton click
+
     lazy var baseView = {
         let view = UIView()
         return view
@@ -58,7 +60,7 @@ class DetailTableHeader: UITableViewHeaderFooterView {
         page.text = "\(detailBook.currentReadingPage) / \(detailBook.page)"
         
     }
-    //TODO: Reading.status 따라 보여주는 화면 다르게해야함. .toRead면 startReadingButton 추가하고 homeVC delegate에서 섹션이동하는것 확인 필요
+    
     func setViews(){
         guard let detailBook = detailBook else {return}
         
@@ -91,6 +93,7 @@ class DetailTableHeader: UITableViewHeaderFooterView {
         if detailBook.readingStatus == .reading{
             contentView.addSubview(readButton)
             contentView.addSubview(memoButton)
+            memoButton.addTarget(self, action: #selector(memoButtonClicked), for: .touchUpInside)
             contentView.addSubview(infoStack)
             
             
@@ -132,6 +135,10 @@ class DetailTableHeader: UITableViewHeaderFooterView {
         print(#function)
         startReadingButton.isHidden = true
         vm?.startReading()
+    }
+    
+    @objc func memoButtonClicked(){
+        memoButtonAction?()
     }
     
     

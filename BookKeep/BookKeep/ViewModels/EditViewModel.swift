@@ -23,7 +23,6 @@ class EditViewModel{
         guard let number = Int(pageInput.value ?? "") else {return false}
         guard let book = book else {return false}
         if 0 <= number && number <= book.page {
-            //todo: HomeView에서도 이걸 감지하면 좋은데 안되고있음. Notification써야하나?
             BooksRepository.shared.updateCurrentPage(isbn: isbn, to: number)
             return true
         }else {

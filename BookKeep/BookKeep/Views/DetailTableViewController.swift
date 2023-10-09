@@ -99,6 +99,11 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
         }
         header.detailBook = book
         header.vm = vm
+        header.memoButtonAction = {
+            let vc = MemoViewController()
+            vc.vm = self.vm
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
         header.setViews()
         header.setData()
         
@@ -130,7 +135,7 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         //TODO: swipe action delete
         let delete = UIContextualAction(style: .destructive, title: "삭제"){_,_,_ in
-            print("delete one")
+            self.confirmDeleteMemo(title: "주의", message: "정말 메모를 삭제하시겠습니까?", memo: self.vm?.book.value?.memos[indexPath.row])
         }
         delete.image = UIImage(systemName: "trash")
         let config = UISwipeActionsConfiguration(actions: [delete])
@@ -142,6 +147,7 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
 
         let vc = MemoViewController()
         vc.selectedMemo = memoRow
+        vc.vm = vm
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -154,7 +160,7 @@ extension DetailTableViewController{
     private func showActionSheet(title: String?, message: String?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "책 삭제", style: .destructive) { _ in
-            self.confirmDelete(title: "주의", message: "정말 삭제하시겠습니까?")
+            self.confirmDelete(title: "주의", message: "정말 책을 삭제하시겠습니까?")
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         
@@ -163,6 +169,7 @@ extension DetailTableViewController{
         present(alert,animated: true)
     }
     
+ 
     private func showEditSheet(){
         guard let isbn = vm?.book.value?.isbn else {return}
         let vc = EditViewController()
@@ -171,6 +178,20 @@ extension DetailTableViewController{
             sheet.detents = [.medium()]
         }
         present(vc, animated: true, completion: nil)
+    }
+    private func confirmDeleteMemo(title: String?, message: String?, memo: Memo?){
+        print(#function, memo)
+        guard let memo = memo else { return }
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            //closure
+            self.vm?.deleteMemo(memo)
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        present(alert,animated: true)
     }
     
     private func confirmDelete(title: String?, message: String?){

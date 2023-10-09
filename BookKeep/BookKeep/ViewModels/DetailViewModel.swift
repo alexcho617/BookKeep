@@ -13,10 +13,7 @@ class DetailViewModel{
     var book: Observable<RealmBook?> = Observable(nil)
     weak var delegate: DiffableDataSourceDelegate? //section 이동
 
-    //TODO: Memos
     var objectNotificationToken: NotificationToken?
-    let numberOfRows = 4
-    
     
     init(isbn: String){
         fetchBookFromRealm(isbn: isbn)
@@ -43,18 +40,54 @@ class DetailViewModel{
                 let realm = Realm.safeInit()
                 //다시 넣어줌으로써 View의 바인드 호출
                 self.book.value = realm?.object(ofType: RealmBook.self, forPrimaryKey: pk)
-                //여기서 리로드 호출 해버릴까
+                //TODO: snapshot.reloadsection으로 개선 가능
                 self.delegate?.reloadCollectionView()
-
             case .error(let error):
                 print("\(error)")
             case .deleted:
                 print("object deleted")
             }
-        }
-        
-        
+        }        
     }
+    
+    func addMemo(date: Date?, contents: String?, handler: @escaping () -> Void){
+//        print("DetailViewModel-",#function, date, contents)
+        guard let date = date, let contents = contents else {return}
+        guard contents != "" else {return}
+        
+        //add to realm
+        let newMemo = Memo(date: date, contents: contents, photo: "")
+        let realm = Realm.safeInit()
+        try! realm?.write {
+            book.value?.memos.append(newMemo)
+        }
+        handler()
+    }
+    
+    func updateMemo(memo: Memo, date: Date?, contents: String?, handler: @escaping () -> Void){
+//        print("DetailViewModel-",#function, date, contents)
+        guard let date = date, let contents = contents else {return}
+        guard contents != "" else {return}
+        
+        //updatenrealm
+        let realm = Realm.safeInit()
+        let memo = realm?.object(ofType: Memo.self, forPrimaryKey: memo._id)
+        try! realm?.write {
+            memo?.contents = contents
+            memo?.date = date
+        }
+        handler()
+    }
+    
+    func deleteMemo(_ memo: Memo){
+        let realm = Realm.safeInit()
+        try! realm?.write {
+            realm?.delete(memo)
+        }
+    }
+    
+    
+    
     
     func deleteBookFromRealm(permanently: Bool = false, handler: @escaping () -> Void){
         if let book = book.value{
