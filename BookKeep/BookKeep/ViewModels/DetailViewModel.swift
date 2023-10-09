@@ -43,6 +43,9 @@ class DetailViewModel{
                 let realm = Realm.safeInit()
                 //다시 넣어줌으로써 View의 바인드 호출
                 self.book.value = realm?.object(ofType: RealmBook.self, forPrimaryKey: pk)
+                //여기서 리로드 호출 해버릴까
+                self.delegate?.reloadCollectionView()
+
             case .error(let error):
                 print("\(error)")
             case .deleted:

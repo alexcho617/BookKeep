@@ -42,11 +42,6 @@ class DetailTableViewController: UIViewController {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    
     func setView(){
         navigationItem.rightBarButtonItems = vm?.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
         tableView.backgroundColor = Design.colorPrimaryBackground

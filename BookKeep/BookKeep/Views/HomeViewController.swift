@@ -12,6 +12,7 @@ import RealmSwift
 
 protocol DiffableDataSourceDelegate: AnyObject {
     func moveSection(itemToMove: RealmBook,from sourceSection: SectionLayoutKind, to destinationSection: SectionLayoutKind)
+    func reloadCollectionView()
 }
 
 final class HomeViewController: UIViewController, UICollectionViewDelegate, DiffableDataSourceDelegate {
@@ -224,6 +225,14 @@ extension HomeViewController{
         dataSource.apply(snapshot, animatingDifferences: true)
 
     }
+    
+    func reloadCollectionView(){
+        //호출은 되는데 변경이 없네
+        print(#function)
+//        snapshot.reloadSections([section])
+        collectionView.reloadData() //비효율적이지만 일단 이렇게 하고 넘어가자.
+    }
+    
     
     private func bindData() {
         vm.books.bind { [weak self] value in
