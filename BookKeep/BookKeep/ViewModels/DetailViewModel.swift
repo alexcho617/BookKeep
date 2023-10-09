@@ -56,9 +56,9 @@ class DetailViewModel{
         
     }
     
-    func deleteBookFromRealm(permanantly: Bool = false, handler: @escaping () -> Void){
+    func deleteBookFromRealm(permanently: Bool = false, handler: @escaping () -> Void){
         if let book = book.value{
-            if permanantly == true{
+            if permanently == true{
                 BooksRepository.shared.deleteBook(isbn: book.isbn)
             }else{
                 BooksRepository.shared.markDelete(isbn: book.isbn)

@@ -8,7 +8,13 @@
 import UIKit
 
 class DetailTableViewCell: UITableViewCell {
-
+    static let identifier = "DetailTableViewCell"
+    var memo: Memo?
+    
+    func setView(){
+        print(memo)
+        textLabel?.text = memo?.contents
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

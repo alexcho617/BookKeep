@@ -10,10 +10,6 @@ import SnapKit
 import RealmSwift
 import Kingfisher
 
-enum DetailCellType: Int{
-    case MemoCell
-}
-
 class DetailTableViewController: UIViewController {
     var vm: DetailViewModel?
     weak var delegate: DiffableDataSourceDelegate? //section 이동
@@ -51,6 +47,7 @@ class DetailTableViewController: UIViewController {
         tableView.estimatedSectionHeaderHeight = 700 //placeholder
         
         tableView.register(DetailTableHeader.self, forHeaderFooterViewReuseIdentifier: "DetailTableHeader")
+        tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: DetailTableViewCell.identifier)
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -121,14 +118,35 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //create memocell
-        let cell = UITableViewCell()
-        cell.textLabel?.text = indexPath.description
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewCell.identifier) as? DetailTableViewCell else {return UITableViewCell() }
+        
+        guard let memoRow = vm?.book.value?.memos[indexPath.row] else {return UITableViewCell()}
+        cell.memo = memoRow
+        cell.setView()
         return cell
         
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        //TODO: swipe action delete
+        let delete = UIContextualAction(style: .destructive, title: "삭제"){_,_,_ in
+            print("delete one")
+        }
+        delete.image = UIImage(systemName: "trash")
+        let config = UISwipeActionsConfiguration(actions: [delete])
+        return config
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let memoRow = vm?.book.value?.memos[indexPath.row] else {return }
+
+        let vc = MemoViewController()
+        vc.selectedMemo = memoRow
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
 }
+
 
 //MARK: functions
 extension DetailTableViewController{
@@ -136,7 +154,7 @@ extension DetailTableViewController{
     private func showActionSheet(title: String?, message: String?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "책 삭제", style: .destructive) { _ in
-            self.confirmDelete(title: "주의", message: "삭제된 데이터는 복구되지 않습니다")
+            self.confirmDelete(title: "주의", message: "정말 삭제하시겠습니까?")
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         
@@ -159,7 +177,7 @@ extension DetailTableViewController{
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
             //closure
-            self.vm?.deleteBookFromRealm {
+            self.vm?.deleteBookFromRealm() {
                 self.navigationController?.popViewController(animated: true)
             }
         }

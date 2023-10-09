@@ -36,6 +36,7 @@
 		5790CEF32AD023560066D517 /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEF22AD023550066D517 /* DetailTableViewController.swift */; };
 		5790CEF52AD0266A0066D517 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEF42AD0266A0066D517 /* DetailTableViewCell.swift */; };
 		5790CEF72AD026B00066D517 /* DetailTableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEF62AD026B00066D517 /* DetailTableHeader.swift */; };
+		5790CEFB2AD3F8DA0066D517 /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEFA2AD3F8DA0066D517 /* MemoViewController.swift */; };
 		57ADDFF22AC1A38D00EA0EFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */; };
 		57ADDFF42AC1A38D00EA0EFE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */; };
 		57ADDFF62AC1A38D00EA0EFE /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */; };
@@ -95,6 +96,7 @@
 		5790CEF22AD023550066D517 /* DetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewController.swift; sourceTree = "<group>"; };
 		5790CEF42AD0266A0066D517 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		5790CEF62AD026B00066D517 /* DetailTableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableHeader.swift; sourceTree = "<group>"; };
+		5790CEFA2AD3F8DA0066D517 /* MemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewController.swift; sourceTree = "<group>"; };
 		57ADDFEE2AC1A38D00EA0EFE /* BookKeep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookKeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				57C79BEB2ACABB8B00E168F6 /* DetailViewController.swift */,
 				5790CEF22AD023550066D517 /* DetailTableViewController.swift */,
 				5790CEE32ACE9F6D0066D517 /* EditViewController.swift */,
+				5790CEFA2AD3F8DA0066D517 /* MemoViewController.swift */,
 				577082D52AC68A170052EA8A /* SearchViewController.swift */,
 				5754D2252AC725FE009C82C9 /* SearchDetailViewController.swift */,
 				577082D32AC480CD0052EA8A /* ViewController + Extension.swift */,
@@ -458,6 +461,7 @@
 				577082BD2AC2C6E00052EA8A /* BooksRepository.swift in Sources */,
 				5754D22A2AC73A31009C82C9 /* SearchDetailViewModel.swift in Sources */,
 				57C79BF02ACAC42400E168F6 /* ReusableViews.swift in Sources */,
+				5790CEFB2AD3F8DA0066D517 /* MemoViewController.swift in Sources */,
 				5754D2282AC728D9009C82C9 /* Enums.swift in Sources */,
 				57ADE02E2AC1A77D00EA0EFE /* Key.swift in Sources */,
 			);
