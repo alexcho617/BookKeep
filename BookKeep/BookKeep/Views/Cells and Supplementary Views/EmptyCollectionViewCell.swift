@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-
+//현재 사용 안하고 있음
 class EmptyCollectionViewCell: UICollectionViewCell {
     let label = {
         let view = UILabel()

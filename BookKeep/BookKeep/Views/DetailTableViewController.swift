@@ -123,6 +123,13 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
             vc.vm = self.vm
             self.navigationController?.pushViewController(vc, animated: true)
         }
+        
+        header.readButtonAction = {
+            let vc = ReadingViewController()
+            vc.isbn = book.isbn
+            self.navigationController?.pushViewController(vc, animated: true)
+
+        }
         header.setViews()
         header.setData()
         

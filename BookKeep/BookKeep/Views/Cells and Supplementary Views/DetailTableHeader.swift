@@ -12,7 +12,8 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     var detailBook: RealmBook?
     var vm: DetailViewModel?
     weak var delegate: DiffableDataSourceDelegate? //section 이동
-    var memoButtonAction: (() -> Void)? // Closure property to hold the action for memoButton click
+    var memoButtonAction: (() -> Void)?
+    var readButtonAction: (() -> Void)?
 
     lazy var baseView = {
         let view = UIView()
@@ -94,6 +95,7 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
             contentView.addSubview(readButton)
             contentView.addSubview(memoButton)
             memoButton.addTarget(self, action: #selector(memoButtonClicked), for: .touchUpInside)
+            readButton.addTarget(self, action: #selector(readButtonClicked), for: .touchUpInside)
             contentView.addSubview(infoStack)
             
             
@@ -139,6 +141,9 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     
     @objc func memoButtonClicked(){
         memoButtonAction?()
+    }
+    @objc func readButtonClicked(){
+        readButtonAction?()
     }
     
     
