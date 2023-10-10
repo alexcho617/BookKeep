@@ -10,7 +10,12 @@ import SnapKit
 import RealmSwift
 import Kingfisher
 
-class DetailTableViewController: UIViewController {
+protocol ReloadDelegate: AnyObject {
+    func reloadView()
+}
+
+class DetailTableViewController: UIViewController{
+   
     var vm: DetailViewModel?
     weak var delegate: DiffableDataSourceDelegate? //section 이동
     
@@ -35,8 +40,14 @@ class DetailTableViewController: UIViewController {
         super.viewDidLoad()
         setView()
         bindView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
     }
+    
+    
     
     func setView(){
         navigationItem.rightBarButtonItems = vm?.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
@@ -71,6 +82,14 @@ class DetailTableViewController: UIViewController {
         showEditSheet()
     }
     
+    
+}
+
+extension DetailTableViewController: ReloadDelegate{
+    func reloadView() {
+        print("DetailTableViewController-",#function)
+        tableView.reloadData()
+    }
 }
 
 extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
@@ -133,7 +152,6 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        //TODO: swipe action delete
         let delete = UIContextualAction(style: .destructive, title: "삭제"){_,_,_ in
             self.confirmDeleteMemo(title: "주의", message: "정말 메모를 삭제하시겠습니까?", memo: self.vm?.book.value?.memos[indexPath.row])
         }
@@ -148,6 +166,7 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
         let vc = MemoViewController()
         vc.selectedMemo = memoRow
         vc.vm = vm
+        vc.detailDelegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
