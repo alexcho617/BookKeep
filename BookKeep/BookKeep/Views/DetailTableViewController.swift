@@ -206,7 +206,7 @@ extension DetailTableViewController{
         present(vc, animated: true, completion: nil)
     }
     private func confirmDeleteMemo(title: String?, message: String?, memo: Memo?){
-        print(#function, memo)
+//        print(#function, memo)
         guard let memo = memo else { return }
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
