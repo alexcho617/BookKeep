@@ -10,7 +10,7 @@ import SnapKit
 final class MemoViewController: UIViewController {
     var selectedMemo: Memo?
     var vm: DetailViewModel?
-    
+    weak var detailDelegate: ReloadDelegate? //Detail ViewController
     let textView = {
         let view = UITextView()
         view.isEditable = true
@@ -42,6 +42,7 @@ final class MemoViewController: UIViewController {
         if selectedMemo == nil{
             vm?.addMemo(date: datePicker.date, contents: textView.text, handler: {
                 self.showAlert(title: "🎉", message: "메모가 추가되었습니다") {
+                    
                     self.navigationController?.popViewController(animated: true)
                 }
 
@@ -50,6 +51,7 @@ final class MemoViewController: UIViewController {
             guard let selectedMemo = selectedMemo else {return}
             vm?.updateMemo(memo: selectedMemo, date: datePicker.date, contents: textView.text, handler: {
                 self.showAlert(title: "🎉", message: "메모가 변경되었습니다") {
+                    self.detailDelegate?.reloadView()
                     self.navigationController?.popViewController(animated: true)
                 }
 

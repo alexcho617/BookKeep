@@ -11,8 +11,8 @@ import RealmSwift
 class DetailViewModel{
     var isbn: String?
     var book: Observable<RealmBook?> = Observable(nil)
-    weak var delegate: DiffableDataSourceDelegate? //section 이동
-
+    weak var homeDelegate: DiffableDataSourceDelegate? // HomeVC Delegate
+    
     var objectNotificationToken: NotificationToken?
     
     init(isbn: String){
@@ -34,6 +34,7 @@ class DetailViewModel{
     //listen for changes of realm objects and update the observables
     private func observeRealmChanges(for observable: RealmBook){
         objectNotificationToken = observable.observe { changes in
+            print("DetailViewModel-",#function)
             switch changes {
             case .change(let object, _):
                 let pk = object.value(forKey: "isbn")
@@ -41,7 +42,7 @@ class DetailViewModel{
                 //다시 넣어줌으로써 View의 바인드 호출
                 self.book.value = realm?.object(ofType: RealmBook.self, forPrimaryKey: pk)
                 //TODO: snapshot.reloadsection으로 개선 가능
-                self.delegate?.reloadCollectionView()
+                self.homeDelegate?.reloadCollectionView()
             case .error(let error):
                 print("\(error)")
             case .deleted:
@@ -69,13 +70,14 @@ class DetailViewModel{
         guard let date = date, let contents = contents else {return}
         guard contents != "" else {return}
         
-        //updatenrealm
+        //update realm observeRealmChanges 호출안됨
         let realm = Realm.safeInit()
         let memo = realm?.object(ofType: Memo.self, forPrimaryKey: memo._id)
         try! realm?.write {
             memo?.contents = contents
             memo?.date = date
         }
+        self.homeDelegate?.reloadCollectionView()
         handler()
     }
     
@@ -106,7 +108,7 @@ class DetailViewModel{
         guard let book = book.value else {return}
 //        book.readingStatus = .reading 어차피 렘에서 바꾸면 다시 가져옴
         BooksRepository.shared.updateBookReadingStatus(isbn: book.isbn, to: .reading)
-        delegate?.moveSection(itemToMove: book, from: .homeToRead, to: .homeReading)
+        homeDelegate?.moveSection(itemToMove: book, from: .homeToRead, to: .homeReading)
     }
     
     deinit{
