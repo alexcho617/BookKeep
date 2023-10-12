@@ -89,7 +89,7 @@ class ReadingViewModel{
     func doneReading(){
         
 //        let page = 0// get this from view
-        //TODO: call this in the Done Reading View
+        //TODO: Usecase 정립 및 함수 로직 정의
 //        addSession(startTime: startTime, endPage: page, duration: Int(elapsedTime.value)) {
 //            //do some stuff
 //        }

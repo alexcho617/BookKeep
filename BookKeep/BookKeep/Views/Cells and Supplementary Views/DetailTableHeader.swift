@@ -150,7 +150,6 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
      
     }
     
-    //⚠️TODO: 버튼 클릭시 해당 책 말고 다른 책들도 섹션 변경 되는 이슈 발생. 또한 detailview 재 진입시 header view에 startReadingButton 사라짐
     @objc func startReadingClicked(){
         print(#function)
         startReadingButton.isHidden = true
