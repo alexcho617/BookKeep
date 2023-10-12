@@ -8,7 +8,7 @@
 import Foundation
 import MagicTimer
 
-enum ReadingState{
+enum ReadingState: String{
     case reading
     case standby
 }
@@ -16,64 +16,76 @@ enum ReadingState{
 class ReadingViewModel{
     let isbn: String
     let timer = MagicTimer()
-    var currentTime: Observable<TimeInterval> = Observable(0.0)
-    var timerState: Observable<ReadingState>
+    var elapsedTime: Observable<TimeInterval> = Observable(0.0)
+    var readingState: Observable<ReadingState>
+    static var saveTime: TimeInterval = 0
     
     
     init(isbn: String) {
         self.isbn = isbn
-        self.timerState = Observable(.standby) //#VALUE FROM UserDefaults
+        self.readingState = Observable(.standby) //#VALUE FROM UserDefaults
         setTimer()
         
     }
     
     func setTimer(){
+        print(#function)
         timer.countMode = .stopWatch
-        timer.defultValue = 0 //시작 값?
+        if let savedElapsedTime = UserDefaults.standard.value(forKey: UserDefaultsKey.LastElapsedTime.rawValue) as? TimeInterval {
+            timer.defultValue = savedElapsedTime//시작 값?
+
+        }else{
+            timer.defultValue = 0 //시작 값?
+
+        }
         timer.effectiveValue = 1 // 단위
         timer.timeInterval = 1 // 주기
         timer.isActiveInBackground = true
         timer.observeElapsedTime = observeTimeHandler(time:)
-        //timer에 차이를 추가하는 기능이 없으니 effectiveValue를 조절하는 방식으로 사용해보자? 1번만 더해질거란걸 보장 할 수 있나?
     }
     
-    func addTime(by: TimeInterval){
-        
-    }
+  
     
     func observeTimeHandler(time: TimeInterval) -> Void{
         //update view
-        currentTime.value = time
+        elapsedTime.value = time + timer.defultValue//TODO: 이걸 지금 계속 더하고 있는게 문제임 사실 magictime package에서 나갔다 왔을때 기존 값이 사라지는게 원초적인 문제긴 함
 //        print("현재 시간:",currentTime.value.converToValidFormat())
+        //1초마다 저장
+        UserDefaults.standard.set(elapsedTime.value, forKey: UserDefaultsKey.LastElapsedTime.rawValue)
+
         
         
     }
     
     func mainButtonClicked(){
-        switch timerState.value{
+        switch readingState.value{
+            
         case .reading:
             print("Reading...")
-            timerState.value = .standby
+            readingState.value = .standby
             timer.stop()
+           
         case .standby:
             print("Standby")
-            timerState.value = .reading
+            readingState.value = .reading
             timer.start()
         }
+        
+        UserDefaults.standard.set(readingState.value.rawValue, forKey: UserDefaultsKey.LastReadingState.rawValue)
+        UserDefaults.standard.set(isbn, forKey: UserDefaultsKey.LastISBN.rawValue)
+        
     }
     
-    func stopButtonClicked(){
-//        print(#function)
-        timer.reset()
-        currentTime.value = 0.0
-        timerState.value = .standby
-    }
-    
-    //다 날림
+    //저장하지 않고 종료
     func exitProcedue(){
         timer.reset()
-        currentTime.value = 0.0
-        timerState.value = .standby
+        elapsedTime.value = 0.0
+        readingState.value = .standby
+        UserDefaults.standard.set(readingState.value.rawValue, forKey: UserDefaultsKey.LastReadingState.rawValue)
+        UserDefaults.standard.set(elapsedTime.value, forKey: UserDefaultsKey.LastElapsedTime.rawValue)
+        UserDefaults.standard.set(isbn, forKey: UserDefaultsKey.LastISBN.rawValue)
+
+
     }
     
     deinit {

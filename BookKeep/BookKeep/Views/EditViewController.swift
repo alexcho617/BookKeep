@@ -47,6 +47,8 @@ class EditViewController: UIViewController{
             return
         }
         pageTextField.text = String(page)
+        pageTextField.becomeFirstResponder()
+
     }
     
     func bindView(){

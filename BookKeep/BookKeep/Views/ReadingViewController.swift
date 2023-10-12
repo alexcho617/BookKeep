@@ -77,11 +77,11 @@ final class ReadingViewController: UIViewController {
     }
     
     private func bindView(){
-        vm.currentTime.bind { timeInterval in
+        vm.elapsedTime.bind { timeInterval in
             self.timerLabel.text = timeInterval.converToValidFormat()
         }
         
-        vm.timerState.bind { [self] value in
+        vm.readingState.bind { [self] value in
             if value == .reading{
                 mainButton.setTitle("Pause", for: .normal)
                 mainButton.setImage(UIImage(systemName:"pause"), for: .normal)
@@ -102,6 +102,8 @@ final class ReadingViewController: UIViewController {
     }
     @objc func doneClicked(){
         print("ReadingVC",#function)
+        //create RealmReadingSession()
+        //check if book is finished
     }
     
     @objc func mainButtonClicked(){

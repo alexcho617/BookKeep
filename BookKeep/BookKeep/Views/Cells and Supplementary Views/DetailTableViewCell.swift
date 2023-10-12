@@ -16,12 +16,17 @@ class DetailTableViewCell: UITableViewCell {
         layer.borderWidth = 1
         var config = self.defaultContentConfiguration()
         backgroundColor = Design.colorPrimaryBackground
+        
         config.text = memo?.contents
         config.secondaryText = memo?.date.formatted(.dateTime)
+        
         config.textProperties.font = Design.fontAccentDefault
         config.textProperties.color = Design.colorTextDefault
+        config.textProperties.numberOfLines = 3
+        
         config.secondaryTextProperties.font = Design.fontDefault
         config.secondaryTextProperties.color = Design.colorTextDefault
+        
         self.contentConfiguration = config
         selectionStyle = .none
         
