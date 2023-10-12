@@ -38,4 +38,5 @@ enum UserDefaultsKey: String{
     case LastElapsedTime
     case LastReadingState
     case LastISBN //이건 아직 안 쓸 수 있음
+    case LastStartTime
 }

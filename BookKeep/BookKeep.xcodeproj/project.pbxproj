@@ -249,8 +249,8 @@
 				5790CEE52ACEC1AB0066D517 /* EditViewModel.swift */,
 				577082D72AC68A510052EA8A /* SearchViewModel.swift */,
 				5754D2292AC73A31009C82C9 /* SearchDetailViewModel.swift */,
-				577082CF2AC415F90052EA8A /* Observable.swift */,
 				57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */,
+				577082CF2AC415F90052EA8A /* Observable.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";

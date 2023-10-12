@@ -14,26 +14,41 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     weak var delegate: DiffableDataSourceDelegate? //section 이동
     var memoButtonAction: (() -> Void)?
     var readButtonAction: (() -> Void)?
-
+    private let viewComponents = DetailViewComponents()
+    private let labelViews = LabelViews()
     lazy var baseView = {
         let view = UIView()
         return view
     }()
     
-    let bookTitle = DetailViewComponents.bookTitle
-    let coverImageView = DetailViewComponents.coverImageView
-    let author = DetailViewComponents.author
-    let readButton = DetailViewComponents.readButton
-    let memoButton = DetailViewComponents.memoButton
-    let page = DetailViewComponents.page
-    let startReadingButton = DetailViewComponents.startReadingButton
     
-    let introduction = DetailViewComponents.introduction
-    let publisher = DetailViewComponents.publisher
-    let isbn = DetailViewComponents.isbn
+    
+    
+    lazy var bookTitle = viewComponents.bookTitle
+    lazy var coverImageView = viewComponents.coverImageView
+    lazy var author = viewComponents.author
+    lazy var readButton = viewComponents.readButton
+    lazy var memoButton = viewComponents.memoButton
+    lazy var page = viewComponents.page
+    let startReadingButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "book"), for: .normal)
+        button.setTitle(Literal.startReadingLabel, for: .normal)
+        button.backgroundColor = Design.colorPrimaryAccent
+        button.tintColor = Design.colorSecondaryAccent
+        button.setTitleColor(Design.colorSecondaryAccent, for: .normal)
+        button.layer.cornerRadius = Design.paddingDefault
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowOpacity = 0.5
+        return button
+    }()
+    
+    lazy var introduction = viewComponents.introduction
+    lazy var publisher = viewComponents.publisher
+    lazy var isbn = viewComponents.isbn
     
     lazy var infoStack = {
-        let view = UIStackView(arrangedSubviews: [LabelViews.pageLabel,page,LabelViews.introductionLabel,introduction,LabelViews.publisherLabel,publisher, LabelViews.isbnLabel,isbn])
+        let view = UIStackView(arrangedSubviews: [labelViews.pageLabel,page,labelViews.introductionLabel,introduction,labelViews.publisherLabel,publisher, labelViews.isbnLabel,isbn])
         view.axis = .vertical
         view.alignment = .fill
         view.spacing = 4
@@ -92,6 +107,7 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
         }
         
         if detailBook.readingStatus == .reading{
+            startReadingButton.isHidden = true
             contentView.addSubview(readButton)
             contentView.addSubview(memoButton)
             memoButton.addTarget(self, action: #selector(memoButtonClicked), for: .touchUpInside)
@@ -120,19 +136,21 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
             }
         }else if detailBook.readingStatus == .toRead{
             contentView.addSubview(startReadingButton)
+            startReadingButton.isHidden = false
             startReadingButton.addTarget(self, action: #selector(startReadingClicked), for: .touchUpInside)
             
             startReadingButton.snp.makeConstraints { make in
                 make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
                 make.horizontalEdges.equalTo(baseView)
-                
-                make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high)// Specify a bottom constraint
+                make.height.equalTo(40)
+//                make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high)// Specify a bottom constraint
 
             }
         }
      
     }
     
+    //⚠️TODO: 버튼 클릭시 해당 책 말고 다른 책들도 섹션 변경 되는 이슈 발생. 또한 detailview 재 진입시 header view에 startReadingButton 사라짐
     @objc func startReadingClicked(){
         print(#function)
         startReadingButton.isHidden = true

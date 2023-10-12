@@ -8,37 +8,36 @@
 import UIKit
 
 //MARK: Label
-//⚠️이런식으로 재사용하면 안됨. enum이 값타입에 static은 type property
 struct LabelViews{
-    static var authorLabel = {
+    var authorLabel = {
         let view = UILabel()
         view.text = "저자"
         view.font = Design.fontAccentDefault
         view.textColor = Design.colorTextSubTitle
         return view
     }()
-    static var introductionLabel = {
+    var introductionLabel = {
         let view = UILabel()
         view.text = "책 소개"
         view.font = Design.fontAccentDefault
         view.textColor = Design.colorTextSubTitle
         return view
     }()
-    static var publisherLabel = {
+    var publisherLabel = {
         let view = UILabel()
         view.text = "출판사"
         view.font = Design.fontAccentDefault
         view.textColor = Design.colorTextSubTitle
         return view
     }()
-    static var isbnLabel = {
+    var isbnLabel = {
         let view = UILabel()
         view.text = "ISBN"
         view.font = Design.fontAccentDefault
         view.textColor = Design.colorTextSubTitle
         return view
     }()
-    static var pageLabel = {
+    var pageLabel = {
         let view = UILabel()
         view.text = "페이지"
         view.font = Design.fontAccentDefault
@@ -49,7 +48,7 @@ struct LabelViews{
 
 
 struct DetailViewComponents{
-    static let bookTitle = {
+    let bookTitle = {
         let view = UILabel()
         view.textColor = Design.colorTextSubTitle
         view.font = Design.fontSubTitle
@@ -58,7 +57,7 @@ struct DetailViewComponents{
         return view
     }()
     
-    static let coverImageView = {
+    let coverImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
@@ -72,7 +71,7 @@ struct DetailViewComponents{
         return view
     }()
     
-    static let author = {
+    let author = {
         let view = UILabel()
         view.text = "저자"
         view.font = Design.fontDefault
@@ -81,7 +80,7 @@ struct DetailViewComponents{
         return view
     }()
     
-    static let introduction = {
+    let introduction = {
         let view = UILabel()
         view.numberOfLines = 0
         view.text = ""
@@ -90,7 +89,7 @@ struct DetailViewComponents{
         return view
     }()
     
-    static let publisher = {
+    let publisher = {
         let view = UILabel()
         view.text = "출판사"
         view.font = Design.fontDefault
@@ -98,7 +97,7 @@ struct DetailViewComponents{
         return view
     }()
     
-    static let isbn = {
+    let isbn = {
         let view = UILabel()
         view.text = "ISBN"
         view.font = Design.fontDefault
@@ -106,7 +105,7 @@ struct DetailViewComponents{
         return view
     }()
     
-    static let page = {
+    let page = {
         let view = UILabel()
         view.text = "페이지"
         view.font = Design.fontDefault
@@ -114,7 +113,7 @@ struct DetailViewComponents{
         return view
     }()
     
-    static var readButton = {
+    var readButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "timer"), for: .normal)
         button.backgroundColor = Design.colorPrimaryAccent
@@ -125,7 +124,7 @@ struct DetailViewComponents{
         return button
     }()
     
-    static var memoButton = {
+    var memoButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "note.text.badge.plus"), for: .normal)
         button.backgroundColor = Design.colorPrimaryAccent
@@ -136,7 +135,7 @@ struct DetailViewComponents{
         return button
     }()
     
-    static var startReadingButton = {
+    var startReadingButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "book"), for: .normal)
         button.setTitle(Literal.startReadingLabel, for: .normal)

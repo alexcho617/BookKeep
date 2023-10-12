@@ -13,7 +13,7 @@ final class SearchDetailViewController: UIViewController {
     var isbn13Identifier: String = ""
     
     private let vm = SearchDetailViewModel()
-    
+    private var labelView = LabelViews()
     private var bookTitle = {
         let view = UILabel()
         view.textColor = Design.colorTextSubTitle
@@ -93,15 +93,15 @@ final class SearchDetailViewController: UIViewController {
         let view = UIStackView(arrangedSubviews: [
             bookTitle,
             coverImageView,
-            LabelViews.authorLabel,
+            labelView.authorLabel,
             author,
-            LabelViews.introductionLabel,
+            labelView.introductionLabel,
             introduction,
-            LabelViews.publisherLabel,
+            labelView.publisherLabel,
             publisher,
-            LabelViews.isbnLabel,
+            labelView.isbnLabel,
             isbn,
-            LabelViews.pageLabel,
+            labelView.pageLabel,
             page
         ])
         view.axis = .vertical
@@ -178,7 +178,7 @@ final class SearchDetailViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         } catch {
-            showAlert(title: "에러", message: "이미 데이터베이스에 존재하는 책입니다", handler: nil)
+            showAlert(title: "⚠️", message: "이미 존재하는 책입니다", handler: nil)
         }
         
        

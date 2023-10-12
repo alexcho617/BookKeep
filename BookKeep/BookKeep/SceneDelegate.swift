@@ -20,7 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         let vc = HomeViewController() //Entry Point View Controller
         window?.rootViewController = UINavigationController(rootViewController: vc)
-//        window?.rootViewController = vc
         window?.makeKeyAndVisible()
     }
 
@@ -29,7 +28,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
-        //TODO: UserDefaults: save isbn, elapsed time, reading
         print(#function)
 
     }
@@ -37,11 +35,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-        //TODO: UserDefaults: retrieve isbn, elapsed time, reading
-        
-        print("UD-Time",UserDefaults.standard.value(forKey: UserDefaultsKey.LastElapsedTime.rawValue))
-        print("UD-State",UserDefaults.standard.value(forKey: UserDefaultsKey.LastReadingState.rawValue))
-        print("UD-ISBN",UserDefaults.standard.value(forKey: UserDefaultsKey.LastISBN.rawValue))
+        print(#function)
+        UIViewController.printUserDefaultsStatus()
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -54,6 +49,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        print(#function)
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -61,6 +57,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
         print(#function)
+        //여기서 부터 UD에 저장이 되며는 해결
     }
 
 

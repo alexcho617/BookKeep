@@ -7,6 +7,7 @@
 
 import Foundation
 import MagicTimer
+import RealmSwift
 
 enum ReadingState: String{
     case reading
@@ -14,78 +15,109 @@ enum ReadingState: String{
 }
 
 class ReadingViewModel{
-    let isbn: String
+    var isbn: String
+    var book: Observable<RealmBook?> = Observable(nil)
+    let startTime = Date()
     let timer = MagicTimer()
     var elapsedTime: Observable<TimeInterval> = Observable(0.0)
     var readingState: Observable<ReadingState>
-    static var saveTime: TimeInterval = 0
     
     
     init(isbn: String) {
         self.isbn = isbn
-        self.readingState = Observable(.standby) //#VALUE FROM UserDefaults
+        self.readingState = Observable(.standby)
+        fetchBookFromRealm(isbn: self.isbn)
         setTimer()
         
     }
     
     func setTimer(){
-        print(#function)
+//        print(#function)
         timer.countMode = .stopWatch
-        if let savedElapsedTime = UserDefaults.standard.value(forKey: UserDefaultsKey.LastElapsedTime.rawValue) as? TimeInterval {
-            timer.defultValue = savedElapsedTime//시작 값?
-
-        }else{
-            timer.defultValue = 0 //시작 값?
-
-        }
+        timer.defultValue = 0 //시작 값
         timer.effectiveValue = 1 // 단위
         timer.timeInterval = 1 // 주기
         timer.isActiveInBackground = true
         timer.observeElapsedTime = observeTimeHandler(time:)
+        UserDefaults.standard.set(isbn, forKey: UserDefaultsKey.LastISBN.rawValue)
+        mainButtonClicked()
     }
-    
   
     
     func observeTimeHandler(time: TimeInterval) -> Void{
         //update view
-        elapsedTime.value = time + timer.defultValue//TODO: 이걸 지금 계속 더하고 있는게 문제임 사실 magictime package에서 나갔다 왔을때 기존 값이 사라지는게 원초적인 문제긴 함
-//        print("현재 시간:",currentTime.value.converToValidFormat())
+        elapsedTime.value = time
         //1초마다 저장
         UserDefaults.standard.set(elapsedTime.value, forKey: UserDefaultsKey.LastElapsedTime.rawValue)
-
-        
-        
     }
     
     func mainButtonClicked(){
         switch readingState.value{
             
         case .reading:
-            print("Reading...")
+//            print("Reading -> Standby")
             readingState.value = .standby
             timer.stop()
            
         case .standby:
-            print("Standby")
+//            print("Standby -> Reading")
             readingState.value = .reading
             timer.start()
         }
-        
         UserDefaults.standard.set(readingState.value.rawValue, forKey: UserDefaultsKey.LastReadingState.rawValue)
-        UserDefaults.standard.set(isbn, forKey: UserDefaultsKey.LastISBN.rawValue)
         
     }
     
     //저장하지 않고 종료
-    func exitProcedue(){
+    func abortReading(){
         timer.reset()
         elapsedTime.value = 0.0
         readingState.value = .standby
+        clearUD()
+    }
+    
+    func addSession(startTime: Date, endPage: Int, duration: Int, handler: @escaping () -> Void){
+        //add to realm
+        let newSession = ReadSession(startTime: startTime, endPage: endPage, duration: duration)
+        let realm = Realm.safeInit()
+        try! realm?.write {
+            book.value?.readSessions.append(newSession)
+        }
+        handler()
+    }
+    
+    func doneReading(){
+        
+//        let page = 0// get this from view
+        //TODO: call this in the Done Reading View
+//        addSession(startTime: startTime, endPage: page, duration: Int(elapsedTime.value)) {
+//            //do some stuff
+//        }
+        //Create done reading pop up view (HomeVC에서 재활용 가능)
+    }
+    
+    func saveCurrentStatusToUD(){
         UserDefaults.standard.set(readingState.value.rawValue, forKey: UserDefaultsKey.LastReadingState.rawValue)
         UserDefaults.standard.set(elapsedTime.value, forKey: UserDefaultsKey.LastElapsedTime.rawValue)
         UserDefaults.standard.set(isbn, forKey: UserDefaultsKey.LastISBN.rawValue)
+        UserDefaults.standard.set(startTime, forKey: UserDefaultsKey.LastStartTime.rawValue)
 
+    }
+    
+    func clearUD(){
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastReadingState.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastElapsedTime.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastISBN.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastStartTime.rawValue)
 
+     }
+    
+    func fetchBookFromRealm(isbn: String) {
+        do {
+            try book.value = BooksRepository.shared.fetchBookByPK(isbn: isbn)
+        } catch {
+            print(error)
+        }
     }
     
     deinit {
