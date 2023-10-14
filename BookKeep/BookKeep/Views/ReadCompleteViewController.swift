@@ -9,12 +9,14 @@ import UIKit
 import SnapKit
 
 final class ReadCompleteViewController: UIViewController {
-    var isbn: String?
+    var isbn: String = ""
     var startTime: Date?
     var readTime: TimeInterval?
     var page: Int?
+    var navigationHandler: (() -> Void)?
     
-    //todo: realm 에서 타이틀 가져오기
+    lazy var vm = ReadCompleteViewModel(isbn: isbn)
+
     let titleLabel = {
         let view = UILabel()
         view.text = "책 타이틀을 렘에서 가져오쟈 책 타이틀을 렘에서 가져오쟈 책 타이틀을 렘에서 가져오쟈 책 타이틀을 렘에서 가져오쟈"
@@ -78,14 +80,18 @@ final class ReadCompleteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         bindView()
         setView()
-        
-        
     }
     
     func bindView(){
+        vm.pageInput.bind { page in
+            self.pageTextField.text = page
+        }
+        vm.book.bind { book in
+            self.titleLabel.text = book?.title
+        }
+        
     }
     
     func setView(){
@@ -143,6 +149,15 @@ final class ReadCompleteViewController: UIViewController {
         }
         
     }
+    
+    private func clearUD(){
+        print("DEBUG: UD will Clear")
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastReadingState.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastElapsedTime.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastISBN.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastStartTime.rawValue)
+        print("DEBUG: UD is Cleared")
+     }
 
 }
 
@@ -150,25 +165,25 @@ extension ReadCompleteViewController: UITextFieldDelegate{
     
     @objc func confirmButtonClicked(_ button: UIButton){
         print(#function)
-        print(isbn)
-        print(startDatePicker.date)
-        print(pageTextField.text!)
-        print(readTimePicker.countDownDuration)
-        //TODO: Add validation and create ReadSession
-        //TODO: Add to realm and handle navigation
-//        if vm.validate(){
-//            view.endEditing(true)
-//            dismiss(animated: true)
-//        }else{
-//            showAlert(title: "삐빅!", message: "\(0) ~ \(vm.book?.page ?? -999) 사이의 값을 입력하세요", handler: nil)
-//            pageTextField.text = nil
-//
-//        }
+        vm.startTimeInput.value = startDatePicker.date
+        vm.readTimeInput.value = readTimePicker.countDownDuration
+        if vm.addSession(){
+            showAlert(title: "세션", message: "독서 세션이 기록되었습니다."){
+                self.view.endEditing(true)
+                self.dismiss(animated: true)
+                self.clearUD()
+                self.navigationHandler?()
+            }
+        }else{
+            showAlert(title: "삐빅!", message: "\(0) ~ \(vm.book.value?.page ?? -999) 사이의 값을 입력하세요", handler: nil)
+            pageTextField.text = nil
+
+        }
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
-        print(textField.text!)
-//        vm.pageInput.value = textField.text
+        
+        vm.pageInput.value = textField.text
     }
    
 }

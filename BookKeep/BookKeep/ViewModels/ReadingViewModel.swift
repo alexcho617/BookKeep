@@ -78,7 +78,7 @@ class ReadingViewModel{
         clearUD()
     }
     
-    func addSession(startTime: Date, endPage: Int, duration: Int, handler: @escaping () -> Void){
+    func addSession(startTime: Date, endPage: Int, duration: Double, handler: @escaping () -> Void){
         //add to realm
         let newSession = ReadSession(startTime: startTime, endPage: endPage, duration: duration)
         let realm = Realm.safeInit()

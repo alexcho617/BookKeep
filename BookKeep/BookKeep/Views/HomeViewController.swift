@@ -34,7 +34,6 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         bindData()
         
         //MARK: DEBUG
-        //TODO: UD에서 reading status 확인 후 ReadCompleteVC 활성화
         if UserDefaults.standard.object(forKey: UserDefaultsKey.LastReadingState.rawValue) != nil{
             print("DEBUG: 저장되지 않은 세션 있음")
             //복구 alert

@@ -188,6 +188,9 @@ final class ReadingViewController: UIViewController {
         vc.isbn = isbn
         vc.startTime = vm.startTime
         vc.readTime = vm.elapsedTime.value
+        vc.navigationHandler = {
+            self.navigationController?.popViewController(animated: true)
+        }
         
         if let sheet = vc.sheetPresentationController{
             sheet.detents = [.medium(), .large()]
