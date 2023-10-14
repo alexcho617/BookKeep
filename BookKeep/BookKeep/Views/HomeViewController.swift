@@ -36,19 +36,21 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         //MARK: DEBUG
         if UserDefaults.standard.object(forKey: UserDefaultsKey.LastReadingState.rawValue) != nil{
             print("DEBUG: 저장되지 않은 세션 있음")
-            //복구 alert
+            //복구 정보
+            guard let isbn = UserDefaults.standard.object(forKey: UserDefaultsKey.LastISBN.rawValue) as? String else {return}
+            guard let startTime = UserDefaults.standard.object(forKey: UserDefaultsKey.LastStartTime.rawValue) as? Date else {return}
+            guard let readTime = UserDefaults.standard.object(forKey: UserDefaultsKey.LastElapsedTime.rawValue) as? TimeInterval else {return}
+            
+            HomeViewController.printUserDefaultsStatus()
             self.showActionAlert(title: "세션 복구", message: "저장하지 않은 세션을 복구하시겠습니까?") {
-                //복구 정보
-                guard let isbn = UserDefaults.standard.object(forKey: UserDefaultsKey.LastISBN.rawValue) as? String else {return}
-                guard let startTime = UserDefaults.standard.object(forKey: UserDefaultsKey.LastStartTime.rawValue) as? Date else {return}
-                guard let readTime = UserDefaults.standard.object(forKey: UserDefaultsKey.LastElapsedTime.rawValue) as? TimeInterval else {return}
-                
-                //VC
+                //alert action present ReadCompleteVC
                 let vc = ReadCompleteViewController()
                 vc.isbn = isbn
                 vc.startTime = startTime
                 vc.readTime = readTime
-                
+                vc.navigationHandler = {
+                    self.reloadCollectionView()
+                }
                 if let sheet = vc.sheetPresentationController{
                     sheet.detents = [.medium(), .large()]
                     sheet.prefersGrabberVisible = true
@@ -302,7 +304,6 @@ extension HomeViewController{
 extension HomeViewController{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let selectedBook = dataSource.itemIdentifier(for: indexPath) else {return}
-        //헤더에서 vc 거치지 않고 바로 vm에서 처리하기위해 이렇게 했는데 괜찮은가?
         let vc = DetailTableViewController()
         vc.vm = DetailViewModel(isbn: selectedBook.isbn)
         vc.vm?.homeDelegate = self
