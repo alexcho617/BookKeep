@@ -52,6 +52,7 @@
 		57ADE0282AC1A67D00EA0EFE /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADE0272AC1A67D00EA0EFE /* Design.swift */; };
 		57ADE02E2AC1A77D00EA0EFE /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADE02D2AC1A77D00EA0EFE /* Key.swift */; };
 		57C5C9E42ADA5A02002CFC72 /* DetailTableFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C5C9E32ADA5A02002CFC72 /* DetailTableFooter.swift */; };
+		57C5C9E62ADA77DC002CFC72 /* ReadCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C5C9E52ADA77DC002CFC72 /* ReadCompleteViewController.swift */; };
 		57C79BEE2ACABB9300E168F6 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */; };
 		57C79BF02ACAC42400E168F6 /* ReusableViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BEF2ACAC42400E168F6 /* ReusableViews.swift */; };
 		57CA82342ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CA82332ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift */; };
@@ -118,6 +119,7 @@
 		57ADE0272AC1A67D00EA0EFE /* Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Design.swift; sourceTree = "<group>"; };
 		57ADE02D2AC1A77D00EA0EFE /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		57C5C9E32ADA5A02002CFC72 /* DetailTableFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableFooter.swift; sourceTree = "<group>"; };
+		57C5C9E52ADA77DC002CFC72 /* ReadCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadCompleteViewController.swift; sourceTree = "<group>"; };
 		57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		57C79BEF2ACAC42400E168F6 /* ReusableViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViews.swift; sourceTree = "<group>"; };
 		57CA82332ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				5790CF002AD54ED40066D517 /* ReadingViewController.swift */,
 				5790CEF22AD023550066D517 /* DetailTableViewController.swift */,
 				5790CEE32ACE9F6D0066D517 /* EditViewController.swift */,
+				57C5C9E52ADA77DC002CFC72 /* ReadCompleteViewController.swift */,
 				5790CEFA2AD3F8DA0066D517 /* MemoViewController.swift */,
 				577082D52AC68A170052EA8A /* SearchViewController.swift */,
 				5754D2252AC725FE009C82C9 /* SearchDetailViewController.swift */,
@@ -467,6 +470,7 @@
 				5790CF032AD54EE70066D517 /* ReadingViewModel.swift in Sources */,
 				5790CEE42ACE9F6D0066D517 /* EditViewController.swift in Sources */,
 				577082D02AC415F90052EA8A /* Observable.swift in Sources */,
+				57C5C9E62ADA77DC002CFC72 /* ReadCompleteViewController.swift in Sources */,
 				577082CC2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift in Sources */,
 				57CA82342ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift in Sources */,
 				5754D2262AC725FE009C82C9 /* SearchDetailViewController.swift in Sources */,

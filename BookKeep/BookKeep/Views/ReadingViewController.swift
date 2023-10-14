@@ -171,15 +171,29 @@ final class ReadingViewController: UIViewController {
     }
     @objc func doneClicked(){
         //TODO: make reading done UIVIew
-//        self.vm.doneReading()
-        //check if book is finished
+        if vm.readingState.value == .reading{
+            vm.mainButtonClicked()
+        }
+        showReadCompleteSheet()
     }
     
     @objc func mainButtonClicked(){
         vm.mainButtonClicked()
     }
     
-   
+ 
+    private func showReadCompleteSheet(){
+        guard let isbn = vm?.book.value?.isbn else {return}
+        let vc = ReadCompleteViewController()
+        vc.isbn = isbn
+        vc.startTime = vm.startTime
+        vc.readTime = vm.elapsedTime.value
+        
+        if let sheet = vc.sheetPresentationController{
+            sheet.detents = [.medium(), .large()]
+        }
+        present(vc, animated: true, completion: nil)
+    }
     
     private func showActionAlert(title: String, message: String, handler: (()->Void)?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

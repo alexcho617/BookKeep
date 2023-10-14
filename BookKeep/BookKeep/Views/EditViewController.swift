@@ -17,11 +17,7 @@ class EditViewController: UIViewController{
         view.placeholder = "몇 페이지까지 읽으셨나요?"
         view.keyboardType = .numberPad
         view.textAlignment = .center
-        return view
-    }()
-    let spacerView = {
-        let view = UIView()
-        view.backgroundColor = .clear
+        view.layer.cornerRadius = Design.paddingDefault
         return view
     }()
 
@@ -31,6 +27,7 @@ class EditViewController: UIViewController{
         view.titleLabel?.font = Design.fontAccentDefault
         view.setTitleColor(Design.colorTextTitle, for: .normal)
         view.backgroundColor = Design.colorPrimaryAccent
+        view.layer.cornerRadius = Design.paddingDefault
         return view
     }()
 
@@ -92,6 +89,7 @@ extension EditViewController: UITextFieldDelegate{
 
         }
     }
+    
     @objc func textFieldDidChange(_ textField: UITextField) {
         vm.pageInput.value = textField.text
     }

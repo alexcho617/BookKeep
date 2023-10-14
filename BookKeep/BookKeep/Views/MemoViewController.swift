@@ -29,9 +29,7 @@ final class MemoViewController: UIViewController {
     }()
     
     let datePicker = {
-        let view = UIDatePicker()
-        let style = UIDatePickerStyle.wheels
-        
+        let view = UIDatePicker()        
         return view
     }()
     
