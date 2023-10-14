@@ -59,7 +59,7 @@ class DetailTableViewController: UIViewController{
         
         tableView.register(DetailTableHeader.self, forHeaderFooterViewReuseIdentifier: "DetailTableHeader")
         tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: DetailTableViewCell.identifier)
-//        tableView.register(DetailTableFooter.self, forHeaderFooterViewReuseIdentifier: "DetailTableFooter")
+        tableView.register(DetailTableFooter.self, forHeaderFooterViewReuseIdentifier: "DetailTableFooter")
 
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
@@ -110,13 +110,13 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
             return nil
         }
     }
-    //⚠️TODO: startButton 눌러도 반응 안하는 이슈 있음. Footer 추가하고 이런 상황 발생. 어쩌면 footerview이전부터 안되었을지도....
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableFooter") as? DetailTableFooter else {
-//            return UIView()
-//        }
-//        return footer
-//    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableFooter") as? DetailTableFooter else {
+            return UIView()
+        }
+        return footer
+    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableHeader") as? DetailTableHeader else {

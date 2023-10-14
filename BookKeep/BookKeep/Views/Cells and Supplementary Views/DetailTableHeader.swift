@@ -132,7 +132,7 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
             infoStack.snp.makeConstraints { make in
                 make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
                 make.leading.trailing.equalTo(baseView)
-                make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high)// Specify a bottom constraint
+                make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high) //이거 지정해줘야함.
             }
         }else if detailBook.readingStatus == .toRead{
             contentView.addSubview(startReadingButton)
@@ -142,9 +142,8 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
             startReadingButton.snp.makeConstraints { make in
                 make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
                 make.horizontalEdges.equalTo(baseView)
-                make.height.equalTo(40)
-//                make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high)// Specify a bottom constraint
-
+                make.height.greaterThanOrEqualTo(40)
+                make.bottom.lessThanOrEqualTo(baseView).offset(-Design.paddingDefault).priority(.high) //이거 지정해줘야함.
             }
         }
      

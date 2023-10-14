@@ -236,7 +236,6 @@ extension HomeViewController{
         }
         
         dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            
 //            print("DEBUG: Cell Provider", itemIdentifier.title, itemIdentifier.readingStatus)
             
             let status = itemIdentifier.readingStatus
