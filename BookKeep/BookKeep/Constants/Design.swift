@@ -22,6 +22,7 @@ enum Design{
     static let fontTitle: UIFont = .systemFont(ofSize: 28, weight: .bold)
     static let fontSubTitle: UIFont = .systemFont(ofSize: 24, weight: .semibold)
     static let fontDefault: UIFont = .systemFont(ofSize: 16, weight: .medium)
+    static let fontSmall: UIFont = .systemFont(ofSize: 12, weight: .light)
     static let fontAccentDefault: UIFont = .systemFont(ofSize: 18, weight: .semibold)
 
     static let debugPink = UIColor.systemPink.withAlphaComponent(0.5)

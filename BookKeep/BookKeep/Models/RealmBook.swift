@@ -54,15 +54,13 @@ final class RealmBook: Object {
 class ReadSession: Object{
     @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var startTime: Date = .now
-    @Persisted var endTime: Date = .now
     @Persisted var endPage: Int = 0
-    @Persisted var duration: Int = 0
+    @Persisted var duration: Double = 0
     @Persisted(originProperty: "readSessions") var ofBook: LinkingObjects<RealmBook>
     
-    convenience init(startTime: Date, endTime: Date, endPage: Int, duration: Int) {
+    convenience init(startTime: Date, endPage: Int, duration: Double) {
         self.init()
         self.startTime = startTime
-        self.endTime = endTime
         self.endPage = endPage
         self.duration = duration
     }

@@ -12,27 +12,43 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     var detailBook: RealmBook?
     var vm: DetailViewModel?
     weak var delegate: DiffableDataSourceDelegate? //section 이동
-    var memoButtonAction: (() -> Void)? // Closure property to hold the action for memoButton click
-
+    var memoButtonAction: (() -> Void)?
+    var readButtonAction: (() -> Void)?
+    private let viewComponents = DetailViewComponents()
+    private let labelViews = LabelViews()
     lazy var baseView = {
         let view = UIView()
         return view
     }()
     
-    let bookTitle = DetailViewComponents.bookTitle
-    let coverImageView = DetailViewComponents.coverImageView
-    let author = DetailViewComponents.author
-    let readButton = DetailViewComponents.readButton
-    let memoButton = DetailViewComponents.memoButton
-    let page = DetailViewComponents.page
-    let startReadingButton = DetailViewComponents.startReadingButton
     
-    let introduction = DetailViewComponents.introduction
-    let publisher = DetailViewComponents.publisher
-    let isbn = DetailViewComponents.isbn
+    
+    
+    lazy var bookTitle = viewComponents.bookTitle
+    lazy var coverImageView = viewComponents.coverImageView
+    lazy var author = viewComponents.author
+    lazy var readButton = viewComponents.readButton
+    lazy var memoButton = viewComponents.memoButton
+    lazy var page = viewComponents.page
+    let startReadingButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "book"), for: .normal)
+        button.setTitle(Literal.startReadingLabel, for: .normal)
+        button.backgroundColor = Design.colorPrimaryAccent
+        button.tintColor = Design.colorSecondaryAccent
+        button.setTitleColor(Design.colorSecondaryAccent, for: .normal)
+        button.layer.cornerRadius = Design.paddingDefault
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowOpacity = 0.5
+        return button
+    }()
+    
+    lazy var introduction = viewComponents.introduction
+    lazy var publisher = viewComponents.publisher
+    lazy var isbn = viewComponents.isbn
     
     lazy var infoStack = {
-        let view = UIStackView(arrangedSubviews: [LabelViews.pageLabel,page,LabelViews.introductionLabel,introduction,LabelViews.publisherLabel,publisher, LabelViews.isbnLabel,isbn])
+        let view = UIStackView(arrangedSubviews: [labelViews.pageLabel,page,labelViews.introductionLabel,introduction,labelViews.publisherLabel,publisher, labelViews.isbnLabel,isbn])
         view.axis = .vertical
         view.alignment = .fill
         view.spacing = 4
@@ -91,9 +107,11 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
         }
         
         if detailBook.readingStatus == .reading{
+            startReadingButton.isHidden = true
             contentView.addSubview(readButton)
             contentView.addSubview(memoButton)
             memoButton.addTarget(self, action: #selector(memoButtonClicked), for: .touchUpInside)
+            readButton.addTarget(self, action: #selector(readButtonClicked), for: .touchUpInside)
             contentView.addSubview(infoStack)
             
             
@@ -114,18 +132,18 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
             infoStack.snp.makeConstraints { make in
                 make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
                 make.leading.trailing.equalTo(baseView)
-                make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high)// Specify a bottom constraint
+                make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high) //이거 지정해줘야함.
             }
         }else if detailBook.readingStatus == .toRead{
             contentView.addSubview(startReadingButton)
+            startReadingButton.isHidden = false
             startReadingButton.addTarget(self, action: #selector(startReadingClicked), for: .touchUpInside)
             
             startReadingButton.snp.makeConstraints { make in
                 make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
                 make.horizontalEdges.equalTo(baseView)
-                
-                make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high)// Specify a bottom constraint
-
+                make.height.greaterThanOrEqualTo(40)
+                make.bottom.lessThanOrEqualTo(baseView).offset(-Design.paddingDefault).priority(.high) //이거 지정해줘야함.
             }
         }
      
@@ -139,6 +157,9 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     
     @objc func memoButtonClicked(){
         memoButtonAction?()
+    }
+    @objc func readButtonClicked(){
+        readButtonAction?()
     }
     
     

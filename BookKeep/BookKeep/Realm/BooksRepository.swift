@@ -11,6 +11,7 @@ import RealmSwift
 enum RealmError: String, Error, LocalizedError{
     case primaryKey = "PK 에러가 났습니다"
     case nonExist = "데이터가 없습니다"
+    case alreadyExist = "책이 이미 존재합니다"
 }
 class BooksRepository: Error, LocalizedError{
     static let shared = BooksRepository()
@@ -24,9 +25,11 @@ class BooksRepository: Error, LocalizedError{
         guard realm?.object(ofType: RealmBook.self, forPrimaryKey: book.isbn) == nil else {
 //            print(#function,"Old")
             //Old record exists: then simply mark it's isDeleted to false and recover it.
-            let deletedBook = realm?.object(ofType: RealmBook.self, forPrimaryKey: book.isbn)
-            if deletedBook?.isDeleted == true{
+            let existingBook = realm?.object(ofType: RealmBook.self, forPrimaryKey: book.isbn)
+            if existingBook?.isDeleted == true{
                 recoverBook(isbn: book.isbn)
+            }else{
+                throw RealmError.primaryKey
             }
          return
         }

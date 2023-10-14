@@ -24,13 +24,13 @@ class DetailTableViewController: UIViewController{
     var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     lazy var menuButton: UIBarButtonItem = {
-        let view = UIBarButtonItem(title: "메뉴", style: .plain, target: self, action: #selector(showMenu))
+        let view = UIBarButtonItem(title: "메뉴", style: .plain, target: self, action: #selector(showMenuClicked))
         view.image = UIImage(systemName: "ellipsis")
         return view
     }()
     
     lazy var editButton: UIBarButtonItem = {
-        let view = UIBarButtonItem(title: "편집", style: .plain, target: self, action: #selector(showEdit))
+        let view = UIBarButtonItem(title: "편집", style: .plain, target: self, action: #selector(showEditClicked))
         view.image = UIImage(systemName: "pencil")
         return view
     }()
@@ -59,6 +59,8 @@ class DetailTableViewController: UIViewController{
         
         tableView.register(DetailTableHeader.self, forHeaderFooterViewReuseIdentifier: "DetailTableHeader")
         tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: DetailTableViewCell.identifier)
+        tableView.register(DetailTableFooter.self, forHeaderFooterViewReuseIdentifier: "DetailTableFooter")
+
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -74,11 +76,11 @@ class DetailTableViewController: UIViewController{
         }
     }
     
-    @objc func showMenu(){
+    @objc func showMenuClicked(){
         showActionSheet(title: nil, message: nil)
     }
     
-    @objc func showEdit(){
+    @objc func showEditClicked(){
         showEditSheet()
     }
     
@@ -108,6 +110,13 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
             return nil
         }
     }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableFooter") as? DetailTableFooter else {
+            return UIView()
+        }
+        return footer
+    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableHeader") as? DetailTableHeader else {
@@ -123,6 +132,13 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
             vc.vm = self.vm
             self.navigationController?.pushViewController(vc, animated: true)
         }
+        
+        header.readButtonAction = {
+            let vc = ReadingViewController()
+            vc.isbn = book.isbn
+            self.navigationController?.pushViewController(vc, animated: true)
+
+        }
         header.setViews()
         header.setData()
         
@@ -137,7 +153,7 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return vm?.book.value?.memos.count ?? 0
+        return vm?.book.value?.memos.count ?? 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -198,8 +214,9 @@ extension DetailTableViewController{
         }
         present(vc, animated: true, completion: nil)
     }
+    
     private func confirmDeleteMemo(title: String?, message: String?, memo: Memo?){
-        print(#function, memo)
+//        print(#function, memo)
         guard let memo = memo else { return }
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

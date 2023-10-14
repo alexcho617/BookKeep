@@ -38,4 +38,12 @@ extension UIViewController{
         return base
     }
     
+    static func printUserDefaultsStatus(){
+        let elapsedTime = UserDefaults.standard.value(forKey: UserDefaultsKey.LastElapsedTime.rawValue) ?? "nil"
+        let state = UserDefaults.standard.value(forKey: UserDefaultsKey.LastReadingState.rawValue) ?? "nil"
+        let isbn = UserDefaults.standard.value(forKey: UserDefaultsKey.LastISBN.rawValue) ?? "nil"
+        let startTime = UserDefaults.standard.value(forKey: UserDefaultsKey.LastStartTime.rawValue) ?? "nil"
+
+        print("DEBUG UD - Time:\(elapsedTime) State:\(state) ISBN:\(isbn) Started At:\(startTime)")
+    }
 }

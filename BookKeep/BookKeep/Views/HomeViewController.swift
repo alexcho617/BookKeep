@@ -32,7 +32,36 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         setConstraints()
         configureDataSource()
         bindData()
+        
         //MARK: DEBUG
+        if UserDefaults.standard.object(forKey: UserDefaultsKey.LastReadingState.rawValue) != nil{
+            print("DEBUG: 저장되지 않은 세션 있음")
+            //복구 정보
+            guard let isbn = UserDefaults.standard.object(forKey: UserDefaultsKey.LastISBN.rawValue) as? String else {return}
+            guard let startTime = UserDefaults.standard.object(forKey: UserDefaultsKey.LastStartTime.rawValue) as? Date else {return}
+            guard let readTime = UserDefaults.standard.object(forKey: UserDefaultsKey.LastElapsedTime.rawValue) as? TimeInterval else {return}
+            
+            HomeViewController.printUserDefaultsStatus()
+            self.showActionAlert(title: "세션 복구", message: "저장하지 않은 세션을 복구하시겠습니까?") {
+                //alert action present ReadCompleteVC
+                let vc = ReadCompleteViewController()
+                vc.isbn = isbn
+                vc.startTime = startTime
+                vc.readTime = readTime
+                vc.navigationHandler = {
+                    self.reloadCollectionView()
+                }
+                if let sheet = vc.sheetPresentationController{
+                    sheet.detents = [.medium(), .large()]
+                    sheet.prefersGrabberVisible = true
+                }
+                self.present(vc, animated: true, completion: nil)
+                
+            }
+            
+        } else{
+            print("DEBUG: 저장되지 않은 세션 없음")
+        }
         BooksRepository.shared.realmURL()
         
     }
@@ -59,6 +88,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
             make.edges.equalToSuperview()
         }
     }
+    
     private func setViewDesign(){
         collectionView.backgroundColor = .clear
         let appearance = UINavigationBarAppearance()
@@ -72,6 +102,29 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         title = "홈"
         
     }
+    
+    private func showActionAlert(title: String, message: String, handler: (()->Void)?){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "버리기", style: .destructive) { _ in
+            self.clearUD()
+        }
+        let confirmAction = UIAlertAction(title: "저장하기", style: .default) { _ in
+            handler?()
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(confirmAction)
+        present(alert,animated: true)
+    }
+    
+    private func clearUD(){
+        print("DEBUG: UD will Clear")
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastReadingState.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastElapsedTime.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastISBN.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastStartTime.rawValue)
+        print("DEBUG: UD is Cleared")
+     }
+    
 }
 
 
@@ -140,7 +193,7 @@ extension HomeViewController{
         
         //TODO: 현재 셀이 타이틀 길이에 따라 높이가 달라지고 있는데 itemsize가 변경되지않고있음. 타이틀 길이에 따라 길이가 변하도록 변경
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .estimated(250))
+                                               heightDimension: .estimated(280))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -185,7 +238,6 @@ extension HomeViewController{
         }
         
         dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            
 //            print("DEBUG: Cell Provider", itemIdentifier.title, itemIdentifier.readingStatus)
             
             let status = itemIdentifier.readingStatus
@@ -252,7 +304,6 @@ extension HomeViewController{
 extension HomeViewController{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let selectedBook = dataSource.itemIdentifier(for: indexPath) else {return}
-        //헤더에서 vc 거치지 않고 바로 vm에서 처리하기위해 이렇게 했는데 괜찮은가?
         let vc = DetailTableViewController()
         vc.vm = DetailViewModel(isbn: selectedBook.isbn)
         vc.vm?.homeDelegate = self

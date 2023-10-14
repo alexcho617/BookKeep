@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "magictimer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/MagicTimerFW/MagicTimer.git",
+      "state" : {
+        "revision" : "3aacf9b3a6e73473687d84758bf28ee2d5eeb2ff",
+        "version" : "1.0.4"
+      }
+    },
+    {
       "identity" : "realm-core",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",

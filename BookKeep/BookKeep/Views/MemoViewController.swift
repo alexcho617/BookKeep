@@ -29,9 +29,7 @@ final class MemoViewController: UIViewController {
     }()
     
     let datePicker = {
-        let view = UIDatePicker()
-        let style = UIDatePickerStyle.wheels
-        
+        let view = UIDatePicker()        
         return view
     }()
     
@@ -66,7 +64,8 @@ final class MemoViewController: UIViewController {
         //set view
         view.addSubview(textView)
         view.addSubview(datePicker)
-        textView.becomeFirstResponder()
+        textView.layer.cornerRadius = Design.paddingDefault
+
         navigationItem.rightBarButtonItem = saveButton
         view.backgroundColor = Design.colorPrimaryBackground
         
@@ -77,7 +76,7 @@ final class MemoViewController: UIViewController {
         textView.snp.makeConstraints { make in
             make.top.equalTo(datePicker.snp.bottom).offset(Design.paddingDefault)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(Design.paddingDefault)
-            make.height.equalTo(view).multipliedBy(0.45)
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-Design.paddingDefault)
         }
         
         //load if data exists

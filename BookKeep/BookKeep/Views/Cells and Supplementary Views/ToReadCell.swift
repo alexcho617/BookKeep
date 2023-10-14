@@ -29,17 +29,17 @@ final class ToReadCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.kf.setImage(with: URL(string: book.coverUrl))
         
-        
       
         contentView.addSubview(title)
         title.text = book.title
         title.font = Design.fontDefault
         title.textColor = Design.colorTextDefault
-        title.numberOfLines = 1
+        title.numberOfLines = 2
         
     }
     
     func setConstraints(){
+        
         imageView.snp.makeConstraints { make in
             make.top.leading.equalTo(contentView)
             make.width.equalTo(contentView).multipliedBy(0.8)
@@ -51,7 +51,7 @@ final class ToReadCell: UICollectionViewCell {
             make.top.equalTo(imageView.snp.bottom).offset(Design.paddingDefault)
             make.leading.equalTo(imageView).offset(Design.paddingDefault)
             make.trailing.equalTo(contentView.snp.trailing).offset(-Design.paddingDefault)
-            
+            make.bottom.greaterThanOrEqualToSuperview()
         }
     }
     
