@@ -40,6 +40,8 @@ class ReadingViewModel{
         timer.isActiveInBackground = true
         timer.observeElapsedTime = observeTimeHandler(time:)
         UserDefaults.standard.set(isbn, forKey: UserDefaultsKey.LastISBN.rawValue)
+        UserDefaults.standard.set(startTime, forKey: UserDefaultsKey.LastStartTime.rawValue)
+
         mainButtonClicked()
     }
   

@@ -24,13 +24,13 @@ class DetailTableViewController: UIViewController{
     var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     lazy var menuButton: UIBarButtonItem = {
-        let view = UIBarButtonItem(title: "메뉴", style: .plain, target: self, action: #selector(showMenu))
+        let view = UIBarButtonItem(title: "메뉴", style: .plain, target: self, action: #selector(showMenuClicked))
         view.image = UIImage(systemName: "ellipsis")
         return view
     }()
     
     lazy var editButton: UIBarButtonItem = {
-        let view = UIBarButtonItem(title: "편집", style: .plain, target: self, action: #selector(showEdit))
+        let view = UIBarButtonItem(title: "편집", style: .plain, target: self, action: #selector(showEditClicked))
         view.image = UIImage(systemName: "pencil")
         return view
     }()
@@ -59,6 +59,8 @@ class DetailTableViewController: UIViewController{
         
         tableView.register(DetailTableHeader.self, forHeaderFooterViewReuseIdentifier: "DetailTableHeader")
         tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: DetailTableViewCell.identifier)
+        tableView.register(DetailTableFooter.self, forHeaderFooterViewReuseIdentifier: "DetailTableFooter")
+
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -74,11 +76,11 @@ class DetailTableViewController: UIViewController{
         }
     }
     
-    @objc func showMenu(){
+    @objc func showMenuClicked(){
         showActionSheet(title: nil, message: nil)
     }
     
-    @objc func showEdit(){
+    @objc func showEditClicked(){
         showEditSheet()
     }
     
@@ -107,6 +109,13 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
         case .toRead,.done,.paused,.stopped:
             return nil
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableFooter") as? DetailTableFooter else {
+            return UIView()
+        }
+        return footer
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
