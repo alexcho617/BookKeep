@@ -32,7 +32,35 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         setConstraints()
         configureDataSource()
         bindData()
+        
         //MARK: DEBUG
+        //TODO: UD에서 reading status 확인 후 ReadCompleteVC 활성화
+        if UserDefaults.standard.object(forKey: UserDefaultsKey.LastReadingState.rawValue) != nil{
+            print("DEBUG: 저장되지 않은 세션 있음")
+            //복구 alert
+            self.showActionAlert(title: "세션 복구", message: "저장하지 않은 세션을 복구하시겠습니까?") {
+                //복구 정보
+                guard let isbn = UserDefaults.standard.object(forKey: UserDefaultsKey.LastISBN.rawValue) as? String else {return}
+                guard let startTime = UserDefaults.standard.object(forKey: UserDefaultsKey.LastStartTime.rawValue) as? Date else {return}
+                guard let readTime = UserDefaults.standard.object(forKey: UserDefaultsKey.LastElapsedTime.rawValue) as? TimeInterval else {return}
+                
+                //VC
+                let vc = ReadCompleteViewController()
+                vc.isbn = isbn
+                vc.startTime = startTime
+                vc.readTime = readTime
+                
+                if let sheet = vc.sheetPresentationController{
+                    sheet.detents = [.medium(), .large()]
+                    sheet.prefersGrabberVisible = true
+                }
+                self.present(vc, animated: true, completion: nil)
+                
+            }
+            
+        } else{
+            print("DEBUG: 저장되지 않은 세션 없음")
+        }
         BooksRepository.shared.realmURL()
         
     }
@@ -59,6 +87,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
             make.edges.equalToSuperview()
         }
     }
+    
     private func setViewDesign(){
         collectionView.backgroundColor = .clear
         let appearance = UINavigationBarAppearance()
@@ -72,6 +101,29 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         title = "홈"
         
     }
+    
+    private func showActionAlert(title: String, message: String, handler: (()->Void)?){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "버리기", style: .destructive) { _ in
+            self.clearUD()
+        }
+        let confirmAction = UIAlertAction(title: "저장하기", style: .default) { _ in
+            handler?()
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(confirmAction)
+        present(alert,animated: true)
+    }
+    
+    private func clearUD(){
+        print("DEBUG: UD will Clear")
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastReadingState.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastElapsedTime.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastISBN.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastStartTime.rawValue)
+        print("DEBUG: UD is Cleared")
+     }
+    
 }
 
 

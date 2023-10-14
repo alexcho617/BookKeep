@@ -14,6 +14,16 @@ final class ReadCompleteViewController: UIViewController {
     var readTime: TimeInterval?
     var page: Int?
     
+    //todo: realm 에서 타이틀 가져오기
+    let titleLabel = {
+        let view = UILabel()
+        view.text = "책 타이틀을 렘에서 가져오쟈 책 타이틀을 렘에서 가져오쟈 책 타이틀을 렘에서 가져오쟈 책 타이틀을 렘에서 가져오쟈"
+        view.numberOfLines = 2
+        view.font = Design.fontAccentDefault
+        view.textColor = UIColor.label
+        return view
+    }()
+    
     let startDateLabel = {
         let view = UILabel()
         view.text = "시작시간"
@@ -80,6 +90,7 @@ final class ReadCompleteViewController: UIViewController {
     
     func setView(){
         view.backgroundColor = Design.colorSecondaryBackground
+        view.addSubview(titleLabel)
         view.addSubview(startDateLabel)
         view.addSubview(startDatePicker)
         view.addSubview(pageTextField)
@@ -92,13 +103,18 @@ final class ReadCompleteViewController: UIViewController {
         pageTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         confirmButton.addTarget(self, action: #selector(confirmButtonClicked(_:)), for: .touchUpInside)
         
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(2*Design.paddingDefault)
+            make.horizontalEdges.equalToSuperview().inset(Design.paddingDefault)
+        }
+        
         startDateLabel.snp.makeConstraints { make in
             make.leading.equalTo(view.safeAreaLayoutGuide).inset(Design.paddingDefault)
             make.centerY.equalTo(startDatePicker)
         }
         
         startDatePicker.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(2*Design.paddingDefault)
+            make.top.equalTo(titleLabel.snp.bottom).offset(2*Design.paddingDefault)
             make.leading.equalTo(startDateLabel.snp.trailing).offset(Design.paddingDefault).priority(.high)
             make.trailing.lessThanOrEqualTo(view.safeAreaLayoutGuide).offset(-Design.paddingDefault)
         }
@@ -134,9 +150,12 @@ extension ReadCompleteViewController: UITextFieldDelegate{
     
     @objc func confirmButtonClicked(_ button: UIButton){
         print(#function)
+        print(isbn)
         print(startDatePicker.date)
         print(pageTextField.text!)
         print(readTimePicker.countDownDuration)
+        //TODO: Add validation and create ReadSession
+        //TODO: Add to realm and handle navigation
 //        if vm.validate(){
 //            view.endEditing(true)
 //            dismiss(animated: true)

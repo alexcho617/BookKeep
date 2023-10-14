@@ -88,16 +88,6 @@ class ReadingViewModel{
         handler()
     }
     
-    func doneReading(){
-        
-//        let page = 0// get this from view
-        //TODO: Usecase 정립 및 함수 로직 정의
-//        addSession(startTime: startTime, endPage: page, duration: Int(elapsedTime.value)) {
-//            //do some stuff
-//        }
-        //Create done reading pop up view (HomeVC에서 재활용 가능)
-    }
-    
     func saveCurrentStatusToUD(){
         UserDefaults.standard.set(readingState.value.rawValue, forKey: UserDefaultsKey.LastReadingState.rawValue)
         UserDefaults.standard.set(elapsedTime.value, forKey: UserDefaultsKey.LastElapsedTime.rawValue)
@@ -107,11 +97,12 @@ class ReadingViewModel{
     }
     
     func clearUD(){
+        print("DEBUG: UD will Clear")
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastReadingState.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastElapsedTime.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastISBN.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastStartTime.rawValue)
-
+        print("DEBUG: UD is Cleared")
      }
     
     func fetchBookFromRealm(isbn: String) {
