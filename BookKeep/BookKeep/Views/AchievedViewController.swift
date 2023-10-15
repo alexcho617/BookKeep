@@ -9,6 +9,10 @@ import UIKit
 import RealmSwift
 
 final class AchievedViewController: UIViewController {
+    //TODO: CollectionView 구현
+    //TODO: CollectionView Header 구현
+    //TODO: 쎌 선택시 DetailTableView에서 대응
+    
     let vm = AchievedViewModel()
     var booksDoneReading: [RealmBook]!
     override func viewDidLoad() {
