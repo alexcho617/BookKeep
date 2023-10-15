@@ -170,7 +170,6 @@ final class ReadingViewController: UIViewController {
         }
     }
     @objc func doneClicked(){
-        //TODO: make reading done UIVIew
         if vm.readingState.value == .reading{
             vm.mainButtonClicked()
         }

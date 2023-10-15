@@ -34,7 +34,7 @@ class DetailViewModel{
     //listen for changes of realm objects and update the observables
     private func observeRealmChanges(for observable: RealmBook){
         objectNotificationToken = observable.observe { changes in
-            print("DetailViewModel-",#function)
+            print("DEBUG: DetailViewModel-",#function)
             switch changes {
             case .change(let object, _):
                 let pk = object.value(forKey: "isbn")

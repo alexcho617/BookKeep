@@ -85,7 +85,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
             make.edges.equalToSuperview()
         }
         collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
@@ -98,9 +98,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = Design.colorPrimaryBackground
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.standardAppearance = appearance
-        title = "홈"
-        
+        navigationController?.navigationBar.standardAppearance = appearance        
     }
     
     private func showActionAlert(title: String, message: String, handler: (()->Void)?){

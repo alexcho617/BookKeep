@@ -85,7 +85,6 @@ extension EditViewController: UITextFieldDelegate{
         if vm.validate(){
             view.endEditing(true)
             if vm.book?.currentReadingPage == vm.book?.page{
-                //TODO: change readingState = .done
                 BooksRepository.shared.updateBookReadingStatus(isbn: isbn, to: .done)
                 SPConfetti.startAnimating(.centerWidthToDown, particles: [.triangle, .arc, .star, .heart], duration: 3)
                 self.showAlert(title: "🎉🎉🎉", message: Literal.bookFinished){

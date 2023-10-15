@@ -13,6 +13,7 @@ enum RealmError: String, Error, LocalizedError{
     case nonExist = "데이터가 없습니다"
     case alreadyExist = "책이 이미 존재합니다"
 }
+
 class BooksRepository: Error, LocalizedError{
     static let shared = BooksRepository()
     let realm = Realm.safeInit()
@@ -21,9 +22,7 @@ class BooksRepository: Error, LocalizedError{
     
     func create(_ book: RealmBook) throws {
         //PK exists: Check if it was deleted book
-        
         guard realm?.object(ofType: RealmBook.self, forPrimaryKey: book.isbn) == nil else {
-//            print(#function,"Old")
             //Old record exists: then simply mark it's isDeleted to false and recover it.
             let existingBook = realm?.object(ofType: RealmBook.self, forPrimaryKey: book.isbn)
             if existingBook?.isDeleted == true{
@@ -33,7 +32,6 @@ class BooksRepository: Error, LocalizedError{
             }
          return
         }
-//        print(#function,"NEW")
         //PK doesnt exist:
         do {
             try realm?.write{
@@ -52,6 +50,7 @@ class BooksRepository: Error, LocalizedError{
             realm?.delete(target)
         }
     }
+    
     func markDelete(isbn: String){
         guard let book = realm?.object(ofType: RealmBook.self, forPrimaryKey: isbn) else {return}
         
@@ -77,6 +76,7 @@ class BooksRepository: Error, LocalizedError{
             book?.readingStatus = status
         }
     }
+    
     func updateCurrentPage(isbn: String, to newPage: Int){
         let book = realm!.object(ofType: RealmBook.self, forPrimaryKey: isbn)
         try! realm?.write {
@@ -104,6 +104,7 @@ class BooksRepository: Error, LocalizedError{
             $0.isDeleted == false
         }
     }
+    
     func realmURL(){
         print(realm?.configuration.fileURL ?? "")
     }

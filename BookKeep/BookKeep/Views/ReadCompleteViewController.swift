@@ -169,10 +169,8 @@ extension ReadCompleteViewController: UITextFieldDelegate{
         vm.startTimeInput.value = startDatePicker.date
         vm.readTimeInput.value = readTimePicker.countDownDuration
         if vm.addSession(){
-            //TODO: celebrate
             //책이 끝난 경우
             if vm.book.value?.currentReadingPage == vm.book.value?.page{
-                //TODO: change readingState = .done
                 BooksRepository.shared.updateBookReadingStatus(isbn: isbn, to: .done)
                 SPConfetti.startAnimating(.centerWidthToDown, particles: [.triangle, .arc, .star, .heart], duration: 3)
                 self.showAlert(title: "🎉🎉🎉", message: Literal.bookFinished){

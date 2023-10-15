@@ -18,8 +18,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        let vc = HomeViewController() //Entry Point View Controller
-        window?.rootViewController = UINavigationController(rootViewController: vc)
+        
+        let tabBarController = UITabBarController()
+        let homeVC = UINavigationController(rootViewController: HomeViewController())
+        let achievedVC = UINavigationController(rootViewController: AchievedViewController())
+        
+        tabBarController.setViewControllers([homeVC, achievedVC], animated: true)
+        tabBarController.tabBar.tintColor = Design.colorPrimaryAccent
+        
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.backgroundColor = Design.colorPrimaryBackground
+        tabBarController.tabBar.scrollEdgeAppearance = tabBarAppearance //끝에 있을때: 맨 아래로 내려가있을때
+        tabBarController.tabBar.standardAppearance = tabBarAppearance //끝에 닿지 않을때 NavigationBar랑 반대임
+        
+        if let items = tabBarController.tabBar.items{
+            items[0].image = UIImage(systemName: "house.fill")
+            items[0].title = "홈"
+            
+            
+            items[1].image = UIImage(systemName: "medal.fill")
+            items[1].title = "업적"
+        }
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
 
