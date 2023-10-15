@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import SPConfetti
 
 extension UIViewController{
     
@@ -45,5 +46,11 @@ extension UIViewController{
         let startTime = UserDefaults.standard.value(forKey: UserDefaultsKey.LastStartTime.rawValue) ?? "nil"
 
         print("DEBUG UD - Time:\(elapsedTime) State:\(state) ISBN:\(isbn) Started At:\(startTime)")
+    }
+    
+    func celebrate(handler: (()->Void)?){
+        showAlert(title: "🎉", message: "책을 다 읽으셨네요!", handler: nil)
+        SPConfetti.startAnimating(.centerWidthToDown, particles: [.triangle, .arc, .star, .heart], duration: 3)
+        handler?()
     }
 }

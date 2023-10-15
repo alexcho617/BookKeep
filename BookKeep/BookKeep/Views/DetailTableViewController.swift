@@ -100,13 +100,13 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
         guard let book = vm?.book.value else {return nil}
         let status = book.readingStatus
         switch status {
-        case .reading:
+        case .reading, .done:
             if book.memos.count != 0{
                 return Literal.memoSectionTitle
             }else{
                 return Literal.noMemoSectionTitle
             }
-        case .toRead,.done,.paused,.stopped:
+        case .toRead,.paused,.stopped:
             return nil
         }
     }

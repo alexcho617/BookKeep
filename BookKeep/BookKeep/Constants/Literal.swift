@@ -14,4 +14,6 @@ enum Literal{
     static let noMemoSectionTitle = "추가한 메모가 없습니다"
     static let memoSectionTitle = "내가 추가한 메모"
     static let mainReading = "Now Reading..."
+    static let bookFinished = "책 한권을 끝내셨군요!"
+    static let readSessionDone = "독서 세션이 기록되었습니다"
 }

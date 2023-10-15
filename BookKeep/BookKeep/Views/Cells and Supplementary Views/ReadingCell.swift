@@ -15,6 +15,8 @@ final class ReadingCell: UICollectionViewCell {
     var imageView = UIImageView()
     var startDate = UILabel()
     var page = UILabel()
+    
+    //TODO: Read screen connect
     var readButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "timer"), for: .normal)
@@ -26,6 +28,7 @@ final class ReadingCell: UICollectionViewCell {
         return button
     }()
     
+    //TODO: Memo screen connect
     var memoButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "note.text.badge.plus"), for: .normal)

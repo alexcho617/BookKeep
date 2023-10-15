@@ -40,6 +40,7 @@
 		5790CF012AD54ED40066D517 /* ReadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CF002AD54ED40066D517 /* ReadingViewController.swift */; };
 		5790CF032AD54EE70066D517 /* ReadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CF022AD54EE70066D517 /* ReadingViewModel.swift */; };
 		5790CF062AD550AA0066D517 /* MagicTimer in Frameworks */ = {isa = PBXBuildFile; productRef = 5790CF052AD550AA0066D517 /* MagicTimer */; };
+		57A0F4CC2ADBF9E6008396D6 /* SPConfetti in Frameworks */ = {isa = PBXBuildFile; productRef = 57A0F4CB2ADBF9E6008396D6 /* SPConfetti */; };
 		57ADDFF22AC1A38D00EA0EFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */; };
 		57ADDFF42AC1A38D00EA0EFE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */; };
 		57ADDFF62AC1A38D00EA0EFE /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */; };
@@ -136,6 +137,7 @@
 				577082C72AC2E1510052EA8A /* Kingfisher in Frameworks */,
 				577082B92AC2C1900052EA8A /* RealmSwift in Frameworks */,
 				577082B72AC2C1900052EA8A /* Realm in Frameworks */,
+				57A0F4CC2ADBF9E6008396D6 /* SPConfetti in Frameworks */,
 				5790CF062AD550AA0066D517 /* MagicTimer in Frameworks */,
 				577082B42AC2BC230052EA8A /* SnapKit in Frameworks */,
 			);
@@ -323,6 +325,7 @@
 				577082C62AC2E1510052EA8A /* Kingfisher */,
 				577082E32AC6B0BF0052EA8A /* Alamofire */,
 				5790CF052AD550AA0066D517 /* MagicTimer */,
+				57A0F4CB2ADBF9E6008396D6 /* SPConfetti */,
 			);
 			productName = BookKeep;
 			productReference = 57ADDFEE2AC1A38D00EA0EFE /* BookKeep.app */;
@@ -402,6 +405,7 @@
 				577082C52AC2E1510052EA8A /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				577082E22AC6B0BF0052EA8A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				5790CF042AD550AA0066D517 /* XCRemoteSwiftPackageReference "MagicTimer" */,
+				57A0F4CA2ADBF9E6008396D6 /* XCRemoteSwiftPackageReference "SPConfetti" */,
 			);
 			productRefGroup = 57ADDFEF2AC1A38D00EA0EFE /* Products */;
 			projectDirPath = "";
@@ -871,6 +875,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		57A0F4CA2ADBF9E6008396D6 /* XCRemoteSwiftPackageReference "SPConfetti" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ivanvorobei/SPConfetti.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -903,6 +915,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5790CF042AD550AA0066D517 /* XCRemoteSwiftPackageReference "MagicTimer" */;
 			productName = MagicTimer;
+		};
+		57A0F4CB2ADBF9E6008396D6 /* SPConfetti */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57A0F4CA2ADBF9E6008396D6 /* XCRemoteSwiftPackageReference "SPConfetti" */;
+			productName = SPConfetti;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
