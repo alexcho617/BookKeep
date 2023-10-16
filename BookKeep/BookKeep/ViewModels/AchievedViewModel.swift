@@ -10,14 +10,14 @@ import RealmSwift
 
 class AchievedViewModel{
     
-    var books: Observable<Results<RealmBook>>
+    var booksDoneReading: Observable<Results<RealmBook>>
 
     private var notificationTokens: [NotificationToken] = []
     init() {
-        //책 전체 불러옴
-        books = Observable(BooksRepository.shared.fetchAllBooks())
+        //다 읽은 책 들만 가져옴
+        booksDoneReading = Observable(BooksRepository.shared.fetchBooksByStatus(.done))
         //구독 시킴
-        observeRealmChanges(for: books)
+        observeRealmChanges(for: booksDoneReading)
     }
 
     //listen for changes of realm objects and update the observables
@@ -28,7 +28,6 @@ class AchievedViewModel{
                 print("DEBUG: AchievedViewModel-observeRealmChanges: initialized")
                 observable.value = results
             case .update(let results, deletions: _, insertions: _, modifications: _):
-                //reassign observalbe.value and reflect in snapshot
                 print("DEBUG: AchievedViewModel-observeRealmChanges: change detected")
                 observable.value = results
             case .error(let error):
