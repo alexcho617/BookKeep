@@ -12,12 +12,12 @@ class SearchViewController: UIViewController{
     var baseView: UIStackView!
     let searchBar = UISearchBar()
     
-    var collectionView = {
-        let view = UICollectionView(frame: .zero, collectionViewLayout: SearchViewController.getCollectionViewLayout())
+    lazy var collectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
         return view
     }()
     
-    static func getCollectionViewLayout() -> UICollectionViewLayout{
+    func getCollectionViewLayout() -> UICollectionViewLayout{
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 150)
         return layout
