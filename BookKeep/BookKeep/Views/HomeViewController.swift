@@ -96,7 +96,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
     
     private func setViewDesign(){
         collectionView.backgroundColor = .clear
-        
+        title = "홈"
         let appearance = UINavigationBarAppearance()
         appearance.shadowImage = UIImage()
         appearance.backgroundImage = UIImage()

@@ -9,7 +9,11 @@ import UIKit
 import RealmSwift
 import SnapKit
 
-final class AchievedViewController: UIViewController {
+protocol AchievedDelegate: AnyObject {
+    func reloadCollectionView()
+}
+
+final class AchievedViewController: UIViewController, AchievedDelegate {
 
     //views
     private lazy var collectionView = {
@@ -30,9 +34,16 @@ final class AchievedViewController: UIViewController {
     private func setView(){
         view.backgroundColor = Design.colorPrimaryAccent
         view.addSubview(collectionView)
+        title = "업적"
 
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
+        let appearance = UINavigationBarAppearance()
+        appearance.shadowImage = UIImage()
+        appearance.backgroundImage = UIImage()
+        appearance.backgroundColor = Design.colorPrimaryAccent
+        navigationController?.navigationBar.tintColor = Design.colorPrimaryBackground
+        
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.standardAppearance = appearance
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -66,7 +77,10 @@ final class AchievedViewController: UIViewController {
 }
 
 extension AchievedViewController: UICollectionViewDelegate, UICollectionViewDataSource{
-    
+    func reloadCollectionView() {
+        print("DEBUG: AchievedVC -", #function)
+        collectionView.reloadData()
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return vm.booksDoneReading.value.count
     }
@@ -96,7 +110,7 @@ extension AchievedViewController: UICollectionViewDelegate, UICollectionViewData
         //사실상 새로운 객체는 아니고 새로운 포인터
         let vc = DetailTableViewController() //isbn만 vc에 넘겨주고 vm은 알아서 생성하도록 하자 아니면 책을 넘기던가
         vc.vm = DetailViewModel(isbn: selectedBook.isbn)
-//        vc.vm?.homeDelegate = self
+        vc.vm?.achievedDelegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
 }

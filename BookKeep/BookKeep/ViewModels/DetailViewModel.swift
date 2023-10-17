@@ -12,8 +12,10 @@ class DetailViewModel{
     var isbn: String?
     var book: Observable<RealmBook?> = Observable(nil)
     weak var homeDelegate: DiffableDataSourceDelegate? // HomeVC Delegate
+    weak var achievedDelegate: AchievedDelegate? //AchievedVC Delegate
     private let booksRepository: BooksRepository
     var objectNotificationToken: NotificationToken?
+    private let realm = Realm.safeInit()
     
     init(isbn: String, booksRepository: BooksRepository = BooksRepository.shared){
         self.booksRepository = booksRepository
@@ -39,12 +41,18 @@ class DetailViewModel{
             switch changes {
             case .change(let object, _):
                 let pk = object.value(forKey: "isbn")
-                let realm = Realm.safeInit()
+//                let realm = Realm.safeInit()
                 //다시 넣어줌으로써 View의 바인드 호출
-                self.book.value = realm?.object(ofType: RealmBook.self, forPrimaryKey: pk)
+                self.book.value = self.realm?.object(ofType: RealmBook.self, forPrimaryKey: pk)
                 //TODO: snapshot.reloadsection으로 개선 가능
                 //업적화면에서 온 경우 필요없음: readingStatus로 분기처리?
-                self.homeDelegate?.reloadCollectionView()
+                if self.homeDelegate != nil{
+                    self.homeDelegate?.reloadCollectionView()
+                }
+                if self.achievedDelegate != nil{
+                    self.achievedDelegate?.reloadCollectionView()
+                }
+                
             case .error(let error):
                 print("\(error)")
             case .deleted:
@@ -60,10 +68,10 @@ class DetailViewModel{
         
         //add to realm
         let newMemo = Memo(date: date, contents: contents, photo: "")
-        let realm = Realm.safeInit()
+//        let realm = Realm.safeInit()
         
         do {
-            let realm = Realm.safeInit()
+//            let realm = Realm.safeInit()
             try realm?.write {
                 book.value?.memos.append(newMemo)
             }
@@ -87,11 +95,11 @@ class DetailViewModel{
         }
         
         //update realm observeRealmChanges 호출안됨
-        let realm = Realm.safeInit()
+//        let realm = Realm.safeInit()
         let memo = realm?.object(ofType: Memo.self, forPrimaryKey: memo._id)
         
         do {
-            let realm = Realm.safeInit()
+//            let realm = Realm.safeInit()
             try realm?.write {
                 memo?.contents = contents
                 memo?.date = date
@@ -107,7 +115,7 @@ class DetailViewModel{
     func deleteMemo(_ memo: Memo){
         do {
             //이거 계속 해야하나? 한번만 하면 안됨?
-            let realm = Realm.safeInit()
+//            let realm = Realm.safeInit()
             try realm?.write {
                 realm?.delete(memo)
                 
