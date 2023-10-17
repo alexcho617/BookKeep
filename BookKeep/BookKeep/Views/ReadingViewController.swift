@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-//TODO: iPhone 8 mainButton 하단 패딩 없음
+
 final class ReadingViewController: UIViewController {
     var isbn: String = ""
     var vm: ReadingViewModel!
@@ -45,9 +45,9 @@ final class ReadingViewController: UIViewController {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
+        view.backgroundColor = .clear
         view.layer.borderColor = Design.colorPrimaryAccent?.cgColor
         view.layer.borderWidth = 2
-        
         view.layer.cornerRadius = Design.paddingDefault
         view.clipsToBounds = true
         view.layer.shadowOffset = CGSize(width: 4, height: 4)
@@ -107,17 +107,19 @@ final class ReadingViewController: UIViewController {
     
     private func setConstraints(){
         nowReadingLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(Design.paddingDefault)
+            make.top.leading.equalTo(view.safeAreaLayoutGuide).inset(Design.paddingDefault)
         }
         
         bookTitle.snp.makeConstraints { make in
             make.top.equalTo(nowReadingLabel.snp.bottom).offset(Design.paddingDefault)
             make.horizontalEdges.equalToSuperview().offset(Design.paddingDefault)
+            make.bottom.lessThanOrEqualToSuperview().multipliedBy(0.3)
         }
         
         coverImageView.snp.makeConstraints { make in
             make.top.equalTo(bookTitle.snp.bottom).offset(2*Design.paddingDefault)
             make.centerX.equalToSuperview()
+            make.height.lessThanOrEqualToSuperview().multipliedBy(0.4)
         }
         
         timerLabel.snp.makeConstraints { make in
@@ -129,6 +131,8 @@ final class ReadingViewController: UIViewController {
             make.top.equalTo(timerLabel.snp.bottom).offset(Design.paddingDefault)
             make.centerX.equalToSuperview()
             make.width.equalTo(view).multipliedBy(0.3)
+            make.bottom.lessThanOrEqualToSuperview().offset(-Design.paddingDefault)
+            make.bottom.lessThanOrEqualTo(view.snp.bottom).offset(-Design.paddingDefault)
         }
     }
     
@@ -150,9 +154,9 @@ final class ReadingViewController: UIViewController {
         vm.book.bind { [self] book in
             guard let book = book else {return}
             bookTitle.text = book.title
+            coverImageView.kf.indicatorType = .activity
             coverImageView.kf.setImage(
                 with: URL(string: book.coverUrl),
-                placeholder: UIImage(named: "photo"),
                 options: [
                     .scaleFactor(UIScreen.main.scale),
                     .transition(.fade(1)),

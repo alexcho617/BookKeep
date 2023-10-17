@@ -36,10 +36,11 @@ class SearchCollectionViewCell: UICollectionViewCell {
         title.text = item.title
         title.textColor = Design.colorTextSubTitle
         title.numberOfLines = 2
-
+        
         contentView.addSubview(coverImage)
+        coverImage.kf.indicatorType = .activity
         coverImage.kf.setImage(with: URL(string: item.cover))
-        coverImage.backgroundColor = Design.debugBlue
+        coverImage.backgroundColor = .black
         coverImage.contentMode = .scaleAspectFill
         coverImage.clipsToBounds = true
         coverImage.layer.borderColor = Design.colorPrimaryAccent?.cgColor

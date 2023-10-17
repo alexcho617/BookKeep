@@ -68,6 +68,7 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     func setData(){
         guard let detailBook = detailBook else {return}
         bookTitle.text = detailBook.title
+        coverImageView.kf.indicatorType = .activity
         coverImageView.kf.setImage(with: URL(string: detailBook.coverUrl))
         author.text = detailBook.author
         introduction.text = detailBook.descriptionOfBook
@@ -106,7 +107,8 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
             make.width.equalTo(baseView.snp.width).multipliedBy(0.55)
         }
         
-        if detailBook.readingStatus == .reading{
+        switch detailBook.readingStatus{
+        case .reading, .done:
             startReadingButton.isHidden = true
             contentView.addSubview(readButton)
             contentView.addSubview(memoButton)
@@ -118,14 +120,14 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
             readButton.snp.makeConstraints { make in
                 make.bottom.equalTo(coverImageView)
                 make.leading.equalTo(coverImageView.snp.trailing).offset(2*Design.paddingDefault)
-                make.width.equalTo(baseView.snp.width).multipliedBy(0.15)
+                make.width.greaterThanOrEqualTo(baseView.snp.width).multipliedBy(0.2)
                 make.height.greaterThanOrEqualTo(32)
             }
             
             memoButton.snp.makeConstraints { make in
                 make.bottom.equalTo(readButton)
                 make.leading.equalTo(readButton.snp.trailing).offset(Design.paddingDefault)
-                make.width.equalTo(baseView.snp.width).multipliedBy(0.15)
+                make.width.greaterThanOrEqualTo(baseView.snp.width).multipliedBy(0.3)
                 make.height.greaterThanOrEqualTo(32)
             }
             //stackview
@@ -134,7 +136,8 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
                 make.leading.trailing.equalTo(baseView)
                 make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high) //이거 지정해줘야함.
             }
-        }else if detailBook.readingStatus == .toRead{
+            
+        case .toRead:
             contentView.addSubview(startReadingButton)
             startReadingButton.isHidden = false
             startReadingButton.addTarget(self, action: #selector(startReadingClicked), for: .touchUpInside)
@@ -145,8 +148,10 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
                 make.height.greaterThanOrEqualTo(40)
                 make.bottom.lessThanOrEqualTo(baseView).offset(-Design.paddingDefault).priority(.high) //이거 지정해줘야함.
             }
+        case .paused, .stopped:
+            return
         }
-     
+        
     }
     
     @objc func startReadingClicked(){

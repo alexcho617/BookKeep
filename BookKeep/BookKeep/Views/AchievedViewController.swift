@@ -10,8 +10,7 @@ import RealmSwift
 import SnapKit
 
 final class AchievedViewController: UIViewController {
-    //TODO: 쎌 선택시 DetailTableView에서 대응
-    
+
     //views
     private lazy var collectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
@@ -89,4 +88,5 @@ extension AchievedViewController: UICollectionViewDelegate, UICollectionViewData
         header.welcomeLabel.text = Literal.achievedMainGreeting + " (\(vm.booksDoneReading.value.count))"
         return header
     }
+    //TODO: 쎌 선택시 DetailTableView에서 대응
 }
