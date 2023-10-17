@@ -9,7 +9,7 @@ import UIKit
 
 final class ToReadSectionHeaderView: UICollectionReusableView {
     
-    private let title = {
+    var title = {
         let view = UILabel()
         view.text = Literal.secondSectionLabel
         view.font = Design.fontSubTitle
@@ -28,7 +28,7 @@ final class ToReadSectionHeaderView: UICollectionReusableView {
         title.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(Design.paddingDefault)
-            make.size.equalToSuperview().multipliedBy(0.4)
+            make.width.greaterThanOrEqualToSuperview().multipliedBy(0.5) //최소 설정
         }
      
     }

@@ -7,6 +7,8 @@
 
 import UIKit
 import SnapKit
+import SPConfetti
+
 class EditViewController: UIViewController{
     var isbn: String = ""
  
@@ -82,7 +84,15 @@ extension EditViewController: UITextFieldDelegate{
     @objc func confirmButtonClicked(_ button: UIButton){
         if vm.validate(){
             view.endEditing(true)
-            dismiss(animated: true)
+            if vm.book?.currentReadingPage == vm.book?.page{
+                BooksRepository.shared.updateBookReadingStatus(isbn: isbn, to: .done)
+                SPConfetti.startAnimating(.centerWidthToDown, particles: [.triangle, .arc, .star, .heart], duration: 3)
+                self.showAlert(title: "🎉🎉🎉", message: Literal.bookFinished){
+                    self.dismiss(animated: true)
+                }
+            }else{
+                dismiss(animated: true)
+            }
         }else{
             showAlert(title: "삐빅!", message: "\(0) ~ \(vm.book?.page ?? -999) 사이의 값을 입력하세요", handler: nil)
             pageTextField.text = nil

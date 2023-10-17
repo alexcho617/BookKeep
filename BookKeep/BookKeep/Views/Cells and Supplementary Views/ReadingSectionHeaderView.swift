@@ -12,7 +12,7 @@ final class ReadingSectionHeaderView: UICollectionReusableView {
     
     var eventHandler: (() -> Void)?
     
-    private let welcomeLabel = {
+    let welcomeLabel = {
         let view = UILabel()
         view.text = Literal.mainGreeting
         view.font = Design.fontTitle
@@ -20,7 +20,7 @@ final class ReadingSectionHeaderView: UICollectionReusableView {
         return view
     }()
     
-    private let welcomeSecondLabel = {
+    let welcomeSecondLabel = {
         let view = UILabel()
         view.text = Literal.subGreeting
         view.font = Design.fontDefault

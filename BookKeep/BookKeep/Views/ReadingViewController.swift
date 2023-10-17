@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-
+//TODO: iPhone 8 mainButton 하단 패딩 없음
 final class ReadingViewController: UIViewController {
     var isbn: String = ""
     var vm: ReadingViewModel!
@@ -170,7 +170,6 @@ final class ReadingViewController: UIViewController {
         }
     }
     @objc func doneClicked(){
-        //TODO: make reading done UIVIew
         if vm.readingState.value == .reading{
             vm.mainButtonClicked()
         }
@@ -189,7 +188,7 @@ final class ReadingViewController: UIViewController {
         vc.startTime = vm.startTime
         vc.readTime = vm.elapsedTime.value
         vc.navigationHandler = {
-            self.navigationController?.popViewController(animated: true)
+            self.navigationController?.popToRootViewController(animated: true)
         }
         
         if let sheet = vc.sheetPresentationController{

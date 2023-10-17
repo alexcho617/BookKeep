@@ -1,31 +1,34 @@
 //
-//  HomeViewModel.swift
+//  AchievedViewModel.swift
 //  BookKeep
 //
-//  Created by Alex Cho on 2023/09/25.
+//  Created by Alex Cho on 2023/10/15.
 //
 
 import Foundation
 import RealmSwift
-final class HomeViewModel{
-    var books: Observable<Results<RealmBook>>
+
+class AchievedViewModel{
+    
+    var booksDoneReading: Observable<Results<RealmBook>>
 
     private var notificationTokens: [NotificationToken] = []
     init() {
-        books = Observable(BooksRepository.shared.fetchAllBooks())
-        observeRealmChanges(for: books)
+        //다 읽은 책 들만 가져옴
+        booksDoneReading = Observable(BooksRepository.shared.fetchBooksByStatus(.done))
+        //구독 시킴
+        observeRealmChanges(for: booksDoneReading)
     }
-    
+
     //listen for changes of realm objects and update the observables
     private func observeRealmChanges(for observable: Observable<Results<RealmBook>>){
         let token = observable.value.observe { changes in
             switch changes {
             case .initial(let results):
-                print("DEBUG: HomeViewModel-observeRealmChanges: initialized")
+                print("DEBUG: AchievedViewModel-observeRealmChanges: initialized")
                 observable.value = results
             case .update(let results, deletions: _, insertions: _, modifications: _):
-                //reassign observalbe.value and reflect in snapshot
-                print("DEBUG: HomeViewModel-observeRealmChanges: change detected")
+                print("DEBUG: AchievedViewModel-observeRealmChanges: change detected")
                 observable.value = results
             case .error(let error):
                 print(error, RealmError.nonExist)
@@ -33,7 +36,7 @@ final class HomeViewModel{
         }
         notificationTokens.append(token)
     }
-    
+
     deinit{
         for token in notificationTokens {
             token.invalidate()

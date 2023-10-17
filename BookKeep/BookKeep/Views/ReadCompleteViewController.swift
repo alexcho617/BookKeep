@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import SPConfetti
 
 final class ReadCompleteViewController: UIViewController {
     var isbn: String = ""
@@ -168,12 +169,29 @@ extension ReadCompleteViewController: UITextFieldDelegate{
         vm.startTimeInput.value = startDatePicker.date
         vm.readTimeInput.value = readTimePicker.countDownDuration
         if vm.addSession(){
-            showAlert(title: "세션", message: "독서 세션이 기록되었습니다."){
-                self.view.endEditing(true)
-                self.dismiss(animated: true)
-                self.clearUD()
-                self.navigationHandler?()
+            //책이 끝난 경우
+            if vm.book.value?.currentReadingPage == vm.book.value?.page{
+                BooksRepository.shared.updateBookReadingStatus(isbn: isbn, to: .done)
+                SPConfetti.startAnimating(.centerWidthToDown, particles: [.triangle, .arc, .star, .heart], duration: 3)
+                self.showAlert(title: "🎉🎉🎉", message: Literal.bookFinished){
+                    self.dismiss(animated: true)
+                    self.clearUD()
+                    //ReadingVC에서 온 경우 홈 화면까지 간다. HomeVC에서 온 경우 collectionViewReload까지만
+                    self.navigationHandler?()
+                    
+                }
+            }else{
+                //책이 끝나지 않고 세션만 추가 된 경우
+                showAlert(title: "📚📚📚", message: Literal.readSessionDone){
+                    self.view.endEditing(true)
+                    self.dismiss(animated: true)
+                    self.clearUD()
+                    self.navigationHandler?()
+                }
             }
+            
+            
+            
         }else{
             showAlert(title: "삐빅!", message: "\(0) ~ \(vm.book.value?.page ?? -999) 사이의 값을 입력하세요", handler: nil)
             pageTextField.text = nil
