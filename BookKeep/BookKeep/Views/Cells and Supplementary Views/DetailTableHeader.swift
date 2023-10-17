@@ -138,7 +138,7 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
                 make.leading.trailing.equalTo(baseView)
                 make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high) //이거 지정해줘야함.
             }
-        //TODO: 다 읽은 책 .done인 경우 1.read session 기록 보여주기 
+        //TODO: ⭐️다 읽은 책 .done인 경우 1.read session 기록 보여주기 
         case .done:
             startReadingButton.isHidden = true
             contentView.addSubview(memoButton)
