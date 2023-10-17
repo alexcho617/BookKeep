@@ -10,15 +10,13 @@ import RealmSwift
 import SnapKit
 
 final class AchievedViewController: UIViewController {
-    
-    //TODO: CollectionView Header 구현
-    //TODO: Collectionview cell 구현
     //TODO: 쎌 선택시 DetailTableView에서 대응
     
     //views
     private lazy var collectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
-        view.backgroundColor = Design.debugBlue
+        view.backgroundColor = .clear
+        view.showsVerticalScrollIndicator = false
         return view
     }()
     
@@ -31,46 +29,47 @@ final class AchievedViewController: UIViewController {
     }
     
     private func setView(){
+        view.backgroundColor = Design.colorPrimaryAccent
+        view.addSubview(collectionView)
+
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(AchievedHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "AchievedHeaderCollectionReusableView")
         collectionView.register(ToReadCell.self, forCellWithReuseIdentifier: "ToReadCell")
-        view.backgroundColor = Design.colorPrimaryBackground
-        view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide).inset(Design.paddingDefault)
+            make.top.equalTo(view)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(view).inset(Design.paddingDefault)
         }
     }
     
     private func bindData(){
         vm.booksDoneReading.bind { [self] value in
             collectionView.reloadData()
-            
-            
         }
     }
     
     private func getCollectionViewLayout() -> UICollectionViewLayout{
         let layout = UICollectionViewFlowLayout()
-        let itemSize = CGSize(width: UIScreen.main.bounds.width/2 - 2*Design.paddingDefault, height: 250) //3등분
+        //이걸 안하면 data source 실행 안됨
+        layout.headerReferenceSize = .init(width: 100, height: 100)
+        let itemSize = CGSize(width: UIScreen.main.bounds.width/2 - 2*Design.paddingDefault, height: 250) //2등분
         layout.minimumInteritemSpacing = Design.paddingDefault
         layout.minimumLineSpacing = Design.paddingDefault
         layout.itemSize = itemSize
         return layout
     }
 
-
 }
 
 extension AchievedViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        let numberOfItems = vm.booksDoneReading.value.count
-        print(#function, numberOfItems)
-        return numberOfItems
+        return vm.booksDoneReading.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -83,15 +82,11 @@ extension AchievedViewController: UICollectionViewDelegate, UICollectionViewData
         return cell
     }
     
-    
-    //TODO: Header 안나옴
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionView.elementKindSectionHeader,
-              let header = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: "AchievedHeaderCollectionReusableView",
-                for: indexPath
-              ) as? AchievedHeaderCollectionReusableView else {return UICollectionReusableView()}
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "AchievedHeaderCollectionReusableView", for: indexPath) as? AchievedHeaderCollectionReusableView else {
+            return UICollectionReusableView()
+        }
+        header.welcomeLabel.text = Literal.achievedMainGreeting + " (\(vm.booksDoneReading.value.count))"
         return header
     }
 }

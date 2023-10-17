@@ -241,6 +241,7 @@
 		57ADE0212AC1A5B100EA0EFE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				57A0F4CD2ADC2134008396D6 /* AchievedViewController.swift */,
 				57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */,
 				5790CF002AD54ED40066D517 /* ReadingViewController.swift */,
 				5790CEF22AD023550066D517 /* DetailTableViewController.swift */,
@@ -250,7 +251,6 @@
 				577082D52AC68A170052EA8A /* SearchViewController.swift */,
 				5754D2252AC725FE009C82C9 /* SearchDetailViewController.swift */,
 				577082D32AC480CD0052EA8A /* ViewController + Extension.swift */,
-				57A0F4CD2ADC2134008396D6 /* AchievedViewController.swift */,
 				577082CA2AC3E77B0052EA8A /* Cells and Supplementary Views */,
 			);
 			path = Views;

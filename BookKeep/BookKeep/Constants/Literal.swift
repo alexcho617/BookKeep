@@ -7,7 +7,7 @@
 
 import Foundation
 enum Literal{
-    static let mainGreeting = "어서오세요"
+    static let mainGreeting = "읽고 있는 책"
     static let subGreeting = "책은 마음의 양식입니다 :)"
     static let secondSectionLabel = "읽을 예정인 책"
     static let startReadingLabel = " 읽기 시작"
@@ -16,4 +16,6 @@ enum Literal{
     static let mainReading = "Now Reading..."
     static let bookFinished = "책 한권을 끝내셨군요!"
     static let readSessionDone = "독서 세션이 기록되었습니다"
+    static let achievedMainGreeting = "다 읽은 책"
+    static let achievedSubGreeting = "지금까지 쌓은 마음의 양식들입니다 :)"
 }

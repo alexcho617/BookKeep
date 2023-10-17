@@ -10,17 +10,17 @@ import UIKit
 class AchievedHeaderCollectionReusableView: UICollectionReusableView {
   
     
-    private let welcomeLabel = {
+    let welcomeLabel = {
         let view = UILabel()
-        view.text = "읽은 책들"
+        view.text = Literal.achievedMainGreeting
         view.font = Design.fontTitle
         view.textColor = Design.colorTextTitle
         return view
     }()
     
-    private let welcomeSecondLabel = {
+    let welcomeSecondLabel = {
         let view = UILabel()
-        view.text = "지금까지 쌓은 마음의 양식들입니다 :)"
+        view.text = Literal.achievedSubGreeting
         view.font = Design.fontDefault
         view.textColor = Design.colorSecondaryBackground
         return view

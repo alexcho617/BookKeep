@@ -19,6 +19,8 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
     
     //Variables
     let vm = HomeViewModel()
+    var booksToRead: [RealmBook] = []
+    var booksReading: [RealmBook] = []
     var dataSource: UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>!
     var snapshot = NSDiffableDataSourceSnapshot<SectionLayoutKind, RealmBook>()
     
@@ -72,6 +74,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: generateLayoutBySection())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.showsVerticalScrollIndicator = false
         view.addSubview(collectionView)
         collectionView.delegate = self
         //TODO: empty cell 적용
@@ -85,20 +88,24 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
             make.edges.equalToSuperview()
         }
         collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
     private func setViewDesign(){
         collectionView.backgroundColor = .clear
+        
         let appearance = UINavigationBarAppearance()
+        appearance.shadowImage = UIImage()
+        appearance.backgroundImage = UIImage()
         appearance.backgroundColor = Design.colorPrimaryAccent
-        let buttonAppearance = UIBarButtonItemAppearance()
-        appearance.buttonAppearance = buttonAppearance
-        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = Design.colorPrimaryBackground
+        
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.standardAppearance = appearance        
+        navigationController?.navigationBar.standardAppearance = appearance
+        
     }
     
     private func showActionAlert(title: String, message: String, handler: (()->Void)?){
@@ -188,12 +195,13 @@ extension HomeViewController{
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
         
-        
-        //TODO: 현재 셀이 타이틀 길이에 따라 높이가 달라지고 있는데 itemsize가 변경되지않고있음. 타이틀 길이에 따라 길이가 변하도록 변경
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .estimated(280))
+        let groupFractionalWidth = 1.0
+        let groupFractionalHeight = 0.4
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(CGFloat(groupFractionalWidth)),
+            heightDimension: .fractionalHeight(groupFractionalHeight))
+
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
         let section = NSCollectionLayoutSection(group: group)
         
         //Header Layout
@@ -229,10 +237,13 @@ extension HomeViewController{
             supplementaryView.eventHandler = {
                 self.present(UINavigationController(rootViewController: SearchViewController()), animated: true)
             }
+            supplementaryView.welcomeLabel.text = Literal.mainGreeting + " (\(self.booksReading.count))"
+
         }
         
         let toReadHeaderRegistration = UICollectionView.SupplementaryRegistration<ToReadSectionHeaderView>(elementKind: SectionSupplementaryKind.toReadHeader.rawValue) { supplementaryView, elementKind, indexPath in
             //여기서 cell 처럼 header view 코드 실행 가능
+            supplementaryView.title.text = Literal.secondSectionLabel + " (\(self.booksToRead.count))"
         }
         
         dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
@@ -287,8 +298,9 @@ extension HomeViewController{
     private func bindData() {
         vm.books.bind { [weak self] value in
             guard let self = self else { return }
-            let booksToRead = Array(value).filter { $0.readingStatus == .toRead }
-            let booksReading = Array(value).filter { $0.readingStatus == .reading }
+            
+            booksToRead = Array(value).filter { $0.readingStatus == .toRead }
+            booksReading = Array(value).filter { $0.readingStatus == .reading }
             var newSnapshot = NSDiffableDataSourceSnapshot<SectionLayoutKind, RealmBook>()
             newSnapshot.appendSections([.homeReading, .homeToRead])
             newSnapshot.appendItems(booksToRead, toSection: .homeToRead)

@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-
+//TODO: iPhone 8 mainButton 하단 패딩 없음
 final class ReadingViewController: UIViewController {
     var isbn: String = ""
     var vm: ReadingViewModel!

@@ -34,7 +34,7 @@ final class ToReadCell: UICollectionViewCell {
         title.text = book.title
         title.font = Design.fontDefault
         title.textColor = Design.colorTextDefault
-        title.numberOfLines = 2
+        title.numberOfLines = 3
         
     }
     
@@ -51,7 +51,11 @@ final class ToReadCell: UICollectionViewCell {
             make.top.equalTo(imageView.snp.bottom).offset(Design.paddingDefault)
             make.leading.equalTo(imageView).offset(Design.paddingDefault)
             make.trailing.equalTo(contentView.snp.trailing).offset(-Design.paddingDefault)
-            make.bottom.greaterThanOrEqualToSuperview()
+            
+        }
+        contentView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.bottom.equalTo(title.snp.bottom)
         }
     }
     
