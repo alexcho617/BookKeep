@@ -102,13 +102,11 @@ extension AchievedViewController: UICollectionViewDelegate, UICollectionViewData
         header.welcomeLabel.text = Literal.achievedMainGreeting + " (\(vm.booksDoneReading.value.count))"
         return header
     }
-    //TODO: 쎌 선택시 DetailTableView에서 대응
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedBook = vm.booksDoneReading.value[indexPath.item]
         
-        //사실상 새로운 객체는 아니고 새로운 포인터
-        let vc = DetailTableViewController() //isbn만 vc에 넘겨주고 vm은 알아서 생성하도록 하자 아니면 책을 넘기던가
+        let vc = DetailTableViewController()
         vc.vm = DetailViewModel(isbn: selectedBook.isbn)
         vc.vm?.achievedDelegate = self
         navigationController?.pushViewController(vc, animated: true)

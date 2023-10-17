@@ -9,21 +9,21 @@ import Foundation
 import RealmSwift
 
 class DetailViewModel{
+    
     var isbn: String?
     var book: Observable<RealmBook?> = Observable(nil)
+    private let booksRepository: BooksRepository
+    private let realm = Realm.safeInit()
+    var objectNotificationToken: NotificationToken?
+
     weak var homeDelegate: DiffableDataSourceDelegate? // HomeVC Delegate
     weak var achievedDelegate: AchievedDelegate? //AchievedVC Delegate
-    private let booksRepository: BooksRepository
-    var objectNotificationToken: NotificationToken?
-    private let realm = Realm.safeInit()
     
     init(isbn: String, booksRepository: BooksRepository = BooksRepository.shared){
         self.booksRepository = booksRepository
         fetchBookFromRealm(isbn: isbn)
         guard let book = book.value else {return}
         observeRealmChanges(for: book)
-        
-        
     }
     
     func fetchBookFromRealm(isbn: String) {
@@ -34,22 +34,20 @@ class DetailViewModel{
         }
     }
     
-    //listen for changes of realm objects and update the observables
     private func observeRealmChanges(for observable: RealmBook){
         objectNotificationToken = observable.observe { changes in
             print("DEBUG: DetailViewModel-",#function)
             switch changes {
             case .change(let object, _):
                 let pk = object.value(forKey: "isbn")
-//                let realm = Realm.safeInit()
-                //다시 넣어줌으로써 View의 바인드 호출
+                //reassign and invoke view's binding
                 self.book.value = self.realm?.object(ofType: RealmBook.self, forPrimaryKey: pk)
-                //TODO: snapshot.reloadsection으로 개선 가능
-                //업적화면에서 온 경우 필요없음: readingStatus로 분기처리?
+                
+                //delegate에 따라 분기 처리
                 if self.homeDelegate != nil{
                     self.homeDelegate?.reloadCollectionView()
                 }
-                if self.achievedDelegate != nil{
+                else if self.achievedDelegate != nil{
                     self.achievedDelegate?.reloadCollectionView()
                 }
                 
@@ -68,18 +66,14 @@ class DetailViewModel{
         
         //add to realm
         let newMemo = Memo(date: date, contents: contents, photo: "")
-//        let realm = Realm.safeInit()
         
         do {
-//            let realm = Realm.safeInit()
             try realm?.write {
                 book.value?.memos.append(newMemo)
             }
         } catch {
             print("Realm Error: \(error)")
         }
-        
-        
         handler()
     }
     
@@ -88,18 +82,14 @@ class DetailViewModel{
         guard let date = date, let contents = contents else {return false}
         guard contents != "" else {return false}
         
-        //변경 없으면 그냥 리턴
+        //return if no change
         guard memo.contents != contents || memo.date != date else {
             print("DEBUG: No Memo Change")
             return false
         }
         
-        //update realm observeRealmChanges 호출안됨
-//        let realm = Realm.safeInit()
         let memo = realm?.object(ofType: Memo.self, forPrimaryKey: memo._id)
-        
         do {
-//            let realm = Realm.safeInit()
             try realm?.write {
                 memo?.contents = contents
                 memo?.date = date
@@ -114,11 +104,8 @@ class DetailViewModel{
     
     func deleteMemo(_ memo: Memo){
         do {
-            //이거 계속 해야하나? 한번만 하면 안됨?
-//            let realm = Realm.safeInit()
             try realm?.write {
                 realm?.delete(memo)
-                
             }
         } catch {
             print("Realm Error: \(error)")
@@ -126,9 +113,6 @@ class DetailViewModel{
         
         
     }
-    
-    
-    
     
     func deleteBookFromRealm(permanently: Bool = false, handler: @escaping () -> Void){
         if let book = book.value{
@@ -139,15 +123,19 @@ class DetailViewModel{
             }
             handler()
         }
-        
     }
     
-    //view에도 반영
-    func startReading(){
+    //다시 읽는 경우 분기처리
+    func startReading(isAgain: Bool, handler: (() -> Void)?){
         guard let book = book.value else {return}
-        //        book.readingStatus = .reading 어차피 렘에서 바꾸면 다시 가져옴
-        booksRepository.updateBookReadingStatus(isbn: book.isbn, to: .reading)
-        homeDelegate?.moveSection(itemToMove: book, from: .homeToRead, to: .homeReading)
+        if isAgain{
+            booksRepository.updateBookReadingStatus(isbn: book.isbn, to: .toRead)
+            booksRepository.updateCurrentPage(isbn: book.isbn, to: 0)
+            handler?()
+        }else{
+            booksRepository.updateBookReadingStatus(isbn: book.isbn, to: .reading)
+            homeDelegate?.moveSection(itemToMove: book, from: .homeToRead, to: .homeReading)
+        }
     }
     
     deinit{

@@ -109,7 +109,8 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
         }
         
         switch detailBook.readingStatus{
-        case .reading, .done:
+            
+        case .reading:
             startReadingButton.isHidden = true
             contentView.addSubview(readButton)
             contentView.addSubview(memoButton)
@@ -137,7 +138,25 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
                 make.leading.trailing.equalTo(baseView)
                 make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high) //이거 지정해줘야함.
             }
+        //TODO: 다 읽은 책 .done인 경우 1.read session 기록 보여주기 
+        case .done:
+            startReadingButton.isHidden = true
+            contentView.addSubview(memoButton)
+            memoButton.addTarget(self, action: #selector(memoButtonClicked), for: .touchUpInside)
+            contentView.addSubview(infoStack)
             
+            memoButton.snp.makeConstraints { make in
+                make.bottom.equalTo(coverImageView)
+                make.leading.equalTo(coverImageView.snp.trailing).offset(2*Design.paddingDefault)
+                make.width.greaterThanOrEqualTo(baseView.snp.width).multipliedBy(0.3)
+                make.height.greaterThanOrEqualTo(32)
+            }
+            //stackview
+            infoStack.snp.makeConstraints { make in
+                make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
+                make.leading.trailing.equalTo(baseView)
+                make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high) //이거 지정해줘야함.
+            }
         case .toRead:
             contentView.addSubview(startReadingButton)
             startReadingButton.isHidden = false
@@ -151,6 +170,8 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
             }
         case .paused, .stopped:
             return
+      
+
         }
         
     }
@@ -158,7 +179,7 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     @objc func startReadingClicked(){
         print(#function)
         startReadingButton.isHidden = true
-        vm?.startReading()
+        vm?.startReading(isAgain: false, handler: nil)
     }
     
     @objc func memoButtonClicked(){

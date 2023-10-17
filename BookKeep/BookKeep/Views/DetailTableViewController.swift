@@ -12,10 +12,10 @@ import Kingfisher
 
 protocol ReloadDelegate: AnyObject {
     func reloadView()
+    func popToRootView()
 }
 
 class DetailTableViewController: UIViewController{
-   
     var vm: DetailViewModel?
     weak var delegate: DiffableDataSourceDelegate? //section 이동
     
@@ -50,7 +50,7 @@ class DetailTableViewController: UIViewController{
     
     
     func setView(){
-        navigationItem.rightBarButtonItems = vm?.book.value?.readingStatus == .toRead ? [menuButton] : [menuButton, editButton]
+        navigationItem.rightBarButtonItems = vm?.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
         tableView.backgroundColor = Design.colorPrimaryBackground
         tableView.delegate = self
         tableView.dataSource = self
@@ -91,6 +91,10 @@ extension DetailTableViewController: ReloadDelegate{
         print("DetailTableViewController-",#function)
         tableView.reloadData()
     }
+    func popToRootView(){
+        navigationController?.popToRootViewController(animated: true)
+    }
+
 }
 
 extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
@@ -192,7 +196,6 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
 
 //MARK: functions
 extension DetailTableViewController{
-    
     private func showActionSheet(title: String?, message: String?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "책 삭제", style: .destructive) { _ in
@@ -200,6 +203,13 @@ extension DetailTableViewController{
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         
+        
+        if vm?.book.value?.readingStatus == .done{
+            let readAgain = UIAlertAction(title: "책 다시읽기", style: .default) { _ in
+                self.readAgain()
+            }
+            alert.addAction(readAgain)
+        }
         alert.addAction(delete)
         alert.addAction(cancel)
         present(alert,animated: true)
@@ -210,6 +220,7 @@ extension DetailTableViewController{
         guard let isbn = vm?.book.value?.isbn else {return}
         let vc = EditViewController()
         vc.isbn = isbn
+        vc.detailDelegate = self
         if let sheet = vc.sheetPresentationController{
             sheet.detents = [.medium()]
         }
@@ -227,6 +238,21 @@ extension DetailTableViewController{
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         alert.addAction(delete)
+        alert.addAction(cancel)
+        present(alert,animated: true)
+    }
+    
+    private func readAgain(){
+        let alert = UIAlertController(title: "다시 읽기", message: "책을 한번 더 읽으시겠습니까?", preferredStyle: .alert)
+        let read = UIAlertAction(title: "읽기", style: .default) { _ in
+            self.vm?.startReading(isAgain: true){
+                self.showAlert(title: "다시 읽기", message: "읽을 예정인 책에 추가되었습니다"){
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(read)
         alert.addAction(cancel)
         present(alert,animated: true)
     }

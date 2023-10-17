@@ -11,6 +11,8 @@ import SPConfetti
 
 class EditViewController: UIViewController{
     var isbn: String = ""
+    weak var detailDelegate: ReloadDelegate? //Detail ViewController
+
  
     lazy var vm = EditViewModel(isbn: isbn)
     let pageTextField = {
@@ -88,6 +90,7 @@ extension EditViewController: UITextFieldDelegate{
                 BooksRepository.shared.updateBookReadingStatus(isbn: isbn, to: .done)
                 SPConfetti.startAnimating(.centerWidthToDown, particles: [.triangle, .arc, .star, .heart], duration: 3)
                 self.showAlert(title: "🎉🎉🎉", message: Literal.bookFinished){
+                    self.detailDelegate?.popToRootView()
                     self.dismiss(animated: true)
                 }
             }else{
