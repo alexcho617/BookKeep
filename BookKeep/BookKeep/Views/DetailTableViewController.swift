@@ -50,13 +50,12 @@ class DetailTableViewController: UIViewController{
     
     
     func setView(){
-        navigationItem.rightBarButtonItems = vm?.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
+        navigationItem.rightBarButtonItems = vm?.book.value?.readingStatus == .toRead ? [menuButton] : [menuButton, editButton]
         tableView.backgroundColor = Design.colorPrimaryBackground
         tableView.delegate = self
         tableView.dataSource = self
 
-        tableView.estimatedSectionHeaderHeight = 700 //placeholder
-        
+        tableView.estimatedSectionHeaderHeight = 700 //placeholder while header loads
         tableView.register(DetailTableHeader.self, forHeaderFooterViewReuseIdentifier: "DetailTableHeader")
         tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: DetailTableViewCell.identifier)
         tableView.register(DetailTableFooter.self, forHeaderFooterViewReuseIdentifier: "DetailTableFooter")
@@ -111,12 +110,7 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
         }
     }
 
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableFooter") as? DetailTableFooter else {
-            return UIView()
-        }
-        return footer
-    }
+    
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableHeader") as? DetailTableHeader else {
@@ -151,7 +145,14 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
         // Return the header view
         return header
     }
-
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableFooter") as? DetailTableFooter else {
+            return UIView()
+        }
+        return footer
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return vm?.book.value?.memos.count ?? 1
     }
@@ -168,8 +169,8 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "삭제"){_,_,_ in
-            self.confirmDeleteMemo(title: "주의", message: "정말 메모를 삭제하시겠습니까?", memo: self.vm?.book.value?.memos[indexPath.row])
+        let delete = UIContextualAction(style: .destructive, title: "삭제"){ [weak self] _,_,_ in
+            self?.confirmDeleteMemo(title: "주의", message: "정말 메모를 삭제하시겠습니까?", memo: self?.vm?.book.value?.memos[indexPath.row])
         }
         delete.image = UIImage(systemName: "trash")
         let config = UISwipeActionsConfiguration(actions: [delete])

@@ -57,6 +57,7 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
+        print("DEBUG: DetailHeader Init")
         bindData()
     }
     func bindData(){

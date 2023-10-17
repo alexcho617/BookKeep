@@ -39,6 +39,7 @@ final class MemoViewController: UIViewController {
         //add
         if selectedMemo == nil{
             vm?.addMemo(date: datePicker.date, contents: textView.text, handler: {
+                //TODO: Literal
                 self.showAlert(title: "🎉", message: "메모가 추가되었습니다") {
                     
                     self.navigationController?.popViewController(animated: true)
@@ -47,13 +48,14 @@ final class MemoViewController: UIViewController {
             })
         } else{ //update
             guard let selectedMemo = selectedMemo else {return}
-            vm?.updateMemo(memo: selectedMemo, date: datePicker.date, contents: textView.text, handler: {
+            if vm?.updateMemo(memo: selectedMemo, date: datePicker.date, contents: textView.text) == true {
                 self.showAlert(title: "🎉", message: "메모가 변경되었습니다") {
                     self.detailDelegate?.reloadView()
                     self.navigationController?.popViewController(animated: true)
                 }
-
-            })
+            }else {
+                self.navigationController?.popViewController(animated: true)
+            }
             
         }
         
