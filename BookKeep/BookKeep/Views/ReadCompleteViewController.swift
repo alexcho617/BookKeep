@@ -172,7 +172,7 @@ extension ReadCompleteViewController: UITextFieldDelegate{
         if vm.addSession(){
             //책이 끝난 경우
             if vm.book.value?.currentReadingPage == vm.book.value?.page{
-                BooksRepository.shared.updateBookReadingStatus(isbn: isbn, to: .done)
+                BooksRepository.shared.bookFinished(isbn: isbn)
                 SPConfetti.startAnimating(.centerWidthToDown, particles: [.triangle, .arc, .star, .heart], duration: 3)
                 self.showAlert(title: "🎉🎉🎉", message: Literal.bookFinished){
                     self.dismiss(animated: true)

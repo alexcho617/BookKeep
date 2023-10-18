@@ -47,6 +47,7 @@ class DetailViewModel{
                 if self.homeDelegate != nil{
                     self.homeDelegate?.reloadCollectionView()
                 }
+                
                 else if self.achievedDelegate != nil{
                     self.achievedDelegate?.reloadCollectionView()
                 }
@@ -126,12 +127,12 @@ class DetailViewModel{
     }
     
     //다시 읽는 경우 분기처리
-    func startReading(isAgain: Bool, handler: (() -> Void)?){
+    func startReading(isAgain: Bool, handler: @escaping () -> Void){
         guard let book = book.value else {return}
         if isAgain{
-            booksRepository.updateBookReadingStatus(isbn: book.isbn, to: .toRead)
-            booksRepository.updateCurrentPage(isbn: book.isbn, to: 0)
-            handler?()
+            //TODO: Read Iteration + 1, reset start date
+            booksRepository.prepareBookForReadingAgain(isbn: book.isbn)
+            handler()
         }else{
             booksRepository.updateBookReadingStatus(isbn: book.isbn, to: .reading)
             homeDelegate?.moveSection(itemToMove: book, from: .homeToRead, to: .homeReading)

@@ -17,7 +17,7 @@ protocol ReloadDelegate: AnyObject {
 
 class DetailTableViewController: UIViewController{
     var vm: DetailViewModel?
-    weak var delegate: DiffableDataSourceDelegate? //section 이동
+//    weak var delegate: DiffableDataSourceDelegate? //section 이동
     
     //views
     let views = DetailViewComponents()
@@ -55,9 +55,9 @@ class DetailTableViewController: UIViewController{
         tableView.delegate = self
         tableView.dataSource = self
 
-        tableView.estimatedSectionHeaderHeight = 700 //placeholder while header loads
         tableView.register(DetailTableHeader.self, forHeaderFooterViewReuseIdentifier: "DetailTableHeader")
         tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: DetailTableViewCell.identifier)
+        tableView.register(DetailTableViewSessionCell.self, forCellReuseIdentifier: DetailTableViewSessionCell.identifier)
         tableView.register(DetailTableFooter.self, forHeaderFooterViewReuseIdentifier: "DetailTableFooter")
 
         view.addSubview(tableView)
@@ -88,7 +88,7 @@ class DetailTableViewController: UIViewController{
 
 extension DetailTableViewController: ReloadDelegate{
     func reloadView() {
-        print("DetailTableViewController-",#function)
+//        print("DetailTableViewController-",#function)
         tableView.reloadData()
     }
     func popToRootView(){
@@ -98,81 +98,126 @@ extension DetailTableViewController: ReloadDelegate{
 }
 
 extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
-
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        print(#function, section)
         guard let book = vm?.book.value else {return nil}
-        let status = book.readingStatus
-        switch status {
-        case .reading, .done:
+        //메모 섹션
+        if section == 0{
             if book.memos.count != 0{
                 return Literal.memoSectionTitle
             }else{
                 return Literal.noMemoSectionTitle
             }
-        case .toRead,.paused,.stopped:
-            return nil
+        //세션 섹션
         }
+        if section == 1{
+            if book.readSessions.count != 0{
+                return Literal.sessionSectionTitle
+            }else{
+                return Literal.noSessionSectionTitle
+            }
+        }
+        return nil
     }
 
     
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableHeader") as? DetailTableHeader else {
-            return UIView()
-        }
-        guard let book = vm?.book.value else {
-            return UITableViewHeaderFooterView()
-        }
-        header.detailBook = book
-        header.vm = vm
-        header.memoButtonAction = {
-            let vc = MemoViewController()
-            vc.vm = self.vm
-            self.navigationController?.pushViewController(vc, animated: true)
+        //맨 위에만 헤더 추가
+        if section == 0{
+            guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableHeader") as? DetailTableHeader else {
+                return UIView()
+            }
+            guard let book = vm?.book.value else {
+                return UITableViewHeaderFooterView()
+            }
+            header.detailBook = book
+            header.vm = vm
+            header.memoButtonAction = {
+                let vc = MemoViewController()
+                vc.vm = self.vm
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
+            header.readButtonAction = {
+                let vc = ReadingViewController()
+                vc.isbn = book.isbn
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            }
+            header.setViews()
+            header.setData()
+            
+            // Update the constraints of the header view
+            DispatchQueue.main.async {
+                header.setNeedsLayout()
+                header.layoutIfNeeded()
+            }
+            
+            // Return the header view
+            return header
+        //독서기록섹션인 경우
+        }else{
+            return nil //시스템 헤더 자동 추가
         }
         
-        header.readButtonAction = {
-            let vc = ReadingViewController()
-            vc.isbn = book.isbn
-            self.navigationController?.pushViewController(vc, animated: true)
-
-        }
-        header.setViews()
-        header.setData()
-        
-        // Update the constraints of the header view
-        DispatchQueue.main.async {
-            header.setNeedsLayout()
-            header.layoutIfNeeded()
-        }
-
-        // Return the header view
-        return header
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        //맨 아래만 푸터 추가
+        guard section == 1 else {return UIView()}
         guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DetailTableFooter") as? DetailTableFooter else {
             return UIView()
         }
         return footer
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        var section = 0
+        if vm?.book.value?.readSessions.count == 0{
+            section = 1
+        }else{
+            section = 2
+        }
+//        print(#function, section)
+        return section
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return vm?.book.value?.memos.count ?? 1
+        if section == 0{
+            return vm?.book.value?.memos.count ?? 1
+        }else if section == 1{
+            return vm?.book.value?.readSessions.count ?? 1
+        }
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //create memocell
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewCell.identifier) as? DetailTableViewCell else {return UITableViewCell() }
-        
-        guard let memoRow = vm?.book.value?.memos[indexPath.row] else {return UITableViewCell()}
-        cell.memo = memoRow
-        cell.setView()
-        return cell
-        
+        if indexPath.section == 0{
+            //create memocell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewCell.identifier) as? DetailTableViewCell else {return UITableViewCell() }
+            
+            guard let memoRow = vm?.book.value?.memos[indexPath.row] else {return UITableViewCell()}
+            cell.memo = memoRow
+            cell.setView()
+            return cell
+        }else if indexPath.section == 1{
+            guard let sessionRow = vm?.book.value?.readSessions[indexPath.row] else {return UITableViewCell()}
+
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewSessionCell.identifier) as? DetailTableViewSessionCell else {return UITableViewCell()}
+            cell.isUserInteractionEnabled = false
+            cell.session = sessionRow
+            cell.setView()
+            return cell
+
+        }
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        //메모만 가능
+        guard indexPath.section == 0 else {return UISwipeActionsConfiguration()}
         let delete = UIContextualAction(style: .destructive, title: "삭제"){ [weak self] _,_,_ in
             self?.confirmDeleteMemo(title: "주의", message: "정말 메모를 삭제하시겠습니까?", memo: self?.vm?.book.value?.memos[indexPath.row])
         }
@@ -182,6 +227,7 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard indexPath.section == 0 else {return}
         guard let memoRow = vm?.book.value?.memos[indexPath.row] else {return }
 
         let vc = MemoViewController()
@@ -242,6 +288,7 @@ extension DetailTableViewController{
         present(alert,animated: true)
     }
     
+    //TODO: 업적-> 상세화면에서 다시 읽은 경우 startReading버튼이 잠깐 떠버린다. 안뜨고 화면을 없에던가 아니면 뷰를 바꾸던가 해야할듯
     private func readAgain(){
         let alert = UIAlertController(title: "다시 읽기", message: "책을 한번 더 읽으시겠습니까?", preferredStyle: .alert)
         let read = UIAlertAction(title: "읽기", style: .default) { _ in

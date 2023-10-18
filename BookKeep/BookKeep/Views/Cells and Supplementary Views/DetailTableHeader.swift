@@ -14,16 +14,14 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     weak var delegate: DiffableDataSourceDelegate? //section 이동
     var memoButtonAction: (() -> Void)?
     var readButtonAction: (() -> Void)?
+    
     private let viewComponents = DetailViewComponents()
     private let labelViews = LabelViews()
+    
     lazy var baseView = {
         let view = UIView()
         return view
     }()
-    
-    
-    
-    
     lazy var bookTitle = viewComponents.bookTitle
     lazy var coverImageView = viewComponents.coverImageView
     lazy var author = viewComponents.author
@@ -97,7 +95,7 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
         
         coverImageView.snp.makeConstraints { make in
             make.top.equalTo(bookTitle.snp.bottom).offset(2*Design.paddingDefault)
-            make.leading.equalTo(bookTitle)
+            make.leading.equalTo(bookTitle.snp.leading)
             make.width.equalTo(baseView.snp.width).multipliedBy(0.4)
             make.height.equalTo(coverImageView.snp.width).multipliedBy(1.5)
         }
@@ -138,7 +136,6 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
                 make.leading.trailing.equalTo(baseView)
                 make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high) //이거 지정해줘야함.
             }
-        //TODO: ⭐️다 읽은 책 .done인 경우 1.read session 기록 보여주기 
         case .done:
             startReadingButton.isHidden = true
             contentView.addSubview(memoButton)
@@ -166,20 +163,23 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
                 make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
                 make.horizontalEdges.equalTo(baseView)
                 make.height.greaterThanOrEqualTo(40)
-                make.bottom.lessThanOrEqualTo(baseView).offset(-Design.paddingDefault).priority(.high) //이거 지정해줘야함.
+                make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high) //이거 지정해줘야함.
             }
+
         case .paused, .stopped:
             return
-      
-
         }
         
     }
     
+    //this is from the startReadingButton
     @objc func startReadingClicked(){
         print(#function)
         startReadingButton.isHidden = true
-        vm?.startReading(isAgain: false, handler: nil)
+        vm?.startReading(isAgain: false, handler: {
+            
+        })
+        
     }
     
     @objc func memoButtonClicked(){

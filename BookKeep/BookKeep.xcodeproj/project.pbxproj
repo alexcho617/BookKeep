@@ -46,6 +46,8 @@
 		57A0F4D52ADD98BB008396D6 /* AchievedHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0F4D42ADD98BB008396D6 /* AchievedHeaderCollectionReusableView.swift */; };
 		57A0F4DA2ADF7229008396D6 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 57A0F4D92ADF7229008396D6 /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		57A0F4DC2ADF7229008396D6 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 57A0F4DB2ADF7229008396D6 /* FirebaseCrashlytics */; };
+		57A0F4DE2ADF7281008396D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57A0F4DD2ADF7281008396D6 /* GoogleService-Info.plist */; };
+		57A0F4E12AE01C90008396D6 /* DetailTableViewSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0F4E02AE01C90008396D6 /* DetailTableViewSessionCell.swift */; };
 		57ADDFF22AC1A38D00EA0EFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */; };
 		57ADDFF42AC1A38D00EA0EFE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */; };
 		57ADDFF62AC1A38D00EA0EFE /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */; };
@@ -113,6 +115,8 @@
 		57A0F4CD2ADC2134008396D6 /* AchievedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievedViewController.swift; sourceTree = "<group>"; };
 		57A0F4CF2ADC2145008396D6 /* AchievedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievedViewModel.swift; sourceTree = "<group>"; };
 		57A0F4D42ADD98BB008396D6 /* AchievedHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievedHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		57A0F4DD2ADF7281008396D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		57A0F4E02AE01C90008396D6 /* DetailTableViewSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewSessionCell.swift; sourceTree = "<group>"; };
 		57ADDFEE2AC1A38D00EA0EFE /* BookKeep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookKeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -180,6 +184,7 @@
 				577082CB2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift */,
 				57A0F4D42ADD98BB008396D6 /* AchievedHeaderCollectionReusableView.swift */,
 				5790CEF42AD0266A0066D517 /* DetailTableViewCell.swift */,
+				57A0F4E02AE01C90008396D6 /* DetailTableViewSessionCell.swift */,
 				5790CEF62AD026B00066D517 /* DetailTableHeader.swift */,
 				57C5C9E32ADA5A02002CFC72 /* DetailTableFooter.swift */,
 				577082CD2AC3EFCA0052EA8A /* ToReadSectionHeaderView.swift */,
@@ -221,6 +226,7 @@
 				57ADDFFA2AC1A38F00EA0EFE /* Assets.xcassets */,
 				57ADDFFC2AC1A38F00EA0EFE /* LaunchScreen.storyboard */,
 				57ADDFFF2AC1A38F00EA0EFE /* Info.plist */,
+				57A0F4DD2ADF7281008396D6 /* GoogleService-Info.plist */,
 			);
 			path = BookKeep;
 			sourceTree = "<group>";
@@ -325,6 +331,7 @@
 				57ADDFEA2AC1A38D00EA0EFE /* Sources */,
 				57ADDFEB2AC1A38D00EA0EFE /* Frameworks */,
 				57ADDFEC2AC1A38D00EA0EFE /* Resources */,
+				57A0F4DF2ADF7C7B008396D6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -441,6 +448,7 @@
 			files = (
 				57ADDFFE2AC1A38F00EA0EFE /* LaunchScreen.storyboard in Resources */,
 				57ADDFFB2AC1A38F00EA0EFE /* Assets.xcassets in Resources */,
+				57A0F4DE2ADF7281008396D6 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,6 +467,32 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		57A0F4DF2ADF7C7B008396D6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(BUILT_PRODUCTS_DIR)/$(EXECUTABLE_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		57ADDFEA2AC1A38D00EA0EFE /* Sources */ = {
@@ -499,6 +533,7 @@
 				57C5C9E62ADA77DC002CFC72 /* ReadCompleteViewController.swift in Sources */,
 				577082CC2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift in Sources */,
 				57CA82342ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift in Sources */,
+				57A0F4E12AE01C90008396D6 /* DetailTableViewSessionCell.swift in Sources */,
 				5754D2262AC725FE009C82C9 /* SearchDetailViewController.swift in Sources */,
 				57A0F4D02ADC2145008396D6 /* AchievedViewModel.swift in Sources */,
 				577082BD2AC2C6E00052EA8A /* BooksRepository.swift in Sources */,
@@ -675,6 +710,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = YTV3AHP8X4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BookKeep/Info.plist;
