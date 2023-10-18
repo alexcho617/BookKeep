@@ -11,7 +11,7 @@ class SearchViewController: UIViewController{
     let vm = SearchViewModel()
     var baseView: UIStackView!
     let searchBar = UISearchBar()
-    
+    let activityIndicator = UIActivityIndicatorView(style: .large)
     lazy var collectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
         return view
@@ -41,10 +41,12 @@ class SearchViewController: UIViewController{
         collectionView.dataSource = self
         collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.identifier)
         collectionView.keyboardDismissMode = .onDrag
-        
         view.addSubview(baseView)
         view.addSubview(searchBar)
         view.addSubview(collectionView)
+        view.addSubview(activityIndicator)
+
+
     }
   
     private func setConstraints(){
@@ -59,6 +61,10 @@ class SearchViewController: UIViewController{
             make.top.equalTo(searchBar.snp.bottom).offset(Design.paddingDefault)
             make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+        activityIndicator.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(searchBar.snp.bottom).offset(4*Design.paddingDefault)
+            }
     }
     private func setViewDesign(){
         collectionView.backgroundColor = .clear
@@ -71,11 +77,11 @@ class SearchViewController: UIViewController{
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
         title = "검색하기"
+        activityIndicator.color = UIColor.label
         searchBar.becomeFirstResponder()
     }
    
     private func bindData(){
-        //TODO: 검색하는동안 Progress Indicator 추가
         vm.searchResult.bind { result in
             self.collectionView.reloadData()
         }
@@ -87,19 +93,41 @@ class SearchViewController: UIViewController{
 
 }
 
-extension SearchViewController: UISearchBarDelegate{
+extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        //TODO: start indicator
-        vm.searchBook(query: searchBar.text){ [self] in
-            if vm.searchResult.value?.item.count != 0{
-                //TODO: end indicator
-                collectionView.scrollToItem(at: IndexPath(item: -1, section: 0), at: .top, animated: true)
+        // Start the activity indicator animation
+        activityIndicator.startAnimating()
+
+        // Set the error handler closure
+        vm.errorHandler = { [weak self] in
+            // Stop the activity indicator animation
+            self?.activityIndicator.stopAnimating()
+
+            // Show an alert indicating a network error
+            self?.showAlert(title: "에러", message: "네트워크 환경이 좋지 못합니다") {
+                self?.dismiss(animated: true)
             }
         }
-        
+
+        searchBar.resignFirstResponder()
+
+        // Start the searchBook function with a completion handler
+        vm.searchBook(query: searchBar.text) { [weak self] in
+            // Stop the activity indicator animation after the search is complete
+            self?.activityIndicator.stopAnimating()
+
+            if let items = self?.vm.searchResult.value?.item, !items.isEmpty {
+                self?.collectionView.scrollToItem(at: IndexPath(item: -1, section: 0), at: .top, animated: true)
+            } else {
+                // The items array is either nil or empty
+                self?.showAlert(title: "에러", message: "검색 결과가 없습니다", handler: nil)
+                searchBar.text = nil
+            }
+        }
     }
-    
 }
+
+
 
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -116,7 +144,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //TODO: item 정보 없는 경우 에러처리 노션 참고. Ex, 해리포터 세트 선택
         let vc = SearchDetailViewController()
         vc.isbn13Identifier = vm.searchResult.value?.item[indexPath.item].isbn13 ?? ""
         navigationController?.pushViewController(vc, animated: true)
