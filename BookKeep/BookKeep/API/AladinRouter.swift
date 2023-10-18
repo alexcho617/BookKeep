@@ -50,11 +50,13 @@ enum AladinRouter: URLRequestConvertible{
             ]
         }
     }
-    
+
     func asURLRequest() throws -> URLRequest {
+        let timeoutInterval: TimeInterval = 5
         let url = baseURL.appendingPathComponent(path)
         var request = URLRequest(url: url)
         request.method = method
+        request.timeoutInterval = timeoutInterval
         request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(queries, into: request)
         return request
     }

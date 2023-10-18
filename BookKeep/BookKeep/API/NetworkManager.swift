@@ -13,12 +13,13 @@ class NetworkManager{
     
     func requestConvertible<T: Decodable>(type: T.Type, api: AladinRouter, completion: @escaping (Result<T, AFError>) -> Void){
         AF.request(api).responseDecodable(of: T.self) { response in
+            
+            print("DEBUG: Network Manager",#function)
             switch response.result{
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
                 completion(.failure(error))
-                
             }
         }
     }

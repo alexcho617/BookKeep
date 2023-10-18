@@ -114,7 +114,11 @@ final class SearchDetailViewController: UIViewController {
         setView()
         setConstraints()
         bindData()
-        vm.lookUp(id: isbn13Identifier)
+        vm.lookUp(id: isbn13Identifier) {
+            self.showAlert(title: "❌에러", message: "조회가 불가능한 상품입니다") {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
     }
     
     func setView(){
