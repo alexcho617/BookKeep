@@ -9,106 +9,134 @@ import Foundation
 import RealmSwift
 
 class DetailViewModel{
+    
     var isbn: String?
     var book: Observable<RealmBook?> = Observable(nil)
-    weak var homeDelegate: DiffableDataSourceDelegate? // HomeVC Delegate
-    
+    private let booksRepository: BooksRepository
+    private let realm = Realm.safeInit()
     var objectNotificationToken: NotificationToken?
+
+    weak var homeDelegate: DiffableDataSourceDelegate? // HomeVC Delegate
+    weak var achievedDelegate: AchievedDelegate? //AchievedVC Delegate
     
-    init(isbn: String){
+    init(isbn: String, booksRepository: BooksRepository = BooksRepository.shared){
+        self.booksRepository = booksRepository
         fetchBookFromRealm(isbn: isbn)
         guard let book = book.value else {return}
         observeRealmChanges(for: book)
-
-        
     }
     
     func fetchBookFromRealm(isbn: String) {
         do {
-            try book.value = BooksRepository.shared.fetchBookByPK(isbn: isbn)
+            try book.value = booksRepository.fetchBookByPK(isbn: isbn)
         } catch {
             print(error)
         }
     }
     
-    //listen for changes of realm objects and update the observables
     private func observeRealmChanges(for observable: RealmBook){
         objectNotificationToken = observable.observe { changes in
             print("DEBUG: DetailViewModel-",#function)
             switch changes {
             case .change(let object, _):
                 let pk = object.value(forKey: "isbn")
-                let realm = Realm.safeInit()
-                //다시 넣어줌으로써 View의 바인드 호출
-                self.book.value = realm?.object(ofType: RealmBook.self, forPrimaryKey: pk)
-                //TODO: snapshot.reloadsection으로 개선 가능
-                self.homeDelegate?.reloadCollectionView()
+                //reassign and invoke view's binding
+                self.book.value = self.realm?.object(ofType: RealmBook.self, forPrimaryKey: pk)
+                
+                //delegate에 따라 분기 처리
+                if self.homeDelegate != nil{
+                    self.homeDelegate?.reloadCollectionView()
+                }
+                
+                else if self.achievedDelegate != nil{
+                    self.achievedDelegate?.reloadCollectionView()
+                }
+                
             case .error(let error):
                 print("\(error)")
             case .deleted:
                 print("object deleted")
             }
-        }        
+        }
     }
     
     func addMemo(date: Date?, contents: String?, handler: @escaping () -> Void){
-//        print("DetailViewModel-",#function, date, contents)
+        //        print("DetailViewModel-",#function, date, contents)
         guard let date = date, let contents = contents else {return}
         guard contents != "" else {return}
         
         //add to realm
         let newMemo = Memo(date: date, contents: contents, photo: "")
-        let realm = Realm.safeInit()
-        try! realm?.write {
-            book.value?.memos.append(newMemo)
+        
+        do {
+            try realm?.write {
+                book.value?.memos.append(newMemo)
+            }
+        } catch {
+            print("Realm Error: \(error)")
         }
         handler()
     }
     
-    func updateMemo(memo: Memo, date: Date?, contents: String?, handler: @escaping () -> Void){
-//        print("DetailViewModel-",#function, date, contents)
-        guard let date = date, let contents = contents else {return}
-        guard contents != "" else {return}
+    func updateMemo(memo: Memo, date: Date?, contents: String?) -> Bool{
+        //        print("DetailViewModel-",#function, date, contents)
+        guard let date = date, let contents = contents else {return false}
+        guard contents != "" else {return false}
         
-        //update realm observeRealmChanges 호출안됨
-        let realm = Realm.safeInit()
-        let memo = realm?.object(ofType: Memo.self, forPrimaryKey: memo._id)
-        try! realm?.write {
-            memo?.contents = contents
-            memo?.date = date
+        //return if no change
+        guard memo.contents != contents || memo.date != date else {
+            print("DEBUG: No Memo Change")
+            return false
         }
+        
+        let memo = realm?.object(ofType: Memo.self, forPrimaryKey: memo._id)
+        do {
+            try realm?.write {
+                memo?.contents = contents
+                memo?.date = date
+            }
+        } catch {
+            print("Realm Error: \(error)")
+        }
+        
         self.homeDelegate?.reloadCollectionView()
-        handler()
+        return true
     }
     
     func deleteMemo(_ memo: Memo){
-        let realm = Realm.safeInit()
-        try! realm?.write {
-            realm?.delete(memo)
+        do {
+            try realm?.write {
+                realm?.delete(memo)
+            }
+        } catch {
+            print("Realm Error: \(error)")
         }
+        
+        
     }
-    
-    
-    
     
     func deleteBookFromRealm(permanently: Bool = false, handler: @escaping () -> Void){
         if let book = book.value{
             if permanently == true{
-                BooksRepository.shared.deleteBook(isbn: book.isbn)
+                booksRepository.deleteBook(isbn: book.isbn)
             }else{
-                BooksRepository.shared.markDelete(isbn: book.isbn)
+                booksRepository.markDelete(isbn: book.isbn)
             }
             handler()
         }
-        
     }
     
-    //view에도 반영
-    func startReading(){
+    //다시 읽는 경우 분기처리
+    func startReading(isAgain: Bool, handler: @escaping () -> Void){
         guard let book = book.value else {return}
-//        book.readingStatus = .reading 어차피 렘에서 바꾸면 다시 가져옴
-        BooksRepository.shared.updateBookReadingStatus(isbn: book.isbn, to: .reading)
-        homeDelegate?.moveSection(itemToMove: book, from: .homeToRead, to: .homeReading)
+        if isAgain{
+            //TODO: Read Iteration + 1, reset start date
+            booksRepository.prepareBookForReadingAgain(isbn: book.isbn)
+            handler()
+        }else{
+            booksRepository.updateBookReadingStatus(isbn: book.isbn, to: .reading)
+            homeDelegate?.moveSection(itemToMove: book, from: .homeToRead, to: .homeReading)
+        }
     }
     
     deinit{

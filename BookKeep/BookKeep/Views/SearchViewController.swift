@@ -26,9 +26,9 @@ class SearchViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         configureHierarchy()
+        bindData()
         setConstraints()
         setViewDesign()
-        bindData()
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -71,6 +71,7 @@ class SearchViewController: UIViewController{
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
         title = "검색하기"
+        searchBar.becomeFirstResponder()
     }
    
     private func bindData(){
@@ -88,7 +89,14 @@ class SearchViewController: UIViewController{
 
 extension SearchViewController: UISearchBarDelegate{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        vm.searchBook(query: searchBar.text)
+        //TODO: start indicator
+        vm.searchBook(query: searchBar.text){ [self] in
+            if vm.searchResult.value?.item.count != 0{
+                //TODO: end indicator
+                collectionView.scrollToItem(at: IndexPath(item: -1, section: 0), at: .top, animated: true)
+            }
+        }
+        
     }
     
 }
@@ -108,6 +116,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //TODO: item 정보 없는 경우 에러처리 노션 참고. Ex, 해리포터 세트 선택
         let vc = SearchDetailViewController()
         vc.isbn13Identifier = vm.searchResult.value?.item[indexPath.item].isbn13 ?? ""
         navigationController?.pushViewController(vc, animated: true)

@@ -25,8 +25,7 @@ final class SearchDetailViewController: UIViewController {
     
     private var coverImageView = {
         let view = UIImageView()
-        view.backgroundColor = Design.debugGray
-        view.image = UIImage(systemName: "photo")
+        view.backgroundColor = .clear
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.layer.borderColor = Design.colorPrimaryAccent?.cgColor
@@ -150,6 +149,7 @@ final class SearchDetailViewController: UIViewController {
         vm.lookupResult.bind { [self] response in
             guard let book = response?.item.first else {return}
             bookTitle.text = book.title
+            coverImageView.kf.indicatorType = .activity
             coverImageView.kf.setImage(
                 with: URL(string: book.cover),
                 placeholder: UIImage(named: "photo"),

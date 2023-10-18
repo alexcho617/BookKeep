@@ -28,7 +28,7 @@ final class RealmBook: Object {
     
     
     //app exclusive
-    //TODO: 완독횟수 readIteration: Int 추가 - CRUD 전체 변경해야함
+    //TODO: 완독횟수 readIteration: Int 추가 - CRUD 전체 변경해야함 브렌치 따로 팔 것
     @Persisted var readingStatus: RealmReadStatus = .toRead
     @Persisted var startDate: Date = .now
     @Persisted var endDate: Date = .now

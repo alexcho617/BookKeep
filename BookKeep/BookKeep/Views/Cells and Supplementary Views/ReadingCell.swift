@@ -14,33 +14,31 @@ final class ReadingCell: UICollectionViewCell {
     var title = UILabel()
     var imageView = UIImageView()
     var startDate = UILabel()
+    var latestSessionDate = UILabel()
+
     var page = UILabel()
     
-    //TODO: Read screen connect
-    var readButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "timer"), for: .normal)
-        button.backgroundColor = Design.colorPrimaryAccent
-        button.tintColor = Design.colorSecondaryAccent
-        button.layer.cornerRadius = Design.paddingDefault
-        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-        button.layer.shadowOpacity = 0.5
-        return button
-    }()
-    
-    //TODO: Memo screen connect
-    var memoButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "note.text.badge.plus"), for: .normal)
-        button.backgroundColor = Design.colorPrimaryAccent
-        button.tintColor = Design.colorSecondaryAccent
-        button.layer.cornerRadius = Design.paddingDefault
-        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-        button.layer.shadowOpacity = 0.5
-        return button
-    }()
-    
- 
+//    var readButton = {
+//        let button = UIButton()
+//        button.setImage(UIImage(systemName: "timer"), for: .normal)
+//        button.backgroundColor = Design.colorPrimaryAccent
+//        button.tintColor = Design.colorSecondaryAccent
+//        button.layer.cornerRadius = Design.paddingDefault
+//        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+//        button.layer.shadowOpacity = 0.5
+//        return button
+//    }()
+//
+//    var memoButton = {
+//        let button = UIButton()
+//        button.setImage(UIImage(systemName: "note.text.badge.plus"), for: .normal)
+//        button.backgroundColor = Design.colorPrimaryAccent
+//        button.tintColor = Design.colorSecondaryAccent
+//        button.layer.cornerRadius = Design.paddingDefault
+//        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+//        button.layer.shadowOpacity = 0.5
+//        return button
+//    }()
     
     func setView(){
         guard let book = book else { return }
@@ -57,25 +55,32 @@ final class ReadingCell: UICollectionViewCell {
         
         
         contentView.addSubview(imageView)
+        imageView.kf.indicatorType = .activity
         imageView.kf.setImage(with: URL(string: book.coverUrl))
         imageView.backgroundColor = Design.debugBlue
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = Design.paddingDefault
         imageView.layer.borderColor = Design.colorPrimaryAccent?.cgColor
         imageView.layer.borderWidth = 2
         
         contentView.addSubview(startDate)
-        startDate.text = "시작 " + (book.startDate.formatted(date: .abbreviated, time: .omitted) )
+        startDate.text = "시작: " + (book.startDate.formatted(date: .numeric, time: .omitted) )
         startDate.font = Design.fontDefault
         startDate.textColor = .secondaryLabel
         
+        contentView.addSubview(latestSessionDate)
+        latestSessionDate.text = "최근 독서: " + (book.readSessions.last?.startTime.formatted(date: .numeric, time: .omitted) ?? " - " )
+        latestSessionDate.font = Design.fontDefault
+        latestSessionDate.textColor = .secondaryLabel
+        
         contentView.addSubview(page)
-        page.text = "\(book.currentReadingPage) / \(book.page) 페이지"
+        page.text = "\(book.currentReadingPage) / \(book.page) p"
         page.font = Design.fontDefault
         page.textColor = .secondaryLabel
 
-        contentView.addSubview(readButton)
-        contentView.addSubview(memoButton)
+//        contentView.addSubview(readButton)
+//        contentView.addSubview(memoButton)
 
     }
     
@@ -98,29 +103,30 @@ final class ReadingCell: UICollectionViewCell {
             make.leading.equalTo(imageView.snp.trailing).offset(Design.paddingDefault)
         }
         
-        page.snp.makeConstraints { make in
+        latestSessionDate.snp.makeConstraints { make in
             make.top.equalTo(startDate.snp.bottom).offset(Design.paddingDefault)
             make.leading.equalTo(startDate)
         }
-        
-        memoButton.snp.makeConstraints { make in
-            make.centerY.equalTo(contentView.snp.bottom)
-            make.trailing.equalTo(contentView.snp.trailing).offset(-Design.paddingDefault)
-            make.width.equalTo(contentView.snp.width).multipliedBy(0.15)
-            make.height.greaterThanOrEqualTo(32)
-            
+        page.snp.makeConstraints { make in
+            make.top.equalTo(latestSessionDate.snp.bottom).offset(Design.paddingDefault)
+            make.leading.equalTo(startDate)
         }
         
-        readButton.snp.makeConstraints { make in
-            make.centerY.equalTo(contentView.snp.bottom)
-            make.trailing.equalTo(memoButton.snp.leading).offset(-Design.paddingDefault)
-            make.width.equalTo(contentView.snp.width).multipliedBy(0.15)
-            make.height.greaterThanOrEqualTo(32)
-            
-        }
-        
-        
-
+//        memoButton.snp.makeConstraints { make in
+//            make.centerY.equalTo(contentView.snp.bottom)
+//            make.trailing.equalTo(contentView.snp.trailing).offset(-Design.paddingDefault)
+//            make.width.equalTo(contentView.snp.width).multipliedBy(0.15)
+//            make.height.greaterThanOrEqualTo(32)
+//
+//        }
+//
+//        readButton.snp.makeConstraints { make in
+//            make.centerY.equalTo(contentView.snp.bottom)
+//            make.trailing.equalTo(memoButton.snp.leading).offset(-Design.paddingDefault)
+//            make.width.equalTo(contentView.snp.width).multipliedBy(0.15)
+//            make.height.greaterThanOrEqualTo(32)
+//
+//        }
     }
     
     override init(frame: CGRect){

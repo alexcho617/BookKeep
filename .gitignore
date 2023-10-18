@@ -103,3 +103,4 @@ assets/
 *.pbxproj
 BookKeep/BookKeep/API/Key.swift
 *.xcuserstate
+BookKeep/BookKeep/GoogleService-Info.plist

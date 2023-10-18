@@ -13,6 +13,8 @@ enum Literal{
     static let startReadingLabel = " 읽기 시작"
     static let noMemoSectionTitle = "추가한 메모가 없습니다"
     static let memoSectionTitle = "내가 추가한 메모"
+    static let noSessionSectionTitle = "독서 기록이 없습니다"
+    static let sessionSectionTitle = "내가 읽은 기록"
     static let mainReading = "Now Reading..."
     static let bookFinished = "책 한권을 끝내셨군요!"
     static let readSessionDone = "독서 세션이 기록되었습니다"

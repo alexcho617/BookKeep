@@ -11,6 +11,8 @@ import SPConfetti
 
 class EditViewController: UIViewController{
     var isbn: String = ""
+    weak var detailDelegate: ReloadDelegate? //Detail ViewController
+
  
     lazy var vm = EditViewModel(isbn: isbn)
     let pageTextField = {
@@ -62,7 +64,7 @@ class EditViewController: UIViewController{
         
         pageTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         confirmButton.addTarget(self, action: #selector(confirmButtonClicked(_:)), for: .touchUpInside)
-        
+        pageTextField.becomeFirstResponder()
         pageTextField.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Design.paddingDefault)
             make.height.equalTo(36)
@@ -85,9 +87,10 @@ extension EditViewController: UITextFieldDelegate{
         if vm.validate(){
             view.endEditing(true)
             if vm.book?.currentReadingPage == vm.book?.page{
-                BooksRepository.shared.updateBookReadingStatus(isbn: isbn, to: .done)
+                BooksRepository.shared.bookFinished(isbn: isbn)
                 SPConfetti.startAnimating(.centerWidthToDown, particles: [.triangle, .arc, .star, .heart], duration: 3)
                 self.showAlert(title: "🎉🎉🎉", message: Literal.bookFinished){
+                    self.detailDelegate?.popToRootView()
                     self.dismiss(animated: true)
                 }
             }else{
