@@ -26,8 +26,6 @@ class AchievedHeaderCollectionReusableView: UICollectionReusableView {
         return view
     }()
     
-
-    
     private func setViews(){
         addSubview(welcomeLabel)
         addSubview(welcomeSecondLabel)
@@ -42,8 +40,6 @@ class AchievedHeaderCollectionReusableView: UICollectionReusableView {
             make.top.equalTo(welcomeLabel.snp.bottom)
             make.leading.equalTo(welcomeLabel)
         }
-        
-     
     }
     
     //Codebase initialize

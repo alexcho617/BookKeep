@@ -77,10 +77,30 @@ class BooksRepository: Error, LocalizedError{
         }
     }
     
+    func bookFinished(isbn: String) {
+        let book = realm!.object(ofType: RealmBook.self, forPrimaryKey: isbn)
+        try! realm?.write {
+            book?.readingStatus = .done
+            book?.endDate = Date.now
+        }
+    }
+    
+    
     func updateCurrentPage(isbn: String, to newPage: Int){
         let book = realm!.object(ofType: RealmBook.self, forPrimaryKey: isbn)
         try! realm?.write {
             book?.currentReadingPage = newPage
+        }
+    }
+    
+    func prepareBookForReadingAgain(isbn: String){
+        let book = realm!.object(ofType: RealmBook.self, forPrimaryKey: isbn)
+        try! realm?.write {
+            book?.currentReadingPage = 0
+            book?.readingStatus = .toRead
+            book?.startDate = Date.now
+            //TODO: endDate 어떻게 할 지? nil로 변경할지?
+            //TODO: Read Iteration + 1
         }
     }
 

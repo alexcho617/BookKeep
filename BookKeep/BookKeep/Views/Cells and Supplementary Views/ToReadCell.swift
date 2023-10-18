@@ -27,6 +27,7 @@ final class ToReadCell: UICollectionViewCell {
         imageView.contentMode = .scaleToFill
         imageView.layer.cornerRadius = Design.paddingDefault
         imageView.clipsToBounds = true
+        imageView.kf.indicatorType = .activity
         imageView.kf.setImage(with: URL(string: book.coverUrl))
         
       
@@ -34,7 +35,7 @@ final class ToReadCell: UICollectionViewCell {
         title.text = book.title
         title.font = Design.fontDefault
         title.textColor = Design.colorTextDefault
-        title.numberOfLines = 3
+        title.numberOfLines = 2
         
     }
     

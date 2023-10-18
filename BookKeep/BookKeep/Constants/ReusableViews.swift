@@ -121,6 +121,8 @@ struct DetailViewComponents{
         button.layer.cornerRadius = Design.paddingDefault
         button.layer.shadowOffset = CGSize(width: 4, height: 4)
         button.layer.shadowOpacity = 0.5
+        button.setTitle("읽기", for: .normal)
+        button.setTitleColor(Design.colorSecondaryAccent, for: .normal)
         return button
     }()
     
@@ -132,6 +134,8 @@ struct DetailViewComponents{
         button.layer.cornerRadius = Design.paddingDefault
         button.layer.shadowOffset = CGSize(width: 4, height: 4)
         button.layer.shadowOpacity = 0.5
+        button.setTitle("메모추가", for: .normal)
+        button.setTitleColor(Design.colorSecondaryAccent, for: .normal)
         return button
     }()
     

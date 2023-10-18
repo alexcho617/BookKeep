@@ -10,7 +10,7 @@ class SearchViewModel{
     
     var searchResult: Observable<AladinSearch?> = Observable(nil)
     
-    func searchBook(query: String?){
+    func searchBook(query: String?, handler: (()->Void)?){
         guard let query = query else {return}
         NetworkManager.shared.requestConvertible(type: AladinSearch.self, api: .search(keyword: query)) { response in
             switch response {
@@ -21,6 +21,8 @@ class SearchViewModel{
                 dump(failure)
             }
         }
+        
+        handler?()
     }
     
     deinit {

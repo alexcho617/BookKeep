@@ -20,7 +20,7 @@ final class ReadCompleteViewController: UIViewController {
 
     let titleLabel = {
         let view = UILabel()
-        view.text = "책 타이틀을 렘에서 가져오쟈 책 타이틀을 렘에서 가져오쟈 책 타이틀을 렘에서 가져오쟈 책 타이틀을 렘에서 가져오쟈"
+        view.text = "책 타이틀"
         view.numberOfLines = 2
         view.font = Design.fontAccentDefault
         view.textColor = UIColor.label
@@ -45,6 +45,7 @@ final class ReadCompleteViewController: UIViewController {
     let pageTextField = {
         let view = UITextField()
         view.backgroundColor = Design.colorPrimaryBackground
+        //TODO: 0~페이지 placeholder 해주기
         view.placeholder = "몇 페이지까지 읽으셨나요?"
         view.keyboardType = .numberPad
         view.textAlignment = .center
@@ -171,7 +172,7 @@ extension ReadCompleteViewController: UITextFieldDelegate{
         if vm.addSession(){
             //책이 끝난 경우
             if vm.book.value?.currentReadingPage == vm.book.value?.page{
-                BooksRepository.shared.updateBookReadingStatus(isbn: isbn, to: .done)
+                BooksRepository.shared.bookFinished(isbn: isbn)
                 SPConfetti.startAnimating(.centerWidthToDown, particles: [.triangle, .arc, .star, .heart], duration: 3)
                 self.showAlert(title: "🎉🎉🎉", message: Literal.bookFinished){
                     self.dismiss(animated: true)

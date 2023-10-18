@@ -9,9 +9,12 @@ import UIKit
 import RealmSwift
 import SnapKit
 
-final class AchievedViewController: UIViewController {
-    //TODO: 쎌 선택시 DetailTableView에서 대응
-    
+protocol AchievedDelegate: AnyObject {
+    func reloadCollectionView()
+}
+
+final class AchievedViewController: UIViewController, AchievedDelegate {
+
     //views
     private lazy var collectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
@@ -31,9 +34,16 @@ final class AchievedViewController: UIViewController {
     private func setView(){
         view.backgroundColor = Design.colorPrimaryAccent
         view.addSubview(collectionView)
+        title = "업적"
 
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
+        let appearance = UINavigationBarAppearance()
+        appearance.shadowImage = UIImage()
+        appearance.backgroundImage = UIImage()
+        appearance.backgroundColor = Design.colorPrimaryAccent
+        navigationController?.navigationBar.tintColor = Design.colorPrimaryBackground
+        
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.standardAppearance = appearance
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -67,7 +77,10 @@ final class AchievedViewController: UIViewController {
 }
 
 extension AchievedViewController: UICollectionViewDelegate, UICollectionViewDataSource{
-    
+    func reloadCollectionView() {
+        print("DEBUG: AchievedVC -", #function)
+        collectionView.reloadData()
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return vm.booksDoneReading.value.count
     }
@@ -88,5 +101,14 @@ extension AchievedViewController: UICollectionViewDelegate, UICollectionViewData
         }
         header.welcomeLabel.text = Literal.achievedMainGreeting + " (\(vm.booksDoneReading.value.count))"
         return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedBook = vm.booksDoneReading.value[indexPath.item]
+        
+        let vc = DetailTableViewController()
+        vc.vm = DetailViewModel(isbn: selectedBook.isbn)
+        vc.vm?.achievedDelegate = self
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
