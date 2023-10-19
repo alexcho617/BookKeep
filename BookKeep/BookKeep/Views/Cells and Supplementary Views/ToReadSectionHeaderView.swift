@@ -28,7 +28,7 @@ final class ToReadSectionHeaderView: UICollectionReusableView {
         title.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(Design.paddingDefault)
-            make.width.greaterThanOrEqualToSuperview().multipliedBy(0.5) //최소 설정
+            make.width.greaterThanOrEqualToSuperview().multipliedBy(0.4) //최소 설정
         }
      
     }

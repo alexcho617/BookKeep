@@ -85,3 +85,9 @@ class Memo: Object {
     
 }
 
+extension RealmBook {
+    func calculateTotalReadTime() -> TimeInterval {
+        let totalTimeInterval = readSessions.reduce(0) { $0 + Double($1.duration) }
+        return totalTimeInterval
+    }
+}

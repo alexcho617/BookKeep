@@ -22,12 +22,17 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
         let view = UIView()
         return view
     }()
+    
     lazy var bookTitle = viewComponents.bookTitle
     lazy var coverImageView = viewComponents.coverImageView
     lazy var author = viewComponents.author
     lazy var readButton = viewComponents.readButton
     lazy var memoButton = viewComponents.memoButton
     lazy var page = viewComponents.page
+    lazy var totalReadTime = viewComponents.totalReadTime
+    
+    //TODO: 읽은 횟수 추가 RealmBook.iteration model 수정 먼저 해야함
+    
     let startReadingButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "book"), for: .normal)
@@ -74,7 +79,7 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
         publisher.text = detailBook.publisher
         isbn.text = detailBook.isbn
         page.text = "\(detailBook.currentReadingPage) / \(detailBook.page)"
-        
+        totalReadTime.text =  "총 읽은 시간: " + (detailBook.calculateTotalReadTime().converToValidFormat() ?? "-")
     }
     
     func setViews(){
@@ -90,7 +95,9 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
         }
         
         bookTitle.snp.makeConstraints { make in
-            make.top.width.equalTo(baseView).offset(Design.paddingDefault)
+            make.top.equalTo(baseView).offset(3*Design.paddingDefault)
+            make.width.equalTo(baseView)
+            make.leading.equalTo(baseView)
         }
         
         coverImageView.snp.makeConstraints { make in
@@ -138,10 +145,16 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
             }
         case .done:
             startReadingButton.isHidden = true
+            contentView.addSubview(totalReadTime)
             contentView.addSubview(memoButton)
             memoButton.addTarget(self, action: #selector(memoButtonClicked), for: .touchUpInside)
             contentView.addSubview(infoStack)
             
+            totalReadTime.snp.makeConstraints { make in
+                make.leading.equalTo(author)
+                make.top.equalTo(author.snp.bottom).offset(Design.paddingDefault)
+                make.trailing.lessThanOrEqualTo(baseView).offset(-Design.paddingDefault)
+            }
             memoButton.snp.makeConstraints { make in
                 make.bottom.equalTo(coverImageView)
                 make.leading.equalTo(coverImageView.snp.trailing).offset(2*Design.paddingDefault)

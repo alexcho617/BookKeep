@@ -237,16 +237,20 @@ extension HomeViewController{
             supplementaryView.eventHandler = {
                 self.present(UINavigationController(rootViewController: SearchViewController()), animated: true)
             }
-            supplementaryView.welcomeLabel.text = Literal.mainGreeting + " (\(self.booksReading.count))"
+            supplementaryView.welcomeLabel.text = Literal.mainGreeting
+            //MARK: 책 갯수를 넣어주려고 하였으나 snapshot reload 문제로 추후 업데이트
+//            supplementaryView.welcomeLabel.text = Literal.mainGreeting + " (\(self.booksReading.count))"
 
         }
         
         let toReadHeaderRegistration = UICollectionView.SupplementaryRegistration<ToReadSectionHeaderView>(elementKind: SectionSupplementaryKind.toReadHeader.rawValue) { supplementaryView, elementKind, indexPath in
             //여기서 cell 처럼 header view 코드 실행 가능
-            supplementaryView.title.text = Literal.secondSectionLabel + " (\(self.booksToRead.count))"
+            supplementaryView.title.text = Literal.secondSectionLabel
+//            supplementaryView.title.text = Literal.secondSectionLabel + " (\(self.booksToRead.count))"
         }
         
         dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            //MARK: 책 갯수를 넣어주려고 하였으나 reload 문제로 추후 업데이트
 //            print("DEBUG: Cell Provider", itemIdentifier.title, itemIdentifier.readingStatus)
             
             let status = itemIdentifier.readingStatus
@@ -298,7 +302,7 @@ extension HomeViewController{
     private func bindData() {
         vm.books.bind { [weak self] value in
             guard let self = self else { return }
-            
+            print("DEBUG: BIND Data")
             booksToRead = Array(value).filter { $0.readingStatus == .toRead }
             booksReading = Array(value).filter { $0.readingStatus == .reading }
             var newSnapshot = NSDiffableDataSourceSnapshot<SectionLayoutKind, RealmBook>()
@@ -307,6 +311,7 @@ extension HomeViewController{
             newSnapshot.appendItems(booksReading, toSection: .homeReading)
             dataSource.apply(newSnapshot, animatingDifferences: true)
         }
+        
     }
 }
 
