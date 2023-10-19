@@ -242,6 +242,9 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
 
 //MARK: functions
 extension DetailTableViewController{
+    
+    //⚠️TODO: Allow Book Status change from detailview (navigation menubutton)
+    //editsheet 통합해도 괜찮을듯. 그냥 책 상태를 전반적으로 바로 제어 할 수 있도록
     private func showActionSheet(title: String?, message: String?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "책 삭제", style: .destructive) { _ in
