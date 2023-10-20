@@ -131,7 +131,8 @@ class DetailViewModel{
     func startReading(isAgain: Bool, handler: @escaping () -> Void){
         guard let book = book.value else {return}
         if isAgain{
-            //TODO: Read Iteration + 1, reset start date
+            //TODO: Read Iteration + 1, reset start date: 여기는 시작 시점에서 추가하는것. 현재는 끝나는 시점에서 올리고 있음. 기획 고민 다시 필요
+            //
             booksRepository.prepareBookForReadingAgain(isbn: book.isbn)
             handler()
         }else{

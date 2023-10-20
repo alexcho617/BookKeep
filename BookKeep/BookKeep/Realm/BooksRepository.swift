@@ -101,7 +101,6 @@ class BooksRepository: Error, LocalizedError{
             book?.readingStatus = .toRead
             book?.startDate = Date.now
             //TODO: endDate 어떻게 할 지? nil로 변경할지?
-            //TODO: Read Iteration + 1
         }
     }
 

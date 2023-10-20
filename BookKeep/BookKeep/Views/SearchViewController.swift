@@ -39,6 +39,7 @@ class SearchViewController: UIViewController{
         searchBar.delegate = self
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.prefetchDataSource = self
         collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.identifier)
         collectionView.keyboardDismissMode = .onDrag
         view.addSubview(baseView)
@@ -78,6 +79,7 @@ class SearchViewController: UIViewController{
         navigationController?.navigationBar.standardAppearance = appearance
         title = "검색하기"
         activityIndicator.color = UIColor.label
+        activityIndicator.backgroundColor = .clear
         searchBar.becomeFirstResponder()
     }
    
@@ -95,6 +97,8 @@ class SearchViewController: UIViewController{
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        vm.searchResult.value = nil
+
         // Start the activity indicator animation
         activityIndicator.startAnimating()
 
@@ -128,7 +132,6 @@ extension SearchViewController: UISearchBarDelegate {
 }
 
 
-//⚠️TODO: DataSourcePrefetching
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return vm.searchResult.value?.item.count ?? 0
@@ -148,8 +151,28 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         vc.isbn13Identifier = vm.searchResult.value?.item[indexPath.item].isbn13 ?? ""
         navigationController?.pushViewController(vc, animated: true)
     }
+}
+
+
+extension SearchViewController: UICollectionViewDataSourcePrefetching{
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            let currentRow = indexPath.row
+            guard vm.searchResult.value != nil else {return} //검색 값 확인
+            guard let count = vm.searchResult.value?.item.count else {return} //검색 값 내에 아이템이 있는지 확인
+            guard let totalResults = vm.searchResult.value?.totalResults else {return} //총 검색 결과 확인: 보통 몇백 몇천
+            print(#function, currentRow)
+            //1before is little late. change to 11 which will trigger prefetch at 2/3 the displayCount. 첫 호출 기준 약 2/3지점
+            //90개 까지만 보여줌: 즉 3번 호출 제한
+            if count - 11 == currentRow && count < totalResults && count < 90{
+                activityIndicator.startAnimating()
+                print(#function, count)
+                vm.searchBook(query: searchBar.text) {
+                    self.activityIndicator.stopAnimating()
+                }
+            }
+        }
+    }
     
-    
-   
     
 }
