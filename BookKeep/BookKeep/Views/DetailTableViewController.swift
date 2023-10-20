@@ -11,7 +11,7 @@ import RealmSwift
 import Kingfisher
 
 protocol ReloadDelegate: AnyObject {
-    func reloadView()
+    func reloadTableView()
     func popToRootView()
 }
 
@@ -88,7 +88,7 @@ class DetailTableViewController: UIViewController{
 }
 
 extension DetailTableViewController: ReloadDelegate{
-    func reloadView() {
+    func reloadTableView() {
 //        print("DetailTableViewController-",#function)
         tableView.reloadData()
     }
@@ -252,9 +252,13 @@ extension DetailTableViewController{
             self.confirmDelete(title: "주의", message: "정말 책을 삭제하시겠습니까?")
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
-        let edit = UIAlertAction(title: "페이지 수정", style: .default) {_ in
+        let editPage = UIAlertAction(title: "페이지 수정", style: .default) {_ in
             //TODO: show editsheet
             self.showEditSheet()
+        }
+        
+        let editStatus = UIAlertAction(title: "상태 수정", style: .default){_ in
+            self.showStatusSheet()
         }
         
         if vm?.book.value?.readingStatus == .done{
@@ -263,7 +267,8 @@ extension DetailTableViewController{
             }
             alert.addAction(readAgain)
         }
-        alert.addAction(edit)
+        alert.addAction(editStatus)
+        alert.addAction(editPage)
         alert.addAction(delete)
         alert.addAction(cancel)
         present(alert,animated: true)
@@ -279,6 +284,39 @@ extension DetailTableViewController{
             sheet.detents = [.medium()]
         }
         present(vc, animated: true, completion: nil)
+    }
+    
+    func showStatusSheet(){
+        guard let isbn = vm?.book.value?.isbn else {return}
+        let alert = UIAlertController(title: "책 상태 수정", message: nil, preferredStyle: .actionSheet)
+        
+        let done = UIAlertAction(title: "읽은 책", style: .default){_ in
+            if self.vm?.book.value?.readingStatus != .done{
+                BooksRepository.shared.updateBookReadingStatus(isbn: isbn, to: .done)
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+            
+        }
+        let reading = UIAlertAction(title: "읽고 있는 책", style: .default){_ in
+            if self.vm?.book.value?.readingStatus != .reading{
+                BooksRepository.shared.updateBookReadingStatus(isbn: isbn, to: .reading)
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+        let toRead = UIAlertAction(title: "읽을 예정인 책", style: .default){_ in
+            if self.vm?.book.value?.readingStatus != .toRead{
+                BooksRepository.shared.updateBookReadingStatus(isbn: isbn, to: .toRead)
+                self.navigationController?.popToRootViewController(animated: true)
+
+            }
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(done)
+        alert.addAction(reading)
+        alert.addAction(toRead)
+        alert.addAction(cancel)
+        present(alert,animated: true)
     }
     
     private func confirmDeleteMemo(title: String?, message: String?, memo: Memo?){

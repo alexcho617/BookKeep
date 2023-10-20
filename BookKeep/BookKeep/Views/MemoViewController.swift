@@ -50,7 +50,7 @@ final class MemoViewController: UIViewController {
             guard let selectedMemo = selectedMemo else {return}
             if vm?.updateMemo(memo: selectedMemo, date: datePicker.date, contents: textView.text) == true {
                 self.showAlert(title: "🎉", message: "메모가 변경되었습니다") {
-                    self.detailDelegate?.reloadView()
+                    self.detailDelegate?.reloadTableView()
                     self.navigationController?.popViewController(animated: true)
                 }
             }else {

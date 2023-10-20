@@ -12,8 +12,8 @@ import SPConfetti
 class EditViewController: UIViewController{
     var isbn: String = ""
     weak var detailDelegate: ReloadDelegate? //Detail ViewController
-
- 
+    
+    
     lazy var vm = EditViewModel(isbn: isbn)
     let pageTextField = {
         let view = UITextField()
@@ -24,7 +24,7 @@ class EditViewController: UIViewController{
         view.layer.cornerRadius = Design.paddingDefault
         return view
     }()
-
+    
     let confirmButton = {
         let view = UIButton()
         view.setTitle("수정하기", for: .normal)
@@ -34,7 +34,7 @@ class EditViewController: UIViewController{
         view.layer.cornerRadius = Design.paddingDefault
         return view
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Design.colorSecondaryBackground
@@ -49,7 +49,7 @@ class EditViewController: UIViewController{
         }
         pageTextField.text = String(page)
         pageTextField.becomeFirstResponder()
-
+        
     }
     
     func bindView(){
@@ -62,9 +62,10 @@ class EditViewController: UIViewController{
         view.addSubview(pageTextField)
         view.addSubview(confirmButton)
         view.snp.makeConstraints { make in
-                    make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
-
-                }
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
+            
+        }
+        
         pageTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         confirmButton.addTarget(self, action: #selector(confirmButtonClicked(_:)), for: .touchUpInside)
         pageTextField.becomeFirstResponder()
@@ -72,7 +73,6 @@ class EditViewController: UIViewController{
             make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Design.paddingDefault)
             make.height.equalTo(36)
         }
-
         
         confirmButton.snp.makeConstraints { make in
             make.top.equalTo(pageTextField.snp.bottom).offset(40)
@@ -80,10 +80,6 @@ class EditViewController: UIViewController{
             make.horizontalEdges.equalTo(pageTextField)
             
         }
-        
-        
-        
-        
     }
 }
 
@@ -105,12 +101,12 @@ extension EditViewController: UITextFieldDelegate{
         }else{
             showAlert(title: "삐빅!", message: "\(0) ~ \(vm.book?.page ?? -999) 사이의 값을 입력하세요", handler: nil)
             pageTextField.text = nil
-
+            
         }
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         vm.pageInput.value = textField.text
     }
-   
+    
 }
