@@ -15,9 +15,10 @@ class DetailViewModel{
     private let booksRepository: BooksRepository
     private let realm = Realm.safeInit()
     var objectNotificationToken: NotificationToken?
-
+    
     weak var homeDelegate: DiffableDataSourceDelegate? // HomeVC Delegate
     weak var achievedDelegate: AchievedDelegate? //AchievedVC Delegate
+  
     
     init(isbn: String, booksRepository: BooksRepository = BooksRepository.shared){
         self.booksRepository = booksRepository
@@ -138,6 +139,7 @@ class DetailViewModel{
             homeDelegate?.moveSection(itemToMove: book, from: .homeToRead, to: .homeReading)
         }
     }
+
     
     deinit{
         objectNotificationToken?.invalidate()

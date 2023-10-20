@@ -48,6 +48,8 @@
 		57A0F4DC2ADF7229008396D6 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 57A0F4DB2ADF7229008396D6 /* FirebaseCrashlytics */; };
 		57A0F4DE2ADF7281008396D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57A0F4DD2ADF7281008396D6 /* GoogleService-Info.plist */; };
 		57A0F4E12AE01C90008396D6 /* DetailTableViewSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0F4E02AE01C90008396D6 /* DetailTableViewSessionCell.swift */; };
+		57A193E32AE0EFA100DC679B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A193E22AE0EFA100DC679B /* SettingsViewController.swift */; };
+		57A193E52AE168DD00DC679B /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A193E42AE168DD00DC679B /* SettingsViewModel.swift */; };
 		57ADDFF22AC1A38D00EA0EFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */; };
 		57ADDFF42AC1A38D00EA0EFE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */; };
 		57ADDFF62AC1A38D00EA0EFE /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */; };
@@ -117,6 +119,8 @@
 		57A0F4D42ADD98BB008396D6 /* AchievedHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievedHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		57A0F4DD2ADF7281008396D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		57A0F4E02AE01C90008396D6 /* DetailTableViewSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewSessionCell.swift; sourceTree = "<group>"; };
+		57A193E22AE0EFA100DC679B /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		57A193E42AE168DD00DC679B /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		57ADDFEE2AC1A38D00EA0EFE /* BookKeep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookKeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -177,16 +181,16 @@
 		577082CA2AC3E77B0052EA8A /* Cells and Supplementary Views */ = {
 			isa = PBXGroup;
 			children = (
-				577082C02AC2D9790052EA8A /* ReadingCell.swift */,
-				57CA82332ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift */,
-				577082C82AC2ED2B0052EA8A /* ToReadCell.swift */,
-				577082E52AC6D1820052EA8A /* SearchCollectionViewCell.swift */,
-				577082CB2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift */,
 				57A0F4D42ADD98BB008396D6 /* AchievedHeaderCollectionReusableView.swift */,
 				5790CEF42AD0266A0066D517 /* DetailTableViewCell.swift */,
 				57A0F4E02AE01C90008396D6 /* DetailTableViewSessionCell.swift */,
 				5790CEF62AD026B00066D517 /* DetailTableHeader.swift */,
 				57C5C9E32ADA5A02002CFC72 /* DetailTableFooter.swift */,
+				57CA82332ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift */,
+				577082C02AC2D9790052EA8A /* ReadingCell.swift */,
+				577082CB2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift */,
+				577082E52AC6D1820052EA8A /* SearchCollectionViewCell.swift */,
+				577082C82AC2ED2B0052EA8A /* ToReadCell.swift */,
 				577082CD2AC3EFCA0052EA8A /* ToReadSectionHeaderView.swift */,
 			);
 			path = "Cells and Supplementary Views";
@@ -252,14 +256,15 @@
 			isa = PBXGroup;
 			children = (
 				57A0F4CD2ADC2134008396D6 /* AchievedViewController.swift */,
-				57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */,
-				5790CF002AD54ED40066D517 /* ReadingViewController.swift */,
 				5790CEF22AD023550066D517 /* DetailTableViewController.swift */,
 				5790CEE32ACE9F6D0066D517 /* EditViewController.swift */,
-				57C5C9E52ADA77DC002CFC72 /* ReadCompleteViewController.swift */,
+				57ADDFF52AC1A38D00EA0EFE /* HomeViewController.swift */,
 				5790CEFA2AD3F8DA0066D517 /* MemoViewController.swift */,
+				5790CF002AD54ED40066D517 /* ReadingViewController.swift */,
+				57C5C9E52ADA77DC002CFC72 /* ReadCompleteViewController.swift */,
 				577082D52AC68A170052EA8A /* SearchViewController.swift */,
 				5754D2252AC725FE009C82C9 /* SearchDetailViewController.swift */,
+				57A193E22AE0EFA100DC679B /* SettingsViewController.swift */,
 				577082D32AC480CD0052EA8A /* ViewController + Extension.swift */,
 				577082CA2AC3E77B0052EA8A /* Cells and Supplementary Views */,
 			);
@@ -269,15 +274,16 @@
 		57ADE0222AC1A5B900EA0EFE /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				577082CF2AC415F90052EA8A /* Observable.swift */,
+				57A0F4CF2ADC2145008396D6 /* AchievedViewModel.swift */,
+				57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */,
+				5790CEE52ACEC1AB0066D517 /* EditViewModel.swift */,
 				57ADE0242AC1A5D800EA0EFE /* HomeViewModel.swift */,
 				5790CF022AD54EE70066D517 /* ReadingViewModel.swift */,
-				5790CEE52ACEC1AB0066D517 /* EditViewModel.swift */,
-				57A0F4CF2ADC2145008396D6 /* AchievedViewModel.swift */,
 				57C5C9E72ADAA5FC002CFC72 /* ReadCompleteViewModel.swift */,
 				577082D72AC68A510052EA8A /* SearchViewModel.swift */,
+				57A193E42AE168DD00DC679B /* SettingsViewModel.swift */,
 				5754D2292AC73A31009C82C9 /* SearchDetailViewModel.swift */,
-				57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */,
-				577082CF2AC415F90052EA8A /* Observable.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -295,9 +301,9 @@
 			isa = PBXGroup;
 			children = (
 				57ADE0272AC1A67D00EA0EFE /* Design.swift */,
+				5754D2272AC728D9009C82C9 /* Enums.swift */,
 				577082D12AC420F10052EA8A /* Literal.swift */,
 				577082BE2AC2D2110052EA8A /* MockData.swift */,
-				5754D2272AC728D9009C82C9 /* Enums.swift */,
 				57C79BEF2ACAC42400E168F6 /* ReusableViews.swift */,
 			);
 			path = Constants;
@@ -314,8 +320,8 @@
 		57ADE02A2AC1A70100EA0EFE /* API */ = {
 			isa = PBXGroup;
 			children = (
-				57ADE02D2AC1A77D00EA0EFE /* Key.swift */,
 				577082DE2AC6AEAE0052EA8A /* AladinRouter.swift */,
+				57ADE02D2AC1A77D00EA0EFE /* Key.swift */,
 				577082E02AC6AEF70052EA8A /* NetworkManager.swift */,
 			);
 			path = API;
@@ -533,6 +539,8 @@
 				577082CC2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift in Sources */,
 				57CA82342ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift in Sources */,
 				57A0F4E12AE01C90008396D6 /* DetailTableViewSessionCell.swift in Sources */,
+				57A193E52AE168DD00DC679B /* SettingsViewModel.swift in Sources */,
+				57A193E32AE0EFA100DC679B /* SettingsViewController.swift in Sources */,
 				5754D2262AC725FE009C82C9 /* SearchDetailViewController.swift in Sources */,
 				57A0F4D02ADC2145008396D6 /* AchievedViewModel.swift in Sources */,
 				577082BD2AC2C6E00052EA8A /* BooksRepository.swift in Sources */,

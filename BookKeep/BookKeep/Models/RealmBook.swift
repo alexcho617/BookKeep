@@ -15,9 +15,9 @@ enum RealmReadStatus: String, PersistableEnum, Hashable{
     case paused
     case stopped
 }
-
 final class RealmBook: Object {
     //from API
+    //⚠️TODO: Model: Change Data Model to gain as much as data from API (Edit RealmBook)
     @Persisted(primaryKey: true) var isbn: String
     @Persisted()var title: String = ""
     @Persisted var coverUrl: String = ""
@@ -25,10 +25,11 @@ final class RealmBook: Object {
     @Persisted var descriptionOfBook: String = ""
     @Persisted var publisher: String = ""
     @Persisted var page: Int = 0
-    
+    //TODO: Category 필요함
+
     
     //app exclusive
-    //TODO: 완독횟수 readIteration: Int 추가 - CRUD 전체 변경해야함 브렌치 따로 팔 것
+    //⚠️TODO: 완독횟수 readIteration: Int 추가 - CRUD 전체 변경해야함 브렌치 따로 팔 것
     @Persisted var readingStatus: RealmReadStatus = .toRead
     @Persisted var startDate: Date = .now
     @Persisted var endDate: Date = .now
@@ -85,3 +86,9 @@ class Memo: Object {
     
 }
 
+extension RealmBook {
+    func calculateTotalReadTime() -> TimeInterval {
+        let totalTimeInterval = readSessions.reduce(0) { $0 + Double($1.duration) }
+        return totalTimeInterval
+    }
+}

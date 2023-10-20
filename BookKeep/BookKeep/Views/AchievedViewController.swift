@@ -16,6 +16,7 @@ protocol AchievedDelegate: AnyObject {
 final class AchievedViewController: UIViewController, AchievedDelegate {
 
     //views
+    //TODO: 추후 업데이트에 컬렉션 뷰 위에 차트 추가 
     private lazy var collectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
         view.backgroundColor = .clear
@@ -99,7 +100,8 @@ extension AchievedViewController: UICollectionViewDelegate, UICollectionViewData
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "AchievedHeaderCollectionReusableView", for: indexPath) as? AchievedHeaderCollectionReusableView else {
             return UICollectionReusableView()
         }
-        header.welcomeLabel.text = Literal.achievedMainGreeting + " (\(vm.booksDoneReading.value.count))"
+        header.welcomeLabel.text = Literal.achievedMainGreeting
+//        header.welcomeLabel.text = Literal.achievedMainGreeting + " (\(vm.booksDoneReading.value.count))"
         return header
     }
     

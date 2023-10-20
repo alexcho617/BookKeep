@@ -22,8 +22,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = UITabBarController()
         let homeVC = UINavigationController(rootViewController: HomeViewController())
         let achievedVC = UINavigationController(rootViewController: AchievedViewController())
+        let settingVC = UINavigationController(rootViewController: SettingsViewController())
         
-        tabBarController.setViewControllers([homeVC, achievedVC], animated: true)
+        tabBarController.setViewControllers([homeVC, achievedVC, settingVC], animated: true)
         tabBarController.tabBar.tintColor = Design.colorPrimaryAccent
         
         let tabBarAppearance = UITabBarAppearance()
@@ -35,9 +36,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             items[0].image = UIImage(systemName: "house.fill")
             items[0].title = "홈"
             
-            
             items[1].image = UIImage(systemName: "medal.fill")
             items[1].title = "업적"
+            
+            items[2].image = UIImage(systemName: "gearshape.fill")
+            items[2].title = "세팅"
         }
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()

@@ -80,6 +80,15 @@ struct DetailViewComponents{
         return view
     }()
     
+    let totalReadTime = {
+        let view = UILabel()
+        view.text = "전체 읽은 시간"
+        view.font = Design.fontDefault
+        view.textColor = Design.colorTextDefault
+        view.numberOfLines = 0
+        return view
+    }()
+    
     let introduction = {
         let view = UILabel()
         view.numberOfLines = 0
