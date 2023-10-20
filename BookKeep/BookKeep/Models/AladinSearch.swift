@@ -19,7 +19,7 @@ struct AladinSearch: Hashable, Codable {
     let query: String?
     let searchCategoryID: Int?
     let searchCategoryName: String?
-    let item: [Item]
+    var item: [Item]
     func hash(into hasher: inout Hasher) {
         hasher.combine(identifier)
     }

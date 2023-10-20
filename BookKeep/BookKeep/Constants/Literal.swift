@@ -26,4 +26,6 @@ enum Literal{
     static let openSourceURL = "https://adaptive-thrush-b44.notion.site/1049ba7c98814ef09e8ad98216b4dda7?pvs=4"
     
     static let developerEmail = "alexcho617@gmail.com"
+    
+    static let apiMaxResults = 30
 }

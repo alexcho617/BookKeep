@@ -29,6 +29,7 @@ enum AladinRouter: URLRequestConvertible{
         return .get
     }
     
+    
     private var queries: [String: String]{
         switch self {
         case .search(let keyword):
@@ -37,6 +38,7 @@ enum AladinRouter: URLRequestConvertible{
                     "version": "20131101",
                     "SearchTarget": "Book",
                     "QueryType": "Title",
+                    "MaxResults": "\(Literal.apiMaxResults)",
                     "start": "1",
                     "Cover": "Big",
                     "Output": "JS"
