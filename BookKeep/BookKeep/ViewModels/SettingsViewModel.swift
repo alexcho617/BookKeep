@@ -15,6 +15,7 @@ enum Items: String{
     case infoPolicy = "개인정보 처리"
     case sendEmail = "문의 보내기"
     case appVersion = "앱 버전"
+    case openSource = "오픈소스 라이센스"
 }
 
 class SettingsViewModel{

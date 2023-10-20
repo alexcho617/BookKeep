@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import WebKit
 
 class SettingsViewController: UIViewController {
     let vm = SettingsViewModel()
@@ -34,6 +35,7 @@ class SettingsViewController: UIViewController {
         
         title = "세팅"
         view.addSubview(tableView)
+        
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -43,6 +45,7 @@ class SettingsViewController: UIViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
+        
     }
     
     
@@ -64,28 +67,66 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        
-        
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        cell.backgroundColor = Design.colorPrimaryBackground
         let item = vm.items[indexPath.section][indexPath.row]
         let itemKind = Items(rawValue: item)
         switch itemKind {
-        case .infoPolicy:
-            print("Info")
-        case .sendEmail:
-            print("email")
         case .appVersion:
-            cell.textLabel?.text = item + vm.currentVersion
-        case .none:
-            print("None")
+            cell.textLabel?.text = "\(item): v\(vm.currentVersion)"
+            cell.isUserInteractionEnabled = false
+        default:
+            cell.textLabel?.text = item
+            cell.accessoryType = .disclosureIndicator
+            cell.selectionStyle = .default
         }
-        cell.textLabel?.text = item
         return cell
         
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = vm.items[indexPath.section][indexPath.row]
+        let itemKind = Items(rawValue: item)
         
+        switch itemKind {
+            
+        case .infoPolicy:
+            let vc = SimpleWebViewController()
+            vc.urlString = Literal.policyURL
+            navigationController?.pushViewController(vc, animated: true)
+        case .sendEmail:
+            return
+        case .appVersion:
+            return
+        case .openSource:
+            let vc = SimpleWebViewController()
+            vc.urlString = Literal.openSourceURL
+            navigationController?.pushViewController(vc, animated: true)
+        case .none:
+            return
+        }
+        //deselect row
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
 
+class SimpleWebViewController: UIViewController{
+    var urlString: String?
+    private let webView = {
+        let view = WKWebView()
+        return view
+    }()
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addSubview(webView)
+        webView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        let myRequest = URLRequest(url: URL(string: urlString ?? "www.velog.io/@alexcho617")!, timeoutInterval: 5)
+        webView.load(myRequest)
+    }
+    
+}
