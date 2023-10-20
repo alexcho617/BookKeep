@@ -172,9 +172,27 @@ final class SearchDetailViewController: UIViewController {
     }
     
     @objc private func addToReadingList(){
-        
         guard let bookData = vm.lookupResult.value?.item.first else {return}
-        let book = RealmBook(isbn: bookData.isbn13, title: bookData.title, coverUrl: bookData.cover, author: bookData.author, descriptionOfBook: bookData.description, publisher: bookData.publisher, page: bookData.subInfo?.itemPage ?? 0)
+//        let book = RealmBook(isbn: bookData.isbn13, title: bookData.title, coverUrl: bookData.cover, author: bookData.author, descriptionOfBook: bookData.description, publisher: bookData.publisher, page: bookData.subInfo?.itemPage ?? 0, readItration: 0)
+        
+        let book = RealmBook(
+                isbn: bookData.isbn13,
+                title: bookData.title,
+                coverUrl: bookData.cover,
+                author: bookData.author,
+                descriptionOfBook: bookData.description,
+                publisher: bookData.publisher,
+                page: bookData.subInfo?.itemPage ?? 0,
+                readItration: 0,
+                itemLink: bookData.link,
+                priceSales: bookData.priceSales,
+                priceStandard: bookData.priceStandard,
+                categoryId: bookData.categoryID,
+                categoryName: bookData.categoryName,
+                customerReviewRank: bookData.customerReviewRank,
+                adult: bookData.adult
+            )
+        
         do {
             //MARK: 여기선 VM을 거치지 않고 왜 Repository로 바로 갔지?
             try BooksRepository.shared.create(book)

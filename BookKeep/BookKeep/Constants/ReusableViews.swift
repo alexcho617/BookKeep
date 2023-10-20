@@ -89,6 +89,15 @@ struct DetailViewComponents{
         return view
     }()
     
+    let readIteration = {
+        let view = UILabel()
+        view.text = "0번째 읽는중"
+        view.font = Design.fontDefault
+        view.textColor = Design.colorTextDefault
+        view.numberOfLines = 0
+        return view
+    }()
+    
     let introduction = {
         let view = UILabel()
         view.numberOfLines = 0
