@@ -61,7 +61,10 @@ class EditViewController: UIViewController{
     func setView(){
         view.addSubview(pageTextField)
         view.addSubview(confirmButton)
-        
+        view.snp.makeConstraints { make in
+                    make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
+
+                }
         pageTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         confirmButton.addTarget(self, action: #selector(confirmButtonClicked(_:)), for: .touchUpInside)
         pageTextField.becomeFirstResponder()
@@ -77,6 +80,9 @@ class EditViewController: UIViewController{
             make.horizontalEdges.equalTo(pageTextField)
             
         }
+        
+        
+        
         
     }
 }

@@ -29,11 +29,11 @@ class DetailTableViewController: UIViewController{
         return view
     }()
     
-    lazy var editButton: UIBarButtonItem = {
-        let view = UIBarButtonItem(title: "편집", style: .plain, target: self, action: #selector(showEditClicked))
-        view.image = UIImage(systemName: "pencil")
-        return view
-    }()
+//    lazy var editButton: UIBarButtonItem = {
+//        let view = UIBarButtonItem(title: "편집", style: .plain, target: self, action: #selector(showEditClicked))
+//        view.image = UIImage(systemName: "pencil")
+//        return view
+//    }()
     
     //vdl
     override func viewDidLoad() {
@@ -50,7 +50,8 @@ class DetailTableViewController: UIViewController{
     
     
     func setView(){
-        navigationItem.rightBarButtonItems = vm?.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
+//        navigationItem.rightBarButtonItems = vm?.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
+        navigationItem.rightBarButtonItems = [menuButton]
         tableView.backgroundColor = Design.colorPrimaryBackground
         tableView.delegate = self
         tableView.dataSource = self
@@ -79,9 +80,9 @@ class DetailTableViewController: UIViewController{
         showActionSheet(title: nil, message: nil)
     }
     
-    @objc func showEditClicked(){
-        showEditSheet()
-    }
+//    @objc func showEditClicked(){
+//        showEditSheet()
+//    }
     
     
 }
@@ -251,7 +252,10 @@ extension DetailTableViewController{
             self.confirmDelete(title: "주의", message: "정말 책을 삭제하시겠습니까?")
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
-        
+        let edit = UIAlertAction(title: "페이지 수정", style: .default) {_ in
+            //TODO: show editsheet
+            self.showEditSheet()
+        }
         
         if vm?.book.value?.readingStatus == .done{
             let readAgain = UIAlertAction(title: "책 다시읽기", style: .default) { _ in
@@ -259,6 +263,7 @@ extension DetailTableViewController{
             }
             alert.addAction(readAgain)
         }
+        alert.addAction(edit)
         alert.addAction(delete)
         alert.addAction(cancel)
         present(alert,animated: true)

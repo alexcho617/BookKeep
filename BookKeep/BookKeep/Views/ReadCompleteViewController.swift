@@ -17,7 +17,7 @@ final class ReadCompleteViewController: UIViewController {
     var navigationHandler: (() -> Void)?
     
     lazy var vm = ReadCompleteViewModel(isbn: isbn)
-
+    
     let titleLabel = {
         let view = UILabel()
         view.text = "책 타이틀"
@@ -111,6 +111,10 @@ final class ReadCompleteViewController: UIViewController {
         pageTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         confirmButton.addTarget(self, action: #selector(confirmButtonClicked(_:)), for: .touchUpInside)
         
+        view.snp.makeConstraints { make in
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
+            
+        }
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(2*Design.paddingDefault)
             make.horizontalEdges.equalToSuperview().inset(Design.paddingDefault)
@@ -132,23 +136,28 @@ final class ReadCompleteViewController: UIViewController {
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(Design.paddingDefault)
             make.height.equalTo(36)
         }
-        
-        readTimePicker.snp.makeConstraints { make in
+        readTimeLabel.snp.makeConstraints { make in
             make.top.equalTo(pageTextField.snp.bottom).offset(Design.paddingDefault)
-            make.leading.equalTo(readTimeLabel.snp.trailing).offset(Design.paddingDefault)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(Design.paddingDefault)
+            make.width.equalToSuperview().multipliedBy(0.25)
+            make.height.equalToSuperview().multipliedBy(0.25)
+        }
+        readTimePicker.snp.makeConstraints { make in
+            make.centerY.equalTo(readTimeLabel)
+            make.leading.equalTo(readTimeLabel.snp.trailing)
             make.trailing.lessThanOrEqualTo(view.safeAreaLayoutGuide).offset(-Design.paddingDefault)
             make.height.equalToSuperview().multipliedBy(0.25)
         }
         
-        readTimeLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(readTimePicker)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(Design.paddingDefault)
-        }
+        
         
         confirmButton.snp.makeConstraints { make in
             make.top.equalTo(readTimePicker.snp.bottom).offset(2*Design.paddingDefault)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(Design.paddingDefault)
         }
+        
+        
+        pageTextField.becomeFirstResponder()
         
     }
     
@@ -159,8 +168,8 @@ final class ReadCompleteViewController: UIViewController {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastISBN.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastStartTime.rawValue)
         print("DEBUG: UD is Cleared")
-     }
-
+    }
+    
 }
 
 extension ReadCompleteViewController: UITextFieldDelegate{
@@ -196,7 +205,7 @@ extension ReadCompleteViewController: UITextFieldDelegate{
         }else{
             showAlert(title: "삐빅!", message: "\(0) ~ \(vm.book.value?.page ?? -999) 사이의 값을 입력하세요", handler: nil)
             pageTextField.text = nil
-
+            
         }
     }
     
@@ -204,5 +213,5 @@ extension ReadCompleteViewController: UITextFieldDelegate{
         
         vm.pageInput.value = textField.text
     }
-   
+    
 }
