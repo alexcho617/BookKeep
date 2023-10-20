@@ -30,6 +30,7 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     lazy var memoButton = viewComponents.memoButton
     lazy var page = viewComponents.page
     lazy var totalReadTime = viewComponents.totalReadTime
+    lazy var readIteration = viewComponents.readIteration
     
     //TODO: 읽은 횟수 추가 RealmBook.iteration model 수정 먼저 해야함
     
@@ -80,6 +81,7 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
         isbn.text = detailBook.isbn
         page.text = "\(detailBook.currentReadingPage) / \(detailBook.page)"
         totalReadTime.text =  "총 읽은 시간: " + (detailBook.calculateTotalReadTime().converToValidFormat() ?? "-")
+        readIteration.text = detailBook.readIteration == 0 ? "첫 회독": "\(detailBook.readIteration)번 회독"
     }
     
     func setViews(){
@@ -89,6 +91,8 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
         contentView.addSubview(bookTitle)
         contentView.addSubview(coverImageView)
         contentView.addSubview(author)
+        contentView.addSubview(totalReadTime)
+        contentView.addSubview(readIteration)
         
         baseView.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
@@ -113,53 +117,48 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
             make.width.equalTo(baseView.snp.width).multipliedBy(0.55)
         }
         
+        totalReadTime.snp.makeConstraints { make in
+            make.leading.equalTo(author)
+            make.top.equalTo(author.snp.bottom).offset(Design.paddingDefault)
+            make.trailing.lessThanOrEqualTo(baseView).offset(-Design.paddingDefault)
+        }
+        
+        readIteration.snp.makeConstraints { make in
+            make.leading.equalTo(author)
+            make.top.equalTo(totalReadTime.snp.bottom).offset(Design.paddingDefault)
+            make.trailing.equalTo(totalReadTime.snp.trailing)
+        }
         switch detailBook.readingStatus{
             
-        case .reading:
+        case .reading, .done:
             startReadingButton.isHidden = true
-            contentView.addSubview(readButton)
-            contentView.addSubview(memoButton)
-            memoButton.addTarget(self, action: #selector(memoButtonClicked), for: .touchUpInside)
-            readButton.addTarget(self, action: #selector(readButtonClicked), for: .touchUpInside)
-            contentView.addSubview(infoStack)
-            
-            
-            readButton.snp.makeConstraints { make in
-                make.bottom.equalTo(coverImageView)
-                make.leading.equalTo(coverImageView.snp.trailing).offset(2*Design.paddingDefault)
-                make.width.greaterThanOrEqualTo(baseView.snp.width).multipliedBy(0.2)
-                make.height.greaterThanOrEqualTo(32)
-            }
-            
-            memoButton.snp.makeConstraints { make in
-                make.bottom.equalTo(readButton)
-                make.leading.equalTo(readButton.snp.trailing).offset(Design.paddingDefault)
-                make.width.greaterThanOrEqualTo(baseView.snp.width).multipliedBy(0.3)
-                make.height.greaterThanOrEqualTo(32)
-            }
-            //stackview
-            infoStack.snp.makeConstraints { make in
-                make.top.equalTo(coverImageView.snp.bottom).offset(Design.paddingDefault)
-                make.leading.trailing.equalTo(baseView)
-                make.bottom.lessThanOrEqualTo(baseView).offset(-5*Design.paddingDefault).priority(.high) //이거 지정해줘야함.
-            }
-        case .done:
-            startReadingButton.isHidden = true
-            contentView.addSubview(totalReadTime)
+           
             contentView.addSubview(memoButton)
             memoButton.addTarget(self, action: #selector(memoButtonClicked), for: .touchUpInside)
             contentView.addSubview(infoStack)
             
-            totalReadTime.snp.makeConstraints { make in
-                make.leading.equalTo(author)
-                make.top.equalTo(author.snp.bottom).offset(Design.paddingDefault)
-                make.trailing.lessThanOrEqualTo(baseView).offset(-Design.paddingDefault)
-            }
-            memoButton.snp.makeConstraints { make in
-                make.bottom.equalTo(coverImageView)
-                make.leading.equalTo(coverImageView.snp.trailing).offset(2*Design.paddingDefault)
-                make.width.greaterThanOrEqualTo(baseView.snp.width).multipliedBy(0.3)
-                make.height.greaterThanOrEqualTo(32)
+            if detailBook.readingStatus == .reading{
+                contentView.addSubview(readButton)
+                readButton.addTarget(self, action: #selector(readButtonClicked), for: .touchUpInside)
+                readButton.snp.makeConstraints { make in
+                    make.bottom.equalTo(coverImageView)
+                    make.leading.equalTo(coverImageView.snp.trailing).offset(2*Design.paddingDefault)
+                    make.width.greaterThanOrEqualTo(baseView.snp.width).multipliedBy(0.2)
+                    make.height.greaterThanOrEqualTo(32)
+                }
+                memoButton.snp.makeConstraints { make in
+                    make.bottom.equalTo(readButton)
+                    make.leading.equalTo(readButton.snp.trailing).offset(Design.paddingDefault)
+                    make.width.greaterThanOrEqualTo(baseView.snp.width).multipliedBy(0.3)
+                    make.height.greaterThanOrEqualTo(32)
+                }
+            }else{
+                memoButton.snp.makeConstraints { make in
+                    make.bottom.equalTo(coverImageView)
+                    make.leading.equalTo(coverImageView.snp.trailing).offset(2*Design.paddingDefault)
+                    make.width.greaterThanOrEqualTo(baseView.snp.width).multipliedBy(0.3)
+                    make.height.greaterThanOrEqualTo(32)
+                }
             }
             //stackview
             infoStack.snp.makeConstraints { make in
@@ -192,7 +191,6 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
         vm?.startReading(isAgain: false, handler: {
             
         })
-        
     }
     
     @objc func memoButtonClicked(){

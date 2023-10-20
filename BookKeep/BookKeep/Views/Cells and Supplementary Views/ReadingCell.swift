@@ -15,8 +15,8 @@ final class ReadingCell: UICollectionViewCell {
     var imageView = UIImageView()
     var startDate = UILabel()
     var latestSessionDate = UILabel()
-
     var page = UILabel()
+    var readIteration = UILabel()
     
 //    var readButton = {
 //        let button = UIButton()
@@ -78,7 +78,11 @@ final class ReadingCell: UICollectionViewCell {
         page.text = "\(book.currentReadingPage) / \(book.page) p"
         page.font = Design.fontDefault
         page.textColor = .secondaryLabel
-
+        
+        contentView.addSubview(readIteration)
+        readIteration.text = book.readIteration == 0 ? "첫 회독": "\(book.readIteration)번 회독"
+        readIteration.font = Design.fontDefault
+        readIteration.textColor = .secondaryLabel
 //        contentView.addSubview(readButton)
 //        contentView.addSubview(memoButton)
 
@@ -101,17 +105,27 @@ final class ReadingCell: UICollectionViewCell {
         startDate.snp.makeConstraints { make in
             make.top.equalTo(imageView).offset(Design.paddingDefault)
             make.leading.equalTo(imageView.snp.trailing).offset(Design.paddingDefault)
+            make.trailing.lessThanOrEqualToSuperview().offset(-Design.paddingDefault)
         }
         
         latestSessionDate.snp.makeConstraints { make in
             make.top.equalTo(startDate.snp.bottom).offset(Design.paddingDefault)
             make.leading.equalTo(startDate)
+            make.trailing.lessThanOrEqualToSuperview().offset(-Design.paddingDefault)
+
         }
         page.snp.makeConstraints { make in
             make.top.equalTo(latestSessionDate.snp.bottom).offset(Design.paddingDefault)
             make.leading.equalTo(startDate)
+            make.trailing.lessThanOrEqualToSuperview().offset(-Design.paddingDefault)
+
         }
-        
+        readIteration.snp.makeConstraints { make in
+            make.top.equalTo(page.snp.bottom).offset(Design.paddingDefault)
+            make.leading.equalTo(startDate)
+            make.trailing.lessThanOrEqualToSuperview().offset(-Design.paddingDefault)
+
+        }
 //        memoButton.snp.makeConstraints { make in
 //            make.centerY.equalTo(contentView.snp.bottom)
 //            make.trailing.equalTo(contentView.snp.trailing).offset(-Design.paddingDefault)
