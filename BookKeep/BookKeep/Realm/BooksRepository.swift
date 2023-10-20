@@ -82,6 +82,7 @@ class BooksRepository: Error, LocalizedError{
         try! realm?.write {
             book?.readingStatus = .done
             book?.endDate = Date.now
+            book?.readIteration = (book?.readIteration ?? 0) + 1
         }
     }
     
