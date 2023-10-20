@@ -27,7 +27,18 @@ class SettingsViewModel{
             return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? " - "
         }
     }
-    
+   
+    func getDeviceIdentifier() -> String {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        let identifier = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        
+        return identifier
+    }
     //추후 사용
     func latestVersion() -> String? {
         guard let url = URL(string: "http://itunes.apple.com/lookup?id=\(Literal.appleID)"),

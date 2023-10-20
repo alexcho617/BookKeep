@@ -24,4 +24,6 @@ enum Literal{
     static let appleID = "6469721694"
     static let policyURL = "https://adaptive-thrush-b44.notion.site/253617b9610640a49f80211cae19e0aa?pvs=4"
     static let openSourceURL = "https://adaptive-thrush-b44.notion.site/1049ba7c98814ef09e8ad98216b4dda7?pvs=4"
+    
+    static let developerEmail = "alexcho617@gmail.com"
 }

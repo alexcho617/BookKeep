@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import MessageUI
 import WebKit
 
 class SettingsViewController: UIViewController {
@@ -95,19 +96,51 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource{
             vc.urlString = Literal.policyURL
             navigationController?.pushViewController(vc, animated: true)
         case .sendEmail:
-            return
-        case .appVersion:
-            return
+            sendMail()
         case .openSource:
             let vc = SimpleWebViewController()
             vc.urlString = Literal.openSourceURL
             navigationController?.pushViewController(vc, animated: true)
-        case .none:
+        default:
             return
         }
         //deselect row
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
+}
+
+extension SettingsViewController: MFMailComposeViewControllerDelegate{
+    func sendMail(){
+        if MFMailComposeViewController.canSendMail(){
+            let vc = MFMailComposeViewController()
+            vc.mailComposeDelegate = self
+            let bodyString = """
+                                   이곳에 내용을 작성해주세요.
+                                   
+                                   
+                                   
+                                   
+                                   
+                                   -------------------
+                                   Device Model : \(vm.getDeviceIdentifier())
+                                   Device OS : \(UIDevice.current.systemVersion)
+                                   App Version : \(vm.currentVersion)
+                                   -------------------
+                                   """
+            vc.setToRecipients([Literal.developerEmail])
+            vc.setSubject("[북킵] 문의 & 의견")
+            vc.setMessageBody(bodyString, isHTML: false)
+            present(vc, animated: true, completion: nil)
+        }else{
+            print("DEBUG: Failed to send mail")
+            showAlert(title: "전송 실패", message: "메일을 보내기에 실패했습니다.", handler: nil)
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        self.dismiss(animated: true)
+    }
+    
 }
 
 class SimpleWebViewController: UIViewController{
