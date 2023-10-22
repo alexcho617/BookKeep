@@ -16,8 +16,8 @@ enum Literal{
     static let noSessionSectionTitle = "독서 기록이 없습니다"
     static let sessionSectionTitle = "내가 읽은 기록"
     static let mainReading = "Now Reading..."
-    static let bookFinished = "책 한권을 끝내셨군요!"
-    static let readSessionDone = "독서 세션이 기록되었습니다"
+    static let bookFinished = "🎉책 한권을 끝내셨군요!🎉"
+    static let readSessionDone = "📚독서 세션이 기록되었습니다"
     static let achievedMainGreeting = "다 읽은 책"
     static let achievedSubGreeting = "지금까지 쌓은 마음의 양식들입니다 :)"
     

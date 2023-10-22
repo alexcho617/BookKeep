@@ -67,6 +67,7 @@
 		57C79BEE2ACABB9300E168F6 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */; };
 		57C79BF02ACAC42400E168F6 /* ReusableViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BEF2ACAC42400E168F6 /* ReusableViews.swift */; };
 		57CA82342ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CA82332ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift */; };
+		57E35A7C2AE4F17600040AC5 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 57E35A7B2AE4F17600040AC5 /* Toast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +158,7 @@
 				5790CF062AD550AA0066D517 /* MagicTimer in Frameworks */,
 				57A0F4DC2ADF7229008396D6 /* FirebaseCrashlytics in Frameworks */,
 				577082B42AC2BC230052EA8A /* SnapKit in Frameworks */,
+				57E35A7C2AE4F17600040AC5 /* Toast in Frameworks */,
 				57A0F4DA2ADF7229008396D6 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -354,6 +356,7 @@
 				57A0F4CB2ADBF9E6008396D6 /* SPConfetti */,
 				57A0F4D92ADF7229008396D6 /* FirebaseAnalyticsWithoutAdIdSupport */,
 				57A0F4DB2ADF7229008396D6 /* FirebaseCrashlytics */,
+				57E35A7B2AE4F17600040AC5 /* Toast */,
 			);
 			productName = BookKeep;
 			productReference = 57ADDFEE2AC1A38D00EA0EFE /* BookKeep.app */;
@@ -435,6 +438,7 @@
 				5790CF042AD550AA0066D517 /* XCRemoteSwiftPackageReference "MagicTimer" */,
 				57A0F4CA2ADBF9E6008396D6 /* XCRemoteSwiftPackageReference "SPConfetti" */,
 				57A0F4D82ADF7229008396D6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				57E35A7A2AE4F17500040AC5 /* XCRemoteSwiftPackageReference "toast-swift" */,
 			);
 			productRefGroup = 57ADDFEF2AC1A38D00EA0EFE /* Products */;
 			projectDirPath = "";
@@ -953,6 +957,14 @@
 				minimumVersion = 10.0.0;
 			};
 		};
+		57E35A7A2AE4F17500040AC5 /* XCRemoteSwiftPackageReference "toast-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/BastiaanJansen/toast-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1000,6 +1012,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 57A0F4D82ADF7229008396D6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCrashlytics;
+		};
+		57E35A7B2AE4F17600040AC5 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57E35A7A2AE4F17500040AC5 /* XCRemoteSwiftPackageReference "toast-swift" */;
+			productName = Toast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

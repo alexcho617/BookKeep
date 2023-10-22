@@ -166,7 +166,7 @@ final class ReadingViewController: UIViewController {
     }
 
     @objc func closeClicked(){
-        self.showActionAlert(title: "주의", message: "저장하지 않고 나가시겠습니까?") {
+        self.showActionAlert(title: "주의", message: "기록이 저장되지 않습니다") {
 //            print("ReadingViewController", #function)
             self.vm.abortReading()
             self.navigationController?.popViewController(animated: true)

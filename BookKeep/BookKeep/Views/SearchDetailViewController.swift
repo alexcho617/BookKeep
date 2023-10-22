@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 import Kingfisher
 import RealmSwift
+import Toast
+
 final class SearchDetailViewController: UIViewController {
     var isbn13Identifier: String = ""
     
@@ -115,9 +117,9 @@ final class SearchDetailViewController: UIViewController {
         setConstraints()
         bindData()
         vm.lookUp(id: isbn13Identifier) {
-            self.showAlert(title: "❌에러", message: "조회가 불가능한 상품입니다") {
-                self.navigationController?.popViewController(animated: true)
-            }
+            let toast = Toast.text("❌조회 가능한 도서가 아닙니다")
+            toast.show()
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -196,11 +198,12 @@ final class SearchDetailViewController: UIViewController {
         do {
             //MARK: 여기선 VM을 거치지 않고 왜 Repository로 바로 갔지?
             try BooksRepository.shared.create(book)
-            showAlert(title: "🎉", message: "읽을 예정인 책에 추가되었습니다") {
-                self.navigationController?.popViewController(animated: true)
-            }
+            let toast = Toast.text("📖읽을 예정인 책에 추가되었습니다")
+            toast.show()
+            self.navigationController?.popViewController(animated: true)
         } catch {
-            showAlert(title: "⚠️", message: "이미 존재하는 책입니다", handler: nil)
+            let toast = Toast.text("❌이미 존재하는 책입니다")
+            toast.show()
         }
         
        

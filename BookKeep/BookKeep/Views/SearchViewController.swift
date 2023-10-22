@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Toast
 
 class SearchViewController: UIViewController{
     let vm = SearchViewModel()
@@ -106,11 +107,11 @@ extension SearchViewController: UISearchBarDelegate {
         vm.errorHandler = { [weak self] in
             // Stop the activity indicator animation
             self?.activityIndicator.stopAnimating()
-
-            // Show an alert indicating a network error
-            self?.showAlert(title: "에러", message: "네트워크 환경이 좋지 못합니다") {
-                self?.dismiss(animated: true)
-            }
+            self?.dismiss(animated: true,completion: {
+                let toast = Toast.text("⚠️네트워크 환경이 좋지 못합니다")
+                toast.show()
+            })
+            
         }
 
         searchBar.resignFirstResponder()
@@ -124,7 +125,8 @@ extension SearchViewController: UISearchBarDelegate {
                 self?.collectionView.scrollToItem(at: IndexPath(item: -1, section: 0), at: .top, animated: true)
             } else {
                 // The items array is either nil or empty
-                self?.showAlert(title: "에러", message: "검색 결과가 없습니다", handler: nil)
+                let toast = Toast.text("❌검색 결과가 없습니다")
+                toast.show()
                 searchBar.text = nil
             }
         }

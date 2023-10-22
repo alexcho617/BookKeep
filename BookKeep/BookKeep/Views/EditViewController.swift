@@ -8,10 +8,11 @@
 import UIKit
 import SnapKit
 import SPConfetti
+import Toast
 
 class EditViewController: UIViewController{
     var isbn: String = ""
-    weak var detailDelegate: ReloadDelegate? //Detail ViewController
+    weak var detailDelegate: DetailViewDelegate? //Detail ViewController
     
     
     lazy var vm = EditViewModel(isbn: isbn)
@@ -70,7 +71,8 @@ class EditViewController: UIViewController{
         confirmButton.addTarget(self, action: #selector(confirmButtonClicked(_:)), for: .touchUpInside)
         pageTextField.becomeFirstResponder()
         pageTextField.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Design.paddingDefault)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(80)
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Design.paddingDefault)
             make.height.equalTo(36)
         }
         
@@ -86,20 +88,26 @@ class EditViewController: UIViewController{
 extension EditViewController: UITextFieldDelegate{
     
     @objc func confirmButtonClicked(_ button: UIButton){
+        vm.pageInput.value = pageTextField.text
+
         if vm.validate(){
             view.endEditing(true)
             if vm.book?.currentReadingPage == vm.book?.page{
                 BooksRepository.shared.bookFinished(isbn: isbn)
                 SPConfetti.startAnimating(.centerWidthToDown, particles: [.triangle, .arc, .star, .heart], duration: 3)
-                self.showAlert(title: "🎉🎉🎉", message: Literal.bookFinished){
+                dismiss(animated: true) {
                     self.detailDelegate?.popToRootView()
-                    self.dismiss(animated: true)
+                    self.detailDelegate?.showToast(title: Literal.bookFinished)
                 }
             }else{
-                dismiss(animated: true)
+                dismiss(animated: true) {
+                    let toast = Toast.text("✏️페이지가 수정되었습니다",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
+                    toast.show()
+                }
             }
         }else{
-            showAlert(title: "삐빅!", message: "\(0) ~ \(vm.book?.page ?? -999) 사이의 값을 입력하세요", handler: nil)
+            let toast = Toast.text("⚠️\(0) ~ \(vm.book?.page ?? -999) 사이의 값을 입력하세요",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
+            toast.show(haptic: .error)
             pageTextField.text = nil
             
         }

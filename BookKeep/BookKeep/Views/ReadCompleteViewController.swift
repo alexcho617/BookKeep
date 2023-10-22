@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 import SPConfetti
-
+import Toast
 final class ReadCompleteViewController: UIViewController {
     var isbn: String = ""
     var startTime: Date?
@@ -183,19 +183,20 @@ extension ReadCompleteViewController: UITextFieldDelegate{
             if vm.book.value?.currentReadingPage == vm.book.value?.page{
                 BooksRepository.shared.bookFinished(isbn: isbn)
                 SPConfetti.startAnimating(.centerWidthToDown, particles: [.triangle, .arc, .star, .heart], duration: 3)
-                self.showAlert(title: "🎉🎉🎉", message: Literal.bookFinished){
-                    self.dismiss(animated: true)
+                let toast = Toast.text(Literal.bookFinished, config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
+                self.dismiss(animated: true) {
+                    toast.show()
                     self.clearUD()
                     //ReadingVC에서 온 경우 홈 화면까지 간다. HomeVC에서 온 경우 collectionViewReload까지만
                     self.navigationHandler?()
-                    
                 }
             }else{
-                //책이 끝나지 않고 세션만 추가 된 경우
-                showAlert(title: "📚📚📚", message: Literal.readSessionDone){
-                    self.view.endEditing(true)
-                    self.dismiss(animated: true)
+                
+                let toast = Toast.text(Literal.readSessionDone, config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
+                self.dismiss(animated: true) {
+                    toast.show()
                     self.clearUD()
+                    //ReadingVC에서 온 경우 홈 화면까지 간다. HomeVC에서 온 경우 collectionViewReload까지만
                     self.navigationHandler?()
                 }
             }
@@ -203,9 +204,9 @@ extension ReadCompleteViewController: UITextFieldDelegate{
             
             
         }else{
-            showAlert(title: "삐빅!", message: "\(0) ~ \(vm.book.value?.page ?? -999) 사이의 값을 입력하세요", handler: nil)
+            let toast = Toast.text("⚠️\(0) ~ \(vm.book.value?.page ?? -999) 사이의 값을 입력하세요",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
+            toast.show(haptic: .error)
             pageTextField.text = nil
-            
         }
     }
     
