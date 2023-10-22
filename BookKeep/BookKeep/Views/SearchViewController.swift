@@ -37,6 +37,9 @@ class SearchViewController: UIViewController{
     }
     private func configureHierarchy(){
         baseView = addBaseView()
+        searchBar.placeholder = "도서 제목으로 검색하세요"
+        searchBar.barTintColor = Design.colorPrimaryBackground
+        searchBar.tintColor = Design.colorPrimaryAccent
         searchBar.delegate = self
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -99,7 +102,6 @@ class SearchViewController: UIViewController{
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         vm.searchResult.value = nil
-
         // Start the activity indicator animation
         activityIndicator.startAnimating()
 
