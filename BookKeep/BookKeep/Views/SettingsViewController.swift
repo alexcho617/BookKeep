@@ -133,7 +133,7 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate{
             vc.setMessageBody(bodyString, isHTML: false)
             present(vc, animated: true, completion: nil)
         }else{
-            let toast = Toast.text("메일 전송을 실패했습니다")⚠️
+            let toast = Toast.text("⚠️메일 전송을 실패했습니다")
         }
     }
     
