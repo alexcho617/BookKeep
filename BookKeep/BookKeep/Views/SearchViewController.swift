@@ -165,7 +165,7 @@ extension SearchViewController: UICollectionViewDataSourcePrefetching{
             guard vm.searchResult.value != nil else {return} //검색 값 확인
             guard let count = vm.searchResult.value?.item.count else {return} //검색 값 내에 아이템이 있는지 확인
             guard let totalResults = vm.searchResult.value?.totalResults else {return} //총 검색 결과 확인: 보통 몇백 몇천
-            print(#function, currentRow)
+//            print(#function, currentRow)
             //1before is little late. change to 11 which will trigger prefetch at 2/3 the displayCount. 첫 호출 기준 약 2/3지점
             //90개 까지만 보여줌: 즉 3번 호출 제한
             if count - 11 == currentRow && count < totalResults && count < 90{ //hard limit at 90 바꿔야 할 수도 있음
