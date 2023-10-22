@@ -19,7 +19,6 @@ class EditViewController: UIViewController{
     let pageTextField = {
         let view = UITextField()
         view.backgroundColor = Design.colorPrimaryBackground
-        view.placeholder = "몇 페이지까지 읽으셨나요?"
         view.keyboardType = .numberPad
         view.textAlignment = .center
         view.layer.cornerRadius = Design.paddingDefault
@@ -43,13 +42,7 @@ class EditViewController: UIViewController{
         bindView()
         setView()
         
-        //페이지 존재하면 넣어줌
-        guard let page = vm.book?.currentReadingPage, page != 0 else {
-            pageTextField.text = nil
-            return
-        }
-        pageTextField.text = String(page)
-        pageTextField.becomeFirstResponder()
+       
         
     }
     
@@ -66,6 +59,10 @@ class EditViewController: UIViewController{
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
             
         }
+        if let page = vm.book?.currentReadingPage, page != 0{
+            pageTextField.text = String(page)
+        }
+        pageTextField.placeholder = "0 ~ \(vm.book?.page ?? -1) 사이의 값을 입력하세요"
         
         pageTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         confirmButton.addTarget(self, action: #selector(confirmButtonClicked(_:)), for: .touchUpInside)
@@ -86,9 +83,12 @@ class EditViewController: UIViewController{
 }
 
 extension EditViewController: UITextFieldDelegate{
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        vm.pageInput.value = pageTextField.text
+    }
     
     @objc func confirmButtonClicked(_ button: UIButton){
-        vm.pageInput.value = pageTextField.text
+        
 
         if vm.validate(){
             view.endEditing(true)
@@ -102,13 +102,13 @@ extension EditViewController: UITextFieldDelegate{
             }else{
                 dismiss(animated: true) {
                     let toast = Toast.text("✏️페이지가 수정되었습니다",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
-                    toast.show()
+                    toast.show(haptic: .success)
                 }
             }
         }else{
             let toast = Toast.text("⚠️\(0) ~ \(vm.book?.page ?? -999) 사이의 값을 입력하세요",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
             toast.show(haptic: .error)
-            pageTextField.text = nil
+            vm.pageInput.value = nil
             
         }
     }

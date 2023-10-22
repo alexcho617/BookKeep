@@ -42,11 +42,17 @@ final class ReadCompleteViewController: UIViewController {
         return view
     }()
     
+    let pageLabel = {
+        let view = UILabel()
+        view.text = "페이지"
+        view.textColor = Design.colorPrimaryAccent
+        view.font = Design.fontAccentDefault
+        return view
+    }()
+    
     let pageTextField = {
         let view = UITextField()
         view.backgroundColor = Design.colorPrimaryBackground
-        //TODO: 0~페이지 placeholder 해주기
-        view.placeholder = "몇 페이지까지 읽으셨나요?"
         view.keyboardType = .numberPad
         view.textAlignment = .center
         view.layer.cornerRadius = Design.paddingDefault
@@ -101,6 +107,7 @@ final class ReadCompleteViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(startDateLabel)
         view.addSubview(startDatePicker)
+        view.addSubview(pageLabel)
         view.addSubview(pageTextField)
         view.addSubview(readTimeLabel)
         view.addSubview(readTimePicker)
@@ -130,10 +137,16 @@ final class ReadCompleteViewController: UIViewController {
             make.leading.equalTo(startDateLabel.snp.trailing).offset(Design.paddingDefault).priority(.high)
             make.trailing.lessThanOrEqualTo(view.safeAreaLayoutGuide).offset(-Design.paddingDefault)
         }
-        
+        pageLabel.snp.makeConstraints { make in
+            make.top.equalTo(startDatePicker.snp.bottom).offset(2*Design.paddingDefault)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(Design.paddingDefault)
+            make.width.equalToSuperview().multipliedBy(0.2)
+            make.height.equalTo(36)
+        }
         pageTextField.snp.makeConstraints { make in
             make.top.equalTo(startDatePicker.snp.bottom).offset(2*Design.paddingDefault)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(Design.paddingDefault)
+            make.leading.lessThanOrEqualTo(pageLabel.snp.trailing)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(Design.paddingDefault)
             make.height.equalTo(36)
         }
         readTimeLabel.snp.makeConstraints { make in
@@ -156,7 +169,10 @@ final class ReadCompleteViewController: UIViewController {
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(Design.paddingDefault)
         }
         
-        
+        if let page = vm.book.value?.currentReadingPage, page != 0{
+            pageTextField.text = String(page)
+        }
+        pageTextField.placeholder = "0 ~ \(vm.book.value?.page ?? -1) 사이의 값을 입력하세요"
         pageTextField.becomeFirstResponder()
         
     }
@@ -185,7 +201,7 @@ extension ReadCompleteViewController: UITextFieldDelegate{
                 SPConfetti.startAnimating(.centerWidthToDown, particles: [.triangle, .arc, .star, .heart], duration: 3)
                 let toast = Toast.text(Literal.bookFinished, config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
                 self.dismiss(animated: true) {
-                    toast.show()
+                    toast.show(haptic: .success)
                     self.clearUD()
                     //ReadingVC에서 온 경우 홈 화면까지 간다. HomeVC에서 온 경우 collectionViewReload까지만
                     self.navigationHandler?()
@@ -194,7 +210,7 @@ extension ReadCompleteViewController: UITextFieldDelegate{
                 
                 let toast = Toast.text(Literal.readSessionDone, config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
                 self.dismiss(animated: true) {
-                    toast.show()
+                    toast.show(haptic: .success)
                     self.clearUD()
                     //ReadingVC에서 온 경우 홈 화면까지 간다. HomeVC에서 온 경우 collectionViewReload까지만
                     self.navigationHandler?()

@@ -109,7 +109,7 @@ extension SearchViewController: UISearchBarDelegate {
             self?.activityIndicator.stopAnimating()
             self?.dismiss(animated: true,completion: {
                 let toast = Toast.text("⚠️네트워크 환경이 좋지 못합니다")
-                toast.show()
+                toast.show(haptic: .error)
             })
             
         }
@@ -126,7 +126,7 @@ extension SearchViewController: UISearchBarDelegate {
             } else {
                 // The items array is either nil or empty
                 let toast = Toast.text("❌검색 결과가 없습니다")
-                toast.show()
+                toast.show(haptic: .error)
                 searchBar.text = nil
             }
         }

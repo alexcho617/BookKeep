@@ -54,6 +54,7 @@ class DetailTableViewController: UIViewController{
     func setView(){
 //        navigationItem.rightBarButtonItems = vm?.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
         navigationItem.rightBarButtonItems = [menuButton]
+        tabBarController?.tabBar.isHidden = true
         tableView.backgroundColor = Design.colorPrimaryBackground
         tableView.delegate = self
         tableView.dataSource = self
@@ -92,7 +93,7 @@ class DetailTableViewController: UIViewController{
 extension DetailTableViewController: DetailViewDelegate{
     func showToast(title: String) {
         let toast = Toast.text(title)
-        toast.show()
+        toast.show(haptic: .success)
     }
     func reloadTableView() {
 //        print("DetailTableViewController-",#function)

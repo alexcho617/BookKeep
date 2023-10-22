@@ -43,14 +43,14 @@ final class MemoViewController: UIViewController {
             vm?.addMemo(date: datePicker.date, contents: textView.text, handler: {
                 //TODO: Literal
                 let toast = Toast.text("📝메모가 추가되었습니다",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
-                toast.show()
+                toast.show(haptic: .success)
                 self.navigationController?.popViewController(animated: true)
             })
         } else{ //update
             guard let selectedMemo = selectedMemo else {return}
             if vm?.updateMemo(memo: selectedMemo, date: datePicker.date, contents: textView.text) == true {
                 let toast = Toast.text("📝메모가 변경되었습니다",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
-                toast.show()
+                toast.show(haptic: .success)
                 self.detailDelegate?.reloadTableView()
                 self.navigationController?.popViewController(animated: true)
             }else {

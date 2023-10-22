@@ -68,6 +68,10 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+    }
+    
     private func configureHierarchy(){
         baseView = addBaseView()
         view.addSubview(baseView)

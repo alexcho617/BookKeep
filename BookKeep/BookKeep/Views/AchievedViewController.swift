@@ -32,6 +32,10 @@ final class AchievedViewController: UIViewController, AchievedDelegate {
         setView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+    }
+    
     private func setView(){
         view.backgroundColor = Design.colorPrimaryAccent
         view.addSubview(collectionView)
