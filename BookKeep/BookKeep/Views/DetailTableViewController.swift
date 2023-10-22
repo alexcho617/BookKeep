@@ -9,10 +9,12 @@ import UIKit
 import SnapKit
 import RealmSwift
 import Kingfisher
+import Toast
 
-protocol ReloadDelegate: AnyObject {
+protocol DetailViewDelegate: AnyObject {
     func reloadTableView()
     func popToRootView()
+    func showToast(title: String)
 }
 
 class DetailTableViewController: UIViewController{
@@ -52,6 +54,7 @@ class DetailTableViewController: UIViewController{
     func setView(){
 //        navigationItem.rightBarButtonItems = vm?.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
         navigationItem.rightBarButtonItems = [menuButton]
+        tabBarController?.tabBar.isHidden = true
         tableView.backgroundColor = Design.colorPrimaryBackground
         tableView.delegate = self
         tableView.dataSource = self
@@ -87,7 +90,11 @@ class DetailTableViewController: UIViewController{
     
 }
 
-extension DetailTableViewController: ReloadDelegate{
+extension DetailTableViewController: DetailViewDelegate{
+    func showToast(title: String) {
+        let toast = Toast.text(title)
+        toast.show(haptic: .success)
+    }
     func reloadTableView() {
 //        print("DetailTableViewController-",#function)
         tableView.reloadData()
@@ -220,7 +227,7 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
         //메모만 가능
         guard indexPath.section == 0 else {return UISwipeActionsConfiguration()}
         let delete = UIContextualAction(style: .destructive, title: "삭제"){ [weak self] _,_,_ in
-            self?.confirmDeleteMemo(title: "주의", message: "정말 메모를 삭제하시겠습니까?", memo: self?.vm?.book.value?.memos[indexPath.row])
+            self?.confirmDeleteMemo(title: "경고", message: "정말 메모를 삭제하시겠습니까?", memo: self?.vm?.book.value?.memos[indexPath.row])
         }
         delete.image = UIImage(systemName: "trash")
         let config = UISwipeActionsConfiguration(actions: [delete])
@@ -246,7 +253,7 @@ extension DetailTableViewController{
     private func showActionSheet(title: String?, message: String?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "책 삭제", style: .destructive) { _ in
-            self.confirmDelete(title: "주의", message: "정말 책을 삭제하시겠습니까?")
+            self.confirmDelete(title: "경고", message: "정말 책을 삭제하시겠습니까?")
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         let editPage = UIAlertAction(title: "페이지 수정", style: .default) {_ in
@@ -335,9 +342,9 @@ extension DetailTableViewController{
         let alert = UIAlertController(title: "다시 읽기", message: "책을 한번 더 읽으시겠습니까?", preferredStyle: .alert)
         let read = UIAlertAction(title: "읽기", style: .default) { _ in
             self.vm?.startReading(isAgain: true){
-                self.showAlert(title: "다시 읽기", message: "읽을 예정인 책에 추가되었습니다"){
-                    self.navigationController?.popViewController(animated: true)
-                }
+                let toast = Toast.text("읽을 예정인 책에 추가되었습니다")
+                toast.show(haptic: .success)
+                self.navigationController?.popViewController(animated: true)
             }
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)

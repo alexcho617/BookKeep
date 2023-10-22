@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Toast
 
 class SearchViewController: UIViewController{
     let vm = SearchViewModel()
@@ -36,6 +37,9 @@ class SearchViewController: UIViewController{
     }
     private func configureHierarchy(){
         baseView = addBaseView()
+        searchBar.placeholder = "도서 제목으로 검색하세요"
+        searchBar.barTintColor = Design.colorPrimaryBackground
+        searchBar.tintColor = Design.colorPrimaryAccent
         searchBar.delegate = self
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -98,7 +102,6 @@ class SearchViewController: UIViewController{
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         vm.searchResult.value = nil
-
         // Start the activity indicator animation
         activityIndicator.startAnimating()
 
@@ -106,11 +109,11 @@ extension SearchViewController: UISearchBarDelegate {
         vm.errorHandler = { [weak self] in
             // Stop the activity indicator animation
             self?.activityIndicator.stopAnimating()
-
-            // Show an alert indicating a network error
-            self?.showAlert(title: "에러", message: "네트워크 환경이 좋지 못합니다") {
-                self?.dismiss(animated: true)
-            }
+            self?.dismiss(animated: true,completion: {
+                let toast = Toast.text("⚠️네트워크 환경이 좋지 못합니다")
+                toast.show(haptic: .error)
+            })
+            
         }
 
         searchBar.resignFirstResponder()
@@ -124,7 +127,8 @@ extension SearchViewController: UISearchBarDelegate {
                 self?.collectionView.scrollToItem(at: IndexPath(item: -1, section: 0), at: .top, animated: true)
             } else {
                 // The items array is either nil or empty
-                self?.showAlert(title: "에러", message: "검색 결과가 없습니다", handler: nil)
+                let toast = Toast.text("❌검색 결과가 없습니다")
+                toast.show(haptic: .error)
                 searchBar.text = nil
             }
         }
@@ -161,10 +165,10 @@ extension SearchViewController: UICollectionViewDataSourcePrefetching{
             guard vm.searchResult.value != nil else {return} //검색 값 확인
             guard let count = vm.searchResult.value?.item.count else {return} //검색 값 내에 아이템이 있는지 확인
             guard let totalResults = vm.searchResult.value?.totalResults else {return} //총 검색 결과 확인: 보통 몇백 몇천
-//            print(#function, currentRow)
+            print(#function, currentRow)
             //1before is little late. change to 11 which will trigger prefetch at 2/3 the displayCount. 첫 호출 기준 약 2/3지점
             //90개 까지만 보여줌: 즉 3번 호출 제한
-            if count - 11 == currentRow && count < totalResults && count < 90{
+            if count - 11 == currentRow && count < totalResults && count < 90{ //hard limit at 90 바꿔야 할 수도 있음
                 activityIndicator.startAnimating()
                 print(#function, count)
                 vm.searchBook(query: searchBar.text) {

@@ -22,6 +22,8 @@ class EditViewModel{
     func validate() -> Bool{
         guard let number = Int(pageInput.value ?? "") else {return false}
         guard let book = book else {return false}
+        
+        guard number != book.currentReadingPage else {return true} //변경 없음
         if 0 <= number && number <= book.page {
             BooksRepository.shared.updateCurrentPage(isbn: isbn, to: number)
             return true

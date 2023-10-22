@@ -10,7 +10,7 @@ import Alamofire
 
 enum AladinRouter: URLRequestConvertible{
     
-    case search(keyword: String)
+    case search(keyword: String, page: Int)
     case lookup(itemId: String)
     private var baseURL: URL{
         return URL(string: "https://www.aladin.co.kr/ttb/api/")!
@@ -32,14 +32,14 @@ enum AladinRouter: URLRequestConvertible{
     
     private var queries: [String: String]{
         switch self {
-        case .search(let keyword):
+        case .search(let keyword, let page):
             return ["ttbkey": Key.aladin,
                     "Query": keyword,
                     "version": "20131101",
                     "SearchTarget": "Book",
                     "QueryType": "Title",
                     "MaxResults": "\(Literal.apiMaxResults)",
-                    "start": "1",
+                    "start": String(page),
                     "Cover": "Big",
                     "Output": "JS"
             ]

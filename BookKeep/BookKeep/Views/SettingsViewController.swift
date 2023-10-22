@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Toast
 import MessageUI
 import WebKit
 
@@ -132,8 +133,8 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate{
             vc.setMessageBody(bodyString, isHTML: false)
             present(vc, animated: true, completion: nil)
         }else{
-            print("DEBUG: Failed to send mail")
-            showAlert(title: "전송 실패", message: "메일을 보내기에 실패했습니다.", handler: nil)
+            let toast = Toast.text("⚠️메일 전송을 실패했습니다")
+            toast.show(haptic: .error)
         }
     }
     

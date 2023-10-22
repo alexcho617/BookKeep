@@ -25,10 +25,10 @@ class SearchCollectionViewCell: UICollectionViewCell {
     func setView(){
         guard let item = item else {return}
         contentView.addSubview(baseView)
-        baseView.backgroundColor = Design.colorPrimaryBackground
+        baseView.backgroundColor = Design.colorSecondaryAccent
         baseView.layer.cornerRadius = Design.paddingDefault
-        baseView.layer.shadowOffset = CGSize(width: 8, height: 8)
-        baseView.layer.shadowOpacity = 0.5
+//        baseView.layer.shadowOffset = CGSize(width: 8, height: 8)
+//        baseView.layer.shadowOpacity = 0.5
         
         
         contentView.addSubview(title)

@@ -7,10 +7,12 @@
 
 import UIKit
 import SnapKit
+import Toast
+
 final class MemoViewController: UIViewController {
     var selectedMemo: Memo?
     var vm: DetailViewModel?
-    weak var detailDelegate: ReloadDelegate? //Detail ViewController
+    weak var detailDelegate: DetailViewDelegate? //Detail ViewController
     let textView = {
         let view = UITextView()
         view.isEditable = true
@@ -40,23 +42,20 @@ final class MemoViewController: UIViewController {
         if selectedMemo == nil{
             vm?.addMemo(date: datePicker.date, contents: textView.text, handler: {
                 //TODO: Literal
-                self.showAlert(title: "🎉", message: "메모가 추가되었습니다") {
-                    
-                    self.navigationController?.popViewController(animated: true)
-                }
-
+                let toast = Toast.text("📝메모가 추가되었습니다",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
+                toast.show(haptic: .success)
+                self.navigationController?.popViewController(animated: true)
             })
         } else{ //update
             guard let selectedMemo = selectedMemo else {return}
             if vm?.updateMemo(memo: selectedMemo, date: datePicker.date, contents: textView.text) == true {
-                self.showAlert(title: "🎉", message: "메모가 변경되었습니다") {
-                    self.detailDelegate?.reloadTableView()
-                    self.navigationController?.popViewController(animated: true)
-                }
+                let toast = Toast.text("📝메모가 변경되었습니다",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
+                toast.show(haptic: .success)
+                self.detailDelegate?.reloadTableView()
+                self.navigationController?.popViewController(animated: true)
             }else {
                 self.navigationController?.popViewController(animated: true)
             }
-            
         }
         
     }
