@@ -19,7 +19,6 @@ protocol DetailViewDelegate: AnyObject {
 
 class DetailTableViewController: UIViewController{
     var vm: DetailViewModel?
-//    weak var delegate: DiffableDataSourceDelegate? //section 이동
     
     //views
     let views = DetailViewComponents()
@@ -30,13 +29,7 @@ class DetailTableViewController: UIViewController{
         view.image = UIImage(systemName: "ellipsis")
         return view
     }()
-    
-//    lazy var editButton: UIBarButtonItem = {
-//        let view = UIBarButtonItem(title: "편집", style: .plain, target: self, action: #selector(showEditClicked))
-//        view.image = UIImage(systemName: "pencil")
-//        return view
-//    }()
-    
+        
     //vdl
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,9 +43,7 @@ class DetailTableViewController: UIViewController{
     }
     
     
-    
     func setView(){
-//        navigationItem.rightBarButtonItems = vm?.book.value?.readingStatus == .reading ? [menuButton, editButton] : [menuButton]
         navigationItem.rightBarButtonItems = [menuButton]
         tabBarController?.tabBar.isHidden = true
         tableView.backgroundColor = Design.colorPrimaryBackground
@@ -83,11 +74,6 @@ class DetailTableViewController: UIViewController{
         showActionSheet(title: nil, message: nil)
     }
     
-//    @objc func showEditClicked(){
-//        showEditSheet()
-//    }
-    
-    
 }
 
 extension DetailTableViewController: DetailViewDelegate{
@@ -117,7 +103,7 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
             }else{
                 return Literal.noMemoSectionTitle
             }
-        //세션 섹션
+        //독서 섹션
         }
         if section == 1{
             if book.readSessions.count != 0{
@@ -165,6 +151,7 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
             
             // Return the header view
             return header
+            
         //독서기록섹션인 경우
         }else{
             return nil //시스템 헤더 자동 추가
@@ -205,20 +192,18 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
         if indexPath.section == 0{
             //create memocell
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewCell.identifier) as? DetailTableViewCell else {return UITableViewCell() }
-            
-            guard let memoRow = vm?.book.value?.memos[indexPath.row] else {return UITableViewCell()}
+            guard let memoRow = vm?.sortedMemos[indexPath.row] else {return UITableViewCell()}
             cell.memo = memoRow
             cell.setView()
             return cell
         }else if indexPath.section == 1{
-            guard let sessionRow = vm?.book.value?.readSessions[indexPath.row] else {return UITableViewCell()}
-
+            //create read session cell
+            guard let sessionRow = vm?.sortedReadSessions[indexPath.row] else {return UITableViewCell()}
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewSessionCell.identifier) as? DetailTableViewSessionCell else {return UITableViewCell()}
             cell.isUserInteractionEnabled = false
             cell.session = sessionRow
             cell.setView()
             return cell
-
         }
         return UITableViewCell()
     }

@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class DetailViewModel{
+final class DetailViewModel{
     
     var isbn: String?
     var book: Observable<RealmBook?> = Observable(nil)
@@ -19,6 +19,22 @@ class DetailViewModel{
     weak var homeDelegate: DiffableDataSourceDelegate? // HomeVC Delegate
     weak var achievedDelegate: AchievedDelegate? //AchievedVC Delegate
   
+    //Descending by date
+    var sortedReadSessions: [ReadSession] {
+        guard let book = book.value else {
+            return []
+        }
+        return book.readSessions.sorted(by: { $0.startTime > $1.startTime })
+    }
+    
+    //Descending by date
+    var sortedMemos: [Memo] {
+        guard let book = book.value else {
+            return []
+        }
+        return book.memos.sorted(by: { $0.date > $1.date })
+    }
+    
     
     init(isbn: String, booksRepository: BooksRepository = BooksRepository.shared){
         self.booksRepository = booksRepository
