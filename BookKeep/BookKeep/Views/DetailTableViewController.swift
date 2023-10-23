@@ -209,13 +209,21 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        //메모만 가능
-        guard indexPath.section == 0 else {return UISwipeActionsConfiguration()}
-        let delete = UIContextualAction(style: .destructive, title: "삭제"){ [weak self] _,_,_ in
-            self?.confirmDeleteMemo(title: "경고", message: "정말 메모를 삭제하시겠습니까?", memo: self?.vm?.book.value?.memos[indexPath.row])
+        var deleteAction = UIContextualAction()
+
+        //memo
+        if indexPath.section == 0{
+            deleteAction = UIContextualAction(style: .destructive, title: "삭제"){ [weak self] _,_,_ in
+                self?.confirmDeleteMemo(title: "경고", message: "정말 삭제하시겠습니까?", memo: self?.vm?.book.value?.memos[indexPath.row])
+            }
+        }else{
+        //read session
+            deleteAction = UIContextualAction(style: .destructive, title: "삭제"){ [weak self] _,_,_ in
+                self?.confirmDeleteReadSession(title: "경고", message: "정말 삭제하시겠습니까?", session: self?.vm?.book.value?.readSessions[indexPath.row])
+            }
         }
-        delete.image = UIImage(systemName: "trash")
-        let config = UISwipeActionsConfiguration(actions: [delete])
+        deleteAction.image = UIImage(systemName: "trash")
+        let config = UISwipeActionsConfiguration(actions: [deleteAction])
         return config
     }
     
@@ -238,7 +246,7 @@ extension DetailTableViewController{
     private func showActionSheet(title: String?, message: String?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "책 삭제", style: .destructive) { _ in
-            self.confirmDelete(title: "경고", message: "정말 책을 삭제하시겠습니까?")
+            self.confirmBookDelete(title: "경고", message: "정말 책을 삭제하시겠습니까?")
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         let editPage = UIAlertAction(title: "페이지 수정", style: .default) {_ in
@@ -251,7 +259,7 @@ extension DetailTableViewController{
         
         if vm?.book.value?.readingStatus == .done{
             let readAgain = UIAlertAction(title: "책 다시읽기", style: .default) { _ in
-                self.readAgain()
+                self.readBookAgain()
             }
             alert.addAction(readAgain)
         }
@@ -310,11 +318,29 @@ extension DetailTableViewController{
     private func confirmDeleteMemo(title: String?, message: String?, memo: Memo?){
 //        print(#function, memo)
         guard let memo = memo else { return }
-        
+        let toast = Toast.text("🗑️삭제되었습니다")
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
             //closure
             self.vm?.deleteMemo(memo)
+            toast.show(haptic: .success)
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        present(alert,animated: true)
+    }
+    
+    
+    private func confirmDeleteReadSession(title: String?, message: String?, session: ReadSession?){
+        guard let session = session else { return }
+        let toast = Toast.text("🗑️삭제되었습니다")
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            //closure
+            self.vm?.deleteReadSession(session)
+            toast.show(haptic: .success)
+
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         alert.addAction(delete)
@@ -323,7 +349,7 @@ extension DetailTableViewController{
     }
     
     //TODO: 업적-> 상세화면에서 다시 읽은 경우 startReading버튼이 잠깐 떠버린다. 안뜨고 화면을 없에던가 아니면 뷰를 바꾸던가 해야할듯
-    private func readAgain(){
+    private func readBookAgain(){
         let alert = UIAlertController(title: "다시 읽기", message: "책을 한번 더 읽으시겠습니까?", preferredStyle: .alert)
         let read = UIAlertAction(title: "읽기", style: .default) { _ in
             self.vm?.startReading(isAgain: true){
@@ -338,7 +364,7 @@ extension DetailTableViewController{
         present(alert,animated: true)
     }
     
-    private func confirmDelete(title: String?, message: String?){
+    private func confirmBookDelete(title: String?, message: String?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
             //closure

@@ -128,8 +128,16 @@ final class DetailViewModel{
         } catch {
             print("Realm Error: \(error)")
         }
-        
-        
+    }
+    
+    func deleteReadSession(_ session: ReadSession){
+        do {
+            try realm?.write {
+                realm?.delete(session)
+            }
+        } catch {
+            print("Realm Error: \(error)")
+        }
     }
     
     func deleteBookFromRealm(permanently: Bool = false, handler: @escaping () -> Void){
