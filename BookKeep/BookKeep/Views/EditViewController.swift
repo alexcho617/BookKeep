@@ -62,7 +62,7 @@ class EditViewController: UIViewController{
         if let page = vm.book?.currentReadingPage, page != 0{
             pageTextField.text = String(page)
         }
-        pageTextField.placeholder = "0 ~ \(vm.book?.page ?? -1) 사이의 값을 입력하세요"
+        pageTextField.placeholder = "0 ~ \(vm.book?.page ?? -1)"
         
         pageTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         confirmButton.addTarget(self, action: #selector(confirmButtonClicked(_:)), for: .touchUpInside)
@@ -106,7 +106,7 @@ extension EditViewController: UITextFieldDelegate{
                 }
             }
         }else{
-            let toast = Toast.text("⚠️\(0) ~ \(vm.book?.page ?? -999) 사이의 값을 입력하세요",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
+            let toast = Toast.text("⚠️\(0) ~ \(vm.book?.page ?? -999) 사이를 입력하세요",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
             toast.show(haptic: .error)
             vm.pageInput.value = nil
             

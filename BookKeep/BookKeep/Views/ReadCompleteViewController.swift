@@ -172,7 +172,7 @@ final class ReadCompleteViewController: UIViewController {
         if let page = vm.book.value?.currentReadingPage, page != 0{
             pageTextField.text = String(page)
         }
-        pageTextField.placeholder = "0 ~ \(vm.book.value?.page ?? -1) 사이의 값을 입력하세요"
+        pageTextField.placeholder = "0 ~ \(vm.book.value?.page ?? -1)"
         pageTextField.becomeFirstResponder()
         
     }
@@ -220,7 +220,7 @@ extension ReadCompleteViewController: UITextFieldDelegate{
             
             
         }else{
-            let toast = Toast.text("⚠️\(0) ~ \(vm.book.value?.page ?? -999) 사이의 값을 입력하세요",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
+            let toast = Toast.text("⚠️\(0) ~ \(vm.book.value?.page ?? -999) 사이를 입력하세요",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
             toast.show(haptic: .error)
             pageTextField.text = nil
         }

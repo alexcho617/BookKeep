@@ -44,7 +44,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
             guard let readTime = UserDefaults.standard.object(forKey: UserDefaultsKey.LastElapsedTime.rawValue) as? TimeInterval else {return}
             
             HomeViewController.printUserDefaultsStatus()
-            self.showActionAlert(title: "세션 복구", message: "저장하지 않은 세션을 복구하시겠습니까?") {
+            self.showActionAlert(title: "독서 기록 복구", message: "저장하지 않은 독서기록을 불러오시겠습니까?") {
                 //alert action present ReadCompleteVC
                 let vc = ReadCompleteViewController()
                 vc.isbn = isbn
@@ -117,7 +117,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         let cancelAction = UIAlertAction(title: "버리기", style: .destructive) { _ in
             self.clearUD()
         }
-        let confirmAction = UIAlertAction(title: "저장하기", style: .default) { _ in
+        let confirmAction = UIAlertAction(title: "불러오기", style: .default) { _ in
             handler?()
         }
         alert.addAction(cancelAction)
