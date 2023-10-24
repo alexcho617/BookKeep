@@ -39,13 +39,15 @@ class DetailTableViewController: UIViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        tabBarController?.tabBar.isHidden = true
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+
+    }
     
     func setView(){
         navigationItem.rightBarButtonItems = [menuButton]
-        tabBarController?.tabBar.isHidden = true
         tableView.backgroundColor = Design.colorPrimaryBackground
         tableView.delegate = self
         tableView.dataSource = self

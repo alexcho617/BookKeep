@@ -67,11 +67,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         BooksRepository.shared.realmURL()
         
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        tabBarController?.tabBar.isHidden = false
-    }
-    
+
     private func configureHierarchy(){
         baseView = addBaseView()
         view.addSubview(baseView)
