@@ -32,7 +32,6 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     lazy var totalReadTime = viewComponents.totalReadTime
     lazy var readIteration = viewComponents.readIteration
     
-    
     let startReadingButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "book"), for: .normal)
@@ -51,10 +50,17 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     lazy var isbn = viewComponents.isbn
     
     lazy var infoStack = {
-        let view = UIStackView(arrangedSubviews: [labelViews.pageLabel,page,labelViews.introductionLabel,introduction,labelViews.publisherLabel,publisher, labelViews.isbnLabel,isbn])
+        let view = UIStackView(arrangedSubviews: [
+            labelViews.pageLabel,page,
+            labelViews.introductionLabel,introduction,
+            labelViews.publisherLabel,publisher,
+            labelViews.isbnLabel,isbn])
         view.axis = .vertical
         view.alignment = .fill
         view.spacing = 4
+        view.setCustomSpacing(2*Design.paddingDefault, after: page)
+        view.setCustomSpacing(2*Design.paddingDefault, after: introduction)
+        view.setCustomSpacing(2*Design.paddingDefault, after: publisher)
         return view
     }()
     
