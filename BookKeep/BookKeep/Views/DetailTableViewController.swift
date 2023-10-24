@@ -284,9 +284,9 @@ extension DetailTableViewController{
     
     func showStatusSheet(){
         guard let isbn = vm?.book.value?.isbn else {return}
-        let alert = UIAlertController(title: "책 상태 수정", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let done = UIAlertAction(title: "읽은 책", style: .default){_ in
+        let done = UIAlertAction(title: "다 읽은 책", style: .default){_ in
             if self.vm?.book.value?.readingStatus != .done{
                 BooksRepository.shared.updateBookReadingStatus(isbn: isbn, to: .done)
                 self.navigationController?.popToRootViewController(animated: true)
