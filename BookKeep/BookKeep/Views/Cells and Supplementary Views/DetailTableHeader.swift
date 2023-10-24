@@ -32,7 +32,6 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     lazy var totalReadTime = viewComponents.totalReadTime
     lazy var readIteration = viewComponents.readIteration
     
-    //TODO: 읽은 횟수 추가 RealmBook.iteration model 수정 먼저 해야함
     
     let startReadingButton = {
         let button = UIButton()

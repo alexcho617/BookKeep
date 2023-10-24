@@ -31,7 +31,7 @@ final class AchievedViewController: UIViewController, AchievedDelegate {
         bindData()
         setView()
     }
-    
+    //TODO: 시점 오류 있음. 나갈려고 하다가 다시 들어오면 없어야 함
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
     }

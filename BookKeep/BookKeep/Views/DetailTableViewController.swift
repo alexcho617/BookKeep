@@ -348,7 +348,6 @@ extension DetailTableViewController{
         present(alert,animated: true)
     }
     
-    //TODO: 업적-> 상세화면에서 다시 읽은 경우 startReading버튼이 잠깐 떠버린다. 안뜨고 화면을 없에던가 아니면 뷰를 바꾸던가 해야할듯
     private func readBookAgain(){
         let alert = UIAlertController(title: "다시 읽기", message: "책을 한번 더 읽으시겠습니까?", preferredStyle: .alert)
         let read = UIAlertAction(title: "읽기", style: .default) { _ in
