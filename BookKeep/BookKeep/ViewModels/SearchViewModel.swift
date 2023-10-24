@@ -14,7 +14,6 @@ class SearchViewModel{
     func searchBook(query: String?, handler:@escaping ()->Void){
         
         // Reset currentPage to 1 when a new search is initiated
-        //TODO: Query 할 때 페이지 "start": 를 늘려줘야함
         guard let query = query else {return}
         if searchResult.value == nil{
             currentPage = 1

@@ -169,4 +169,6 @@ struct DetailViewComponents{
         button.layer.shadowOpacity = 0.5
         return button
     }()
+    
+  
 }

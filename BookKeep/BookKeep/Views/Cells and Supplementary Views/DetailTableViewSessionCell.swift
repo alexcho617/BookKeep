@@ -17,8 +17,8 @@ class DetailTableViewSessionCell: UITableViewCell {
         var config = self.defaultContentConfiguration()
         backgroundColor = Design.colorPrimaryBackground
         
-        config.text = "시작: \(session?.startTime.formatted(date: .abbreviated, time: .shortened) ?? "")"
-        config.secondaryText = "독서 시간: \(session?.duration.converToValidFormat() ?? "")  페이지: \(session?.endPage ?? -999).p"
+        config.text = "\(session?.duration.converToValidFormat() ?? "") 동안, \(session?.endPage ?? -999).p 까지"
+        config.secondaryText = "\(session?.startTime.formatted(date: .numeric, time: .shortened) ?? "")"
         
         config.textProperties.font = Design.fontDefault
         config.textProperties.color = Design.colorTextDefault

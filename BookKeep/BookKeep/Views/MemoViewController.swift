@@ -41,7 +41,6 @@ final class MemoViewController: UIViewController {
         //add
         if selectedMemo == nil{
             vm?.addMemo(date: datePicker.date, contents: textView.text, handler: {
-                //TODO: Literal
                 let toast = Toast.text("📝메모가 추가되었습니다",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
                 toast.show(haptic: .success)
                 self.navigationController?.popViewController(animated: true)
