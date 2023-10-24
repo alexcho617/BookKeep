@@ -216,12 +216,12 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
         //memo
         if indexPath.section == 0{
             deleteAction = UIContextualAction(style: .destructive, title: "삭제"){ [weak self] _,_,_ in
-                self?.confirmDeleteMemo(title: "경고", message: "정말 삭제하시겠습니까?", memo: self?.vm?.book.value?.memos[indexPath.row])
+                self?.confirmDeleteMemo(title: "경고", message: "정말 삭제하시겠습니까?", memo: self?.vm?.sortedMemos[indexPath.row])
             }
         }else{
         //read session
             deleteAction = UIContextualAction(style: .destructive, title: "삭제"){ [weak self] _,_,_ in
-                self?.confirmDeleteReadSession(title: "경고", message: "정말 삭제하시겠습니까?", session: self?.vm?.book.value?.readSessions[indexPath.row])
+                self?.confirmDeleteReadSession(title: "경고", message: "정말 삭제하시겠습니까?", session: self?.vm?.sortedReadSessions[indexPath.row])
             }
         }
         deleteAction.image = UIImage(systemName: "trash")
@@ -231,7 +231,7 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.section == 0 else {return}
-        guard let memoRow = vm?.book.value?.memos[indexPath.row] else {return }
+        guard let memoRow = vm?.sortedMemos[indexPath.row] else {return }
 
         let vc = MemoViewController()
         vc.selectedMemo = memoRow
