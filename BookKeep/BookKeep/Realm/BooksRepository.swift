@@ -142,5 +142,4 @@ extension Realm {
         }
         return nil
     }
-    
 }

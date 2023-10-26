@@ -21,14 +21,12 @@ final class HomeViewModel{
         let token = observable.value.observe { changes in
             switch changes {
             case .initial(let results):
-                print("DEBUG: HomeViewModel-observeRealmChanges: initialized")
                 observable.value = results
             case .update(let results, deletions: _, insertions: _, modifications: _):
-                //reassign observalbe.value and reflect in snapshot
-                print("DEBUG: HomeViewModel-observeRealmChanges: change detected")
                 observable.value = results
             case .error(let error):
-                print(error, RealmError.nonExist)
+                dump(error)
+                dump(RealmError.nonExist)
             }
         }
         notificationTokens.append(token)
