@@ -79,7 +79,7 @@ final class AchievedViewController: UIViewController, AchievedDelegate {
 
 extension AchievedViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     func reloadCollectionView() {
-        print("DEBUG: AchievedVC -", #function)
+//        print("DEBUG: AchievedVC -", #function)
         collectionView.reloadData()
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

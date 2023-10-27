@@ -37,7 +37,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         
         //MARK: DEBUG
         if UserDefaults.standard.object(forKey: UserDefaultsKey.LastReadingState.rawValue) != nil{
-            print("DEBUG: 저장되지 않은 세션 있음")
+//            print("DEBUG: 저장되지 않은 세션 있음")
             //복구 정보
             guard let isbn = UserDefaults.standard.object(forKey: UserDefaultsKey.LastISBN.rawValue) as? String else {return}
             guard let startTime = UserDefaults.standard.object(forKey: UserDefaultsKey.LastStartTime.rawValue) as? Date else {return}
@@ -61,9 +61,8 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
                 
             }
             
-        } else{
-            print("DEBUG: 저장되지 않은 세션 없음")
         }
+        //print realm file location
         BooksRepository.shared.realmURL()
         
     }
@@ -122,12 +121,11 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
     }
     
     private func clearUD(){
-        print("DEBUG: UD will Clear")
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastReadingState.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastElapsedTime.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastISBN.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastStartTime.rawValue)
-        print("DEBUG: UD is Cleared")
+//        print("DEBUG: UD is Cleared")
      }
     
 }

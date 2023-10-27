@@ -170,7 +170,6 @@ extension SearchViewController: UICollectionViewDataSourcePrefetching{
             //90개 까지만 보여줌: 즉 3번 호출 제한
             if count - 11 == currentRow && count < totalResults && count < 90{ //hard limit at 90 바꿔야 할 수도 있음
                 activityIndicator.startAnimating()
-                print(#function, count)
                 vm.searchBook(query: searchBar.text) {
                     self.activityIndicator.stopAnimating()
                 }

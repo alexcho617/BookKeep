@@ -102,7 +102,7 @@ final class DetailViewModel{
         
         //return if no change
         guard memo.contents != contents || memo.date != date else {
-            print("DEBUG: No Memo Change")
+//            print("DEBUG: No Memo Change")
             return false
         }
         

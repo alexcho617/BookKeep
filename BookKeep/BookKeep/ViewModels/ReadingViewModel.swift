@@ -57,12 +57,10 @@ class ReadingViewModel{
         switch readingState.value{
             
         case .reading:
-//            print("Reading -> Standby")
             readingState.value = .standby
             timer.stop()
            
         case .standby:
-//            print("Standby -> Reading")
             readingState.value = .reading
             timer.start()
         }
@@ -97,7 +95,6 @@ class ReadingViewModel{
     }
     
     func clearUD(){
-        print("DEBUG: UD will Clear")
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastReadingState.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastElapsedTime.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastISBN.rawValue)
