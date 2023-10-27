@@ -76,7 +76,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         collectionView.showsVerticalScrollIndicator = false
         view.addSubview(collectionView)
         collectionView.delegate = self
-        //TODO: empty cell 적용
+        //TODO: v1.0.4 empty cell 적용
         collectionView.register(EmptyCollectionViewCell.self, forCellWithReuseIdentifier: "emptyCell") //reuse 는 안함
         snapshot.appendSections([.homeReading,.homeToRead])
         
