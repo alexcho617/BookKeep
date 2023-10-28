@@ -5,6 +5,8 @@
 
 <br>
 
+[앱스토어 바로가기](https://apps.apple.com/kr/app/%EB%B6%81%ED%82%B5-%EB%8F%84%EC%84%9C%EA%B4%80%EB%A6%AC-%EB%8F%85%EC%84%9C%EA%B8%B0%EB%A1%9D/id6469721694)
+
 ## ⭐️ 주요 기능
 ### 독서 세션
 - 독서 시간 기록
@@ -40,6 +42,7 @@
 
 
 ## ⚠️  트러블슈팅 및 회고
-https://velog.io/@alexcho617/첫-출시-앱-북킵-회고
-https://velog.io/@alexcho617/Realm-DiffableDataSource
+
+[MVVM에서 Realm을 구독하고 DiffableDataSource와CompositionalLayout 적용하기](https://velog.io/@alexcho617/Realm-DiffableDataSource)
+[출시 회고](https://velog.io/@alexcho617/첫-출시-앱-북킵-회고)
 
