@@ -43,6 +43,6 @@
 
 ## ⚠️  트러블슈팅 및 회고
 
-[MVVM에서 Realm을 구독하고 DiffableDataSource와CompositionalLayout 적용하기](https://velog.io/@alexcho617/Realm-DiffableDataSource)
-[출시 회고](https://velog.io/@alexcho617/첫-출시-앱-북킵-회고)
+- [MVVM에서 Realm을 구독하고 DiffableDataSource와CompositionalLayout 적용하기](https://velog.io/@alexcho617/Realm-DiffableDataSource)
+- [출시 회고](https://velog.io/@alexcho617/첫-출시-앱-북킵-회고)
 
