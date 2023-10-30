@@ -1,5 +1,5 @@
 # 📚 "북킵" 나만의 도서관 사서 - 도서관리, 독서기록
-<img width="1352" alt="appstore" src="https://github.com/alexcho617/BookKeep/assets/38528052/3c135ddb-18cd-4002-a7a0-5edbe04826a0">
+<img width="100%" alt="appstore" src="https://github.com/alexcho617/BookKeep/assets/38528052/3c135ddb-18cd-4002-a7a0-5edbe04826a0">
 
 <br>
 
@@ -20,20 +20,20 @@ UIKit / MVVM / RxSwift / Realm / Kingfisher / Alamofire  / Open API / Crashlytic
 <br>
 
 ## 🍎 주요기능
-
 > Aladin Open API를 사용한 도서 검색 및 추가 | 페이지네이션 적용
-<img width="774" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/ec2e6adb-25e6-4c6e-af09-7351ee1b394c">
-<br>
+<img width="60%" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/ec2e6adb-25e6-4c6e-af09-7351ee1b394c">
+<br><br>
 
 > Enum을 사용한 도서상태 관리 | Compositional Layout 사용
-<img width="1154" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/9809e4e2-4472-4e84-b77c-c36a42f1d9ed">
+<img width="90%" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/9809e4e2-4472-4e84-b77c-c36a42f1d9ed">
+<br><br>
 
 > Timer를 사용한 독서 기록 | UserDefaults로 비정상 종료 대응
-<img width="766" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/cca43f74-9f46-4766-8078-77e9e8c345a1">
+<img width="60%" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/cca43f74-9f46-4766-8078-77e9e8c345a1">
+<br><br>
 
 > 도서별 메모 추가 및 관리 | Realm Nested Table 사용
-<img width="766" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/927cd267-be86-469d-9056-67cf3bc101db">
-
+<img width="60%" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/927cd267-be86-469d-9056-67cf3bc101db">
 <br>
 
 ## 📦 개발환경
