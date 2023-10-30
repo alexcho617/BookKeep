@@ -7,43 +7,35 @@
 
 [앱스토어 바로가기](https://apps.apple.com/kr/app/%EB%B6%81%ED%82%B5-%EB%8F%84%EC%84%9C%EA%B4%80%EB%A6%AC-%EB%8F%85%EC%84%9C%EA%B8%B0%EB%A1%9D/id6469721694)
 
-## ⭐️ 주요 기능
-### 독서 세션
-- 독서 시간 기록
-### 도서 검색 기능
-- 알라딘 도서 API
-### 도서 추가 기능
-- 읽은 책
-- 읽고 있는 책
-- 읽고 싶은 책
-### 홈 화면 위젯 기능
-- 읽고 있는 책 홈에 표시
-
+## ⭐ 프로젝트 소개
+북킵은 관심있는 책을 추가하고 도서를 상태별로 관리하며 독서기록과 메모를 남기는 앱입니다. Aladin API로 새로운 책을 추가하고 `enum`으로 책 상태를 관리합니다. 또한 `timer`를 사용하여 몰입감있는 독서 경험을 선사하며 독서기록과 메모를 `CRUD`할 수 있습니다.
+<br>
 ## 📆  개발 기간
 2023.10.01 ~ 2023.10.21 (3주 코어 타임, 이후 꾸준히 업데이트 중)
+<br>
+## 🛠️ 기술스택
+UIKit / MVVM / RxSwift / Realm / Kingfisher / Alamofire  / Open API / Crashlytics
+<br>
+## 🍎 주요기능
+> Open API를 사용한 도서 검색 및 추가 | 페이지네이션 적용
+
+> Enum을 사용한 도서상태 관리 | Compositional Layout 사용
+
+> Timer를 사용한 독서 기록 | UserDefaults로 비정상 종료 대응
+
+> 도서별 메모 추가 및 관리 | Realm Nested Table 사용
 
 <br>
 
-## 👩🏻‍💻  Team
-|조성진|
-|---|
-|<img src = "https://static.wixstatic.com/media/33c8bd_64f0f718ab5c4ecf85ebb5469ff58ba6~mv2.jpg/v1/fill/w_960,h_960,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/IMG_0508.jpg" width = 250></img>|
-|https://alexcho617.wixsite.com/portfolio|
+## 📦 개발환경
+Swift 5.8 / Xcode 14.3 / SnapKit 5.6 / Kingfisher 7.9 / Alamofire 5.8 / Realm 10.42
 
-<br>
-
-## 🎯  개발 환경
-- `Xcode 14.3.1`  
-- Target iOS 15.0
-<br>
-
-## 🔨  기술 스택
-- `UIKit` `MVVM` `SnapKit`
-- `Realm` `AlamoFire` `KingFisher`
-
+## 🎯 배포타겟
+iOS 16.0
 
 ## ⚠️  트러블슈팅 및 회고
 
 - [MVVM에서 Realm을 구독하고 DiffableDataSource와CompositionalLayout 적용하기](https://velog.io/@alexcho617/Realm-DiffableDataSource)
+
 - [출시 회고](https://velog.io/@alexcho617/첫-출시-앱-북킵-회고)
 
