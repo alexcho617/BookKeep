@@ -27,20 +27,26 @@ UIKit / MVVM / RxSwift / Realm / Kingfisher / Alamofire  / Open API / Crashlytic
 - iOS 16.0
 
 ## 🤔  개발하며 고민한 점
+### Modern CollectionView 구현
+![북킵-Home drawio](https://github.com/alexcho617/BookKeep/assets/38528052/758a6479-0439-450c-8dfa-dcd5da542b58)
 
 ## ⚠️  트러블슈팅 및 회고
-- Realm 변경사항이 Diffable Datasource와 Compositional Layout으로 된 UICollectionView에 제대로 반영되지 않음 [관련 블로그 포스팅](https://velog.io/@alexcho617/Realm-DiffableDataSource)
+- Realm 변경사항이 Diffable Datasource와 Compositional Layout으로 된 UICollectionView에 제대로 반영되지 않음
 
-	dataSource.apply()시점 조정을 통해 cellProvider closure호출하여 해결
-```swift
-func moveSection(itemToMove: RealmBook,from sourceSection: SectionLayoutKind, to destinationSection: SectionLayoutKind) {
-	snapshot.deleteItems([itemToMove])
-    dataSource.apply(snapshot, animatingDifferences: true)
+	해결방법: dataSource.apply()시점을 조정하여 cellProvider closure 호출
 
-	snapshot.appendItems([itemToMove], toSection: destinationSection)
-    dataSource.apply(snapshot, animatingDifferences: true)
-}
-```
+  	[자세한 블로그 포스팅](https://velog.io/@alexcho617/Realm-DiffableDataSource)
+
+  	> 핵심 코드
+	```swift
+	func moveSection(itemToMove: RealmBook,from sourceSection: SectionLayoutKind, to destinationSection: SectionLayoutKind) {
+		snapshot.deleteItems([itemToMove])
+	    dataSource.apply(snapshot, animatingDifferences: true)
+	
+		snapshot.appendItems([itemToMove], toSection: destinationSection)
+	    dataSource.apply(snapshot, animatingDifferences: true)
+	}
+	```
 
 - [앱 출시 회고](https://velog.io/@alexcho617/첫-출시-앱-북킵-회고)
 
