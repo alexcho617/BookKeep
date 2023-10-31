@@ -43,8 +43,19 @@ Swift 5.8 / Xcode 14.3 / SnapKit 5.6 / Kingfisher 7.9 / Alamofire 5.8 / Realm 10
 iOS 16.0
 
 ## ⚠️  트러블슈팅 및 회고
+> Realm 변경사항이 Diffable Datasource와 Compositional Layout으로 된 UICollectionView에 제대로 반영되지 않음
 
-- [MVVM에서 Realm을 구독하고 DiffableDataSource와CompositionalLayout 적용하기](https://velog.io/@alexcho617/Realm-DiffableDataSource)
+> [Realm 변경사항을 DiffableDataSource에 반영하고 뷰에 바인딩하기](https://velog.io/@alexcho617/Realm-DiffableDataSource)
+```swift
+//  해결: dataSource.apply()시점 조정을 통해 cellProvider closure호출
+func moveSection(itemToMove: RealmBook,from sourceSection: SectionLayoutKind, to destinationSection: SectionLayoutKind) {
+	snapshot.deleteItems([itemToMove])
+    dataSource.apply(snapshot, animatingDifferences: true)
 
-- [출시 회고](https://velog.io/@alexcho617/첫-출시-앱-북킵-회고)
+	snapshot.appendItems([itemToMove], toSection: destinationSection)
+    dataSource.apply(snapshot, animatingDifferences: true)
+}
+```
+
+- [앱 출시 회고](https://velog.io/@alexcho617/첫-출시-앱-북킵-회고)
 
