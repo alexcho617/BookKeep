@@ -1,6 +1,7 @@
 # 📚 "북킵" 나만의 도서관 사서 - 도서관리, 독서기록
 
-<img width="128" alt="primary" src="https://github.com/alexcho617/BookKeep/assets/38528052/567969a2-bf8f-44d5-b07b-62d158956352">
+<img width="128" alt="primary" src="https://github.com/alexcho617/BookKeep/assets/38528052/36ed9eb9-64fd-45ca-a39e-bae904ad4cd9">
+
 
 [🔗 앱스토어 바로가기](https://apps.apple.com/kr/app/%EB%B6%81%ED%82%B5-%EB%8F%84%EC%84%9C%EA%B4%80%EB%A6%AC-%EB%8F%85%EC%84%9C%EA%B8%B0%EB%A1%9D/id6469721694)
 <img width="100%" alt="appstore" src="https://github.com/alexcho617/BookKeep/assets/38528052/3c135ddb-18cd-4002-a7a0-5edbe04826a0">
