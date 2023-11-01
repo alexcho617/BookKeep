@@ -4,7 +4,8 @@
 
 
 [🔗 앱스토어 바로가기](https://apps.apple.com/kr/app/%EB%B6%81%ED%82%B5-%EB%8F%84%EC%84%9C%EA%B4%80%EB%A6%AC-%EB%8F%85%EC%84%9C%EA%B8%B0%EB%A1%9D/id6469721694)
-<img width="100%" alt="appstore" src="https://github.com/alexcho617/BookKeep/assets/38528052/3c135ddb-18cd-4002-a7a0-5edbe04826a0">
+
+<img width="2163" alt="appstore" src="https://github.com/alexcho617/BookKeep/assets/38528052/e5ff3f8d-8a2f-4cd6-a16b-003e277e540e">
 
 ## ⭐ 프로젝트 소개
 북킵은 관심있는 책을 추가하고 도서를 상태별로 관리하며 독서기록과 메모를 남기는 앱입니다. Aladin API로 새로운 책을 추가하고 `enum`으로 책 상태를 관리합니다. 또한 `timer`를 사용하여 몰입감있는 독서 경험을 선사하며 독서기록과 메모를 `CRUD`할 수 있습니다.
