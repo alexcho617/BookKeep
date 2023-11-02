@@ -1,4 +1,5 @@
-# 📚 "북킵" 나만의 도서관 사서 - 도서관리, 독서기록
+# 📚 "북킵" 나만의 도서관 사서 - 도서관리, 독서기록 [Kor]
+For english version click [here](www.google.com)
 
 <img width="128" alt="primary" src="https://github.com/alexcho617/BookKeep/assets/38528052/36ed9eb9-64fd-45ca-a39e-bae904ad4cd9">
 
