@@ -32,7 +32,6 @@ class ReadingViewModel{
     }
     
     func setTimer(){
-//        print(#function)
         timer.countMode = .stopWatch
         timer.defultValue = 0 //시작 값
         timer.effectiveValue = 1 // 단위
@@ -44,8 +43,7 @@ class ReadingViewModel{
 
         mainButtonClicked()
     }
-  
-    
+      
     func observeTimeHandler(time: TimeInterval) -> Void{
         //update view
         elapsedTime.value = time

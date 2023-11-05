@@ -37,7 +37,6 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         
         //MARK: DEBUG
         if UserDefaults.standard.object(forKey: UserDefaultsKey.LastReadingState.rawValue) != nil{
-//            print("DEBUG: 저장되지 않은 세션 있음")
             //복구 정보
             guard let isbn = UserDefaults.standard.object(forKey: UserDefaultsKey.LastISBN.rawValue) as? String else {return}
             guard let startTime = UserDefaults.standard.object(forKey: UserDefaultsKey.LastStartTime.rawValue) as? Date else {return}
