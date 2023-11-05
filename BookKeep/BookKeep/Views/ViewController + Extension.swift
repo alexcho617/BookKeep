@@ -45,6 +45,6 @@ extension UIViewController{
         let isbn = UserDefaults.standard.value(forKey: UserDefaultsKey.LastISBN.rawValue) ?? "nil"
         let startTime = UserDefaults.standard.value(forKey: UserDefaultsKey.LastStartTime.rawValue) ?? "nil"
 
-//        print("DEBUG UD - Time:\(elapsedTime) State:\(state) ISBN:\(isbn) Started At:\(startTime)")
+        print("DEBUG UD - Time:\(elapsedTime) State:\(state) ISBN:\(isbn) Started At:\(startTime)")
     }
 }

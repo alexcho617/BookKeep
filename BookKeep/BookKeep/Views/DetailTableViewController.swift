@@ -56,7 +56,8 @@ class DetailTableViewController: UIViewController{
         tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: DetailTableViewCell.identifier)
         tableView.register(DetailTableViewSessionCell.self, forCellReuseIdentifier: DetailTableViewSessionCell.identifier)
         tableView.register(DetailTableFooter.self, forHeaderFooterViewReuseIdentifier: "DetailTableFooter")
-
+        tableView.rowHeight = UITableView.automaticDimension
+//        tableView.estimatedRowHeight = UITableView.automaticDimension
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -239,6 +240,7 @@ extension DetailTableViewController: UITableViewDelegate, UITableViewDataSource{
         vc.detailDelegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
+    
     
 }
 
