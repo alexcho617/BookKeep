@@ -178,12 +178,11 @@ final class ReadCompleteViewController: UIViewController {
     }
     
     private func clearUD(){
-        print("DEBUG: UD will Clear")
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastReadingState.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastElapsedTime.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastISBN.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastStartTime.rawValue)
-        print("DEBUG: UD is Cleared")
+//        print("DEBUG: UD is Cleared")
     }
     
 }
@@ -191,7 +190,6 @@ final class ReadCompleteViewController: UIViewController {
 extension ReadCompleteViewController: UITextFieldDelegate{
     
     @objc func confirmButtonClicked(_ button: UIButton){
-        print(#function)
         vm.startTimeInput.value = startDatePicker.date
         vm.readTimeInput.value = readTimePicker.countDownDuration
         if vm.addSession(){

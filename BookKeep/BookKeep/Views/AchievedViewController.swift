@@ -16,7 +16,7 @@ protocol AchievedDelegate: AnyObject {
 final class AchievedViewController: UIViewController, AchievedDelegate {
 
     //views
-    //TODO: 추후 업데이트에 컬렉션 뷰 위에 차트 추가 
+    //TODO: v1.1 컬렉션 뷰 위에 차트 추가 
     private lazy var collectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
         view.backgroundColor = .clear
@@ -79,7 +79,7 @@ final class AchievedViewController: UIViewController, AchievedDelegate {
 
 extension AchievedViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     func reloadCollectionView() {
-        print("DEBUG: AchievedVC -", #function)
+//        print("DEBUG: AchievedVC -", #function)
         collectionView.reloadData()
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

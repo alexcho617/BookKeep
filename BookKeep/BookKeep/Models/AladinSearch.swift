@@ -38,7 +38,7 @@ struct Item: Hashable,Codable {
     let identifier = UUID().uuidString
     let title: String
     let link: String
-    let author, pubDate, description, isbn: String
+    var author, pubDate, description, isbn: String
     let isbn13: String
     let itemID, priceSales, priceStandard: Int
     let mallType, stockStatus: String

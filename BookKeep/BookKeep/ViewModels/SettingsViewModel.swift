@@ -14,14 +14,16 @@ enum Sections: String{
 enum Items: String{
     case infoPolicy = "개인정보 처리"
     case sendEmail = "문의 보내기"
+    case appReview = "리뷰 남기기"
     case appVersion = "앱 버전"
     case openSource = "오픈소스 라이센스"
 }
 
+//TODO: 리뷰 남기기 아이템 추가
 class SettingsViewModel{
    
     var sections = ["개인", "앱"]
-    var items = [["개인정보 처리"],["문의 보내기", "오픈소스 라이센스", "앱 버전"]]
+    var items = [["개인정보 처리"],["문의 보내기","리뷰 남기기", "오픈소스 라이센스", "앱 버전"]]
     var currentVersion: String{
         get {
             return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? " - "
@@ -39,6 +41,7 @@ class SettingsViewModel{
         
         return identifier
     }
+    
     //추후 사용
     func latestVersion() -> String? {
         guard let url = URL(string: "http://itunes.apple.com/lookup?id=\(Literal.appleID)"),

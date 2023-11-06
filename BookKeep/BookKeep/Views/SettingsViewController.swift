@@ -98,6 +98,8 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource{
             navigationController?.pushViewController(vc, animated: true)
         case .sendEmail:
             sendMail()
+        case .appReview:
+            goToAppstore()
         case .openSource:
             let vc = SimpleWebViewController()
             vc.urlString = Literal.openSourceURL
@@ -109,7 +111,20 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource{
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
-
+extension SettingsViewController{
+    func goToAppstore(){
+        if let appstoreURL = URL(string: "https://apps.apple.com/app/\(Literal.appleID)") {
+            var components = URLComponents(url: appstoreURL, resolvingAgainstBaseURL: false)
+            components?.queryItems = [
+              URLQueryItem(name: "action", value: "write-review")
+            ]
+            guard let writeReviewURL = components?.url else {
+                return
+            }
+            UIApplication.shared.open(writeReviewURL, options: [:], completionHandler: nil)
+        }
+    }
+}
 extension SettingsViewController: MFMailComposeViewControllerDelegate{
     func sendMail(){
         if MFMailComposeViewController.canSendMail(){

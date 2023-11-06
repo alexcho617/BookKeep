@@ -37,7 +37,6 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         
         //MARK: DEBUG
         if UserDefaults.standard.object(forKey: UserDefaultsKey.LastReadingState.rawValue) != nil{
-            print("DEBUG: 저장되지 않은 세션 있음")
             //복구 정보
             guard let isbn = UserDefaults.standard.object(forKey: UserDefaultsKey.LastISBN.rawValue) as? String else {return}
             guard let startTime = UserDefaults.standard.object(forKey: UserDefaultsKey.LastStartTime.rawValue) as? Date else {return}
@@ -61,9 +60,8 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
                 
             }
             
-        } else{
-            print("DEBUG: 저장되지 않은 세션 없음")
         }
+        //print realm file location
         BooksRepository.shared.realmURL()
         
     }
@@ -77,7 +75,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         collectionView.showsVerticalScrollIndicator = false
         view.addSubview(collectionView)
         collectionView.delegate = self
-        //TODO: empty cell 적용
+        //TODO: v1.0.4 empty cell 적용
         collectionView.register(EmptyCollectionViewCell.self, forCellWithReuseIdentifier: "emptyCell") //reuse 는 안함
         snapshot.appendSections([.homeReading,.homeToRead])
         
@@ -122,12 +120,11 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
     }
     
     private func clearUD(){
-        print("DEBUG: UD will Clear")
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastReadingState.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastElapsedTime.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastISBN.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastStartTime.rawValue)
-        print("DEBUG: UD is Cleared")
+//        print("DEBUG: UD is Cleared")
      }
     
 }
@@ -238,21 +235,14 @@ extension HomeViewController{
                 self.present(UINavigationController(rootViewController: SearchViewController()), animated: true)
             }
             supplementaryView.welcomeLabel.text = Literal.mainGreeting
-            //MARK: 책 갯수를 넣어주려고 하였으나 snapshot reload 문제로 추후 업데이트
-//            supplementaryView.welcomeLabel.text = Literal.mainGreeting + " (\(self.booksReading.count))"
-
         }
         
         let toReadHeaderRegistration = UICollectionView.SupplementaryRegistration<ToReadSectionHeaderView>(elementKind: SectionSupplementaryKind.toReadHeader.rawValue) { supplementaryView, elementKind, indexPath in
             //여기서 cell 처럼 header view 코드 실행 가능
             supplementaryView.title.text = Literal.secondSectionLabel
-//            supplementaryView.title.text = Literal.secondSectionLabel + " (\(self.booksToRead.count))"
         }
         
         dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            //MARK: 책 갯수를 넣어주려고 하였으나 reload 문제로 추후 업데이트
-//            print("DEBUG: Cell Provider", itemIdentifier.title, itemIdentifier.readingStatus)
-            
             let status = itemIdentifier.readingStatus
             switch status {
             case .reading:
@@ -279,39 +269,34 @@ extension HomeViewController{
     }
     
     /*
-     MARK: 아이템을 A->B섹션 동시킬 때는 삭제 후 Apply 후 Append후 다시 Apply를 하여 Snapshot이 달라진것을 더 명확히 한다. 이렇게 할 경우 cellProvider가 다시 호출되는것을 확인했다.
+     MARK: 아이템을 A->B섹션 이동시킬 때는 Delete&Apply Append&Apply를 하여 cellProvider를 다시 호출시킨다
      */
     func moveSection(itemToMove: RealmBook,from sourceSection: SectionLayoutKind, to destinationSection: SectionLayoutKind) {
-//        print(#function, itemToMove.title, sourceSection, destinationSection)
         snapshot.deleteItems([itemToMove])
         dataSource.apply(snapshot, animatingDifferences: true)
         
-        snapshot.appendItems([itemToMove], toSection: destinationSection) // Add the item to the destination section
+        snapshot.appendItems([itemToMove], toSection: destinationSection)
         dataSource.apply(snapshot, animatingDifferences: true)
-
     }
     
     func reloadCollectionView(){
-        //호출은 되는데 변경이 없네
         print("HomeViewController-",#function)
-//        snapshot.reloadSections([section])
-        collectionView.reloadData() //비효율적이지만 일단 이렇게 하고 넘어가자.
+        collectionView.reloadData()
     }
     
     
     private func bindData() {
         vm.books.bind { [weak self] value in
             guard let self = self else { return }
-            print("DEBUG: BIND Data")
             booksToRead = Array(value).filter { $0.readingStatus == .toRead }
             booksReading = Array(value).filter { $0.readingStatus == .reading }
+            
             var newSnapshot = NSDiffableDataSourceSnapshot<SectionLayoutKind, RealmBook>()
             newSnapshot.appendSections([.homeReading, .homeToRead])
             newSnapshot.appendItems(booksToRead, toSection: .homeToRead)
             newSnapshot.appendItems(booksReading, toSection: .homeReading)
             dataSource.apply(newSnapshot, animatingDifferences: true)
         }
-        
     }
 }
 

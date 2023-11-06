@@ -26,3 +26,20 @@ class SearchDetailViewModel{
         print("SearchDetailViewModel deinit")
     }
 }
+
+//TODO: String이 immutable 이기 때문에 바로 AladinSearch model에 적용 불가능.
+extension String {
+    func decodeHTMLEntities() -> String {
+        guard let data = self.data(using: .utf8) else {
+            return self
+        }
+        let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
+            .documentType: NSAttributedString.DocumentType.html,
+            .characterEncoding: String.Encoding.utf8.rawValue
+        ]
+        if let attributedString = try? NSAttributedString(data: data, options: options, documentAttributes: nil) {
+            return attributedString.string
+        }
+        return self
+    }
+}

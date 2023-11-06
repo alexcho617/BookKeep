@@ -25,10 +25,8 @@ class AchievedViewModel{
         let token = observable.value.observe { changes in
             switch changes {
             case .initial(let results):
-                print("DEBUG: AchievedViewModel-observeRealmChanges: initialized")
                 observable.value = results
             case .update(let results, deletions: _, insertions: _, modifications: _):
-                print("DEBUG: AchievedViewModel-observeRealmChanges: change detected")
                 observable.value = results
             case .error(let error):
                 print(error, RealmError.nonExist)

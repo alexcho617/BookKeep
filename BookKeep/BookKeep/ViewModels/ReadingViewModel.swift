@@ -32,7 +32,6 @@ class ReadingViewModel{
     }
     
     func setTimer(){
-//        print(#function)
         timer.countMode = .stopWatch
         timer.defultValue = 0 //시작 값
         timer.effectiveValue = 1 // 단위
@@ -44,8 +43,7 @@ class ReadingViewModel{
 
         mainButtonClicked()
     }
-  
-    
+      
     func observeTimeHandler(time: TimeInterval) -> Void{
         //update view
         elapsedTime.value = time
@@ -57,12 +55,10 @@ class ReadingViewModel{
         switch readingState.value{
             
         case .reading:
-//            print("Reading -> Standby")
             readingState.value = .standby
             timer.stop()
            
         case .standby:
-//            print("Standby -> Reading")
             readingState.value = .reading
             timer.start()
         }
@@ -97,7 +93,6 @@ class ReadingViewModel{
     }
     
     func clearUD(){
-        print("DEBUG: UD will Clear")
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastReadingState.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastElapsedTime.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.LastISBN.rawValue)
