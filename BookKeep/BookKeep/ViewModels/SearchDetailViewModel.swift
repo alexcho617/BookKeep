@@ -13,7 +13,7 @@ class SearchDetailViewModel{
     func lookUp(id: String, failHandler: @escaping () -> Void){
         NetworkManager.shared.requestConvertible(type: AladinSearch.self, api: .lookup(itemId: id)) { response in
             switch response {
-            case .success(var success):
+            case .success(let success):
                 self.lookupResult.value = success
             case .failure(let failure):
                 dump(failure)

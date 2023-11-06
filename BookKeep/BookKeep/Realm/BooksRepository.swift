@@ -12,13 +12,13 @@ enum RealmError: String, Error, LocalizedError{
     case primaryKey = "PK 에러가 났습니다"
     case nonExist = "데이터가 없습니다"
     case alreadyExist = "책이 이미 존재합니다"
+    case failedToInitialze = "Realm Initialize에 실패했습니다"
 }
 
 class BooksRepository: Error, LocalizedError{
     static let shared = BooksRepository()
     let realm = Realm.safeInit()
-    private init(){
-    }
+    private init(){}
     
     func create(_ book: RealmBook) throws {
         //PK exists: Check if it was deleted book
@@ -138,7 +138,7 @@ extension Realm {
             return realm
         }
         catch {
-            print("Realm Safe Init Failed")
+            dump(RealmError.failedToInitialze)
         }
         return nil
     }

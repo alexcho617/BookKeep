@@ -27,7 +27,7 @@ final class SearchDetailViewController: UIViewController {
     
     private var coverImageView = {
         let view = UIImageView()
-        view.backgroundColor = .clear
+        view.backgroundColor = .systemBackground
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.layer.borderColor = Design.colorPrimaryAccent?.cgColor
@@ -201,7 +201,8 @@ final class SearchDetailViewController: UIViewController {
             let toast = Toast.text("📖읽을 예정인 책에 추가되었습니다")
             toast.show(haptic: .success)
             self.navigationController?.popViewController(animated: true)
-        } catch {
+        } catch(let error) {
+            dump(error)
             let toast = Toast.text("❌이미 존재하는 책입니다")
             toast.show(haptic: .error)
         }

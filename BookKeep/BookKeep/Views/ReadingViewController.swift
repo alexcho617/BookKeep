@@ -45,7 +45,7 @@ final class ReadingViewController: UIViewController {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
-        view.backgroundColor = .clear
+        view.backgroundColor = .systemBackground
         view.layer.borderColor = Design.colorPrimaryAccent?.cgColor
         view.layer.borderWidth = 2
         view.layer.cornerRadius = Design.paddingDefault

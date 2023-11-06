@@ -18,8 +18,8 @@ class SearchViewModel{
         if searchResult.value == nil{
             currentPage = 1
         }
+        
         NetworkManager.shared.requestConvertible(type: AladinSearch.self, api: .search(keyword: query, page: currentPage)) { response in
-            print("VM currentPage:",self.currentPage)
             switch response {
             case .success(let success):
                 if self.searchResult.value == nil{
