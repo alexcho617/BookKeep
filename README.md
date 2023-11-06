@@ -83,6 +83,56 @@ enum AladinRouter: URLRequestConvertible{
 }
 ```
 
+### DataSource Prefetching적용하여 API콜 절약
+
+사용자의 책 검색 Use Case에서 검색 결과를 몇개까지 보여줘야 하는가에 대한 고민을 하였습니다. 약 10명의 베타 테스트 플라잇 사용자들을 조사한 결과 제목이 너무 모호하지만 않으면 보통 60개 안에는 나오는 것을 확인할 수 있었고 만약에 대비해 이것의 2배인 120개의 결과를 보여주도록 설정했습니다.
+
+하지만 120개의 결과를 검색시 바로 UI에 보여주는것은 불필요하고 앱의 성능에도 영향을 미칠 수 있는 부분이라 생각되어 Prefetching을 적용하였고 API호출 시 페이지 값을 같이 전달하여 구현했습니다. 또한 스크롤 하단 끝 약 2/3 지점에서 다음 페이지를 불러오는것이 일반적인 Use Case에 적합했습니다. 
+
+이에 맞추어 CollectionView에 activityIndicator를 달아주어 검색이 진행되는 동안 사용자에게 시각적 인지를 주었습니다.
+
+```swift
+func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+    for indexPath in indexPaths {
+        let currentRow = indexPath.row
+        guard vm.searchResult.value != nil else {return} //검색 값 확인
+        guard let count = vm.searchResult.value?.item.count else {return} //검색 값 내에 아이템이 있는지 확인
+        guard let totalResults = vm.searchResult.value?.totalResults else {return} //총 검색 결과 확인: 보통 몇백 몇천
+        
+        if count - 11 == currentRow && count < totalResults && count < 90{ //3번 호출 제한, 최대 120개 결과까지
+            activityIndicator.startAnimating()
+            vm.searchBook(query: searchBar.text) {
+                self.activityIndicator.stopAnimating()
+            }
+        }
+    }
+}
+```
+### NLC를 사용한 여러 네트워크 시나리오에서 UI대응
+
+모바일 기기 특성상 네트워크가 불안정 할 수 있기 때문에 Network Link Connector 를 사용하여 패킷이 100% Loss 되는 경우, 3G 속도, High Latency DNS 등 다양한 시나리오 속에서 앱을 테스트하여 QA를 높혔습니다.
+
+Request 타임아웃은 5초로 설정하였고 View에서는 Toast 메시지를 띄워 대응하였습니다. Alamofire를 사용하였기 때문에 비교적 수월하게 네트워크 에러 처리를 할 수 있었고 적절한 라이브러리 사용으로 인해 작업 효율을 높혔습니다.
+
+```swift
+//SearchViewController.swift
+func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+...
+  activityIndicator.startAnimating() //인티케이터 시작
+
+  //ViewModel에서 에러 대응 클로저 실행
+  vm.errorHandler = { [weak self] in
+		//인티케이터 정지 후 토스트 띄움
+      self?.activityIndicator.stopAnimating()
+      self?.dismiss(animated: true,completion: {
+          let toast = Toast.text("⚠️네트워크 환경이 좋지 못합니다")
+          toast.show(haptic: .error)
+      })
+      
+  }
+}
+
+```
 ## ⚠️  트러블슈팅
 ### Realm 변경사항이 Diffable Datasource와 Compositional Layout으로 된 UICollectionView에 제대로 반영되지 않음
 해결방법: dataSource.apply()시점을 조정하여 cellProvider closure 호출
