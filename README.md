@@ -37,13 +37,13 @@ HomeView의 UICollectionView를 구성할때 Diffable Datasource와 Compositiona
 dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, RealmBook>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
 let status = itemIdentifier.readingStatus
 switch status {
-	case .reading:
-	    return collectionView.dequeueConfiguredReusableCell(using: readingCellRegistration, for: indexPath, item: itemIdentifier)
-    case .toRead:
-    	return collectionView.dequeueConfiguredReusableCell(using: toReadCellRegistration, for: indexPath, item: itemIdentifier)
-    default:
-	    return collectionView.dequeueConfiguredReusableCell(using: toReadCellRegistration, for: indexPath, item: itemIdentifier)
-    }
+case .reading:
+	return collectionView.dequeueConfiguredReusableCell(using: readingCellRegistration, for: indexPath, item: itemIdentifier)
+case .toRead:
+	return collectionView.dequeueConfiguredReusableCell(using: toReadCellRegistration, for: indexPath, item: itemIdentifier)
+default:
+	return collectionView.dequeueConfiguredReusableCell(using: toReadCellRegistration, for: indexPath, item: itemIdentifier)
+}
 ```
 
 ### URLRequestConvertible 프로토콜을 채택한 Router패턴으로 REST API 네트워킹
