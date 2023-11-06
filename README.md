@@ -30,6 +30,7 @@ UIKit / MVVM / RxSwift / Realm / Kingfisher / Alamofire  / Open API / Crashlytic
 ## 🤔  개발하며 고민한 점
 ### Modern CollectionView 구현
 <img width="75%" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/758a6479-0439-450c-8dfa-dcd5da542b58">
+
 HomeView의 UICollectionView를 구성할때 Diffable Datasource와 Compositional Layout을 통해 index가 아닌 cell data를 기반으로 cell을 구성했습니다.
 
 ```swift
@@ -86,8 +87,6 @@ enum AladinRouter: URLRequestConvertible{
 ### Realm 변경사항이 Diffable Datasource와 Compositional Layout으로 된 UICollectionView에 제대로 반영되지 않음
 해결방법: dataSource.apply()시점을 조정하여 cellProvider closure 호출
 
-[기술 블로그 포스팅 - Velog](https://velog.io/@alexcho617/Realm-DiffableDataSource)
-
 > 핵심 코드
 ```swift
 func moveSection(itemToMove: RealmBook,from sourceSection: SectionLayoutKind, to destinationSection: SectionLayoutKind) {
@@ -98,16 +97,12 @@ func moveSection(itemToMove: RealmBook,from sourceSection: SectionLayoutKind, to
     dataSource.apply(snapshot, animatingDifferences: true)
 }
 ```
+[기술 블로그 포스팅 - Velog](https://velog.io/@alexcho617/Realm-DiffableDataSource)
+
  
 ### 독서 중 비정상 종료시 데이터 휘발됨
 
 해결방법: Reading View에 UserDefaults를 사용하여 비정상 종료시 독서기록 데이터 보존 및 복구처리
-
-
-[기술 블로그 포스팅 - Velog](https://velog.io/@alexcho617/UserDefaults-%EA%B8%B0%EB%B0%98%EC%9C%BC%EB%A1%9C-%EC%95%B1-%EC%8B%A4%ED%96%89%EC%8B%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B3%B5%EA%B5%AC-%EB%B6%84%EA%B8%B0%EC%B2%98%EB%A6%AC)
-
-<img width="75%" alt="appstore" src="https://github.com/alexcho617/BookKeep/assets/38528052/7efc2b85-e14d-46fe-92b5-bbaf518acddc">
-
 
 > 핵심 코드
 ```swift
@@ -145,6 +140,10 @@ if UserDefaults.standard.object(forKey: UserDefaultsKey.LastReadingState.rawValu
 }
 
 ```
+
+<img width="75%" alt="appstore" src="https://github.com/alexcho617/BookKeep/assets/38528052/7efc2b85-e14d-46fe-92b5-bbaf518acddc">
+
+[기술 블로그 포스팅 - Velog](https://velog.io/@alexcho617/UserDefaults-%EA%B8%B0%EB%B0%98%EC%9C%BC%EB%A1%9C-%EC%95%B1-%EC%8B%A4%ED%96%89%EC%8B%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B3%B5%EA%B5%AC-%EB%B6%84%EA%B8%B0%EC%B2%98%EB%A6%AC)
 
 ## 🐾 회고
 [[iOS] 북킵: 출시 회고 - Velog](https://velog.io/@alexcho617/첫-출시-앱-북킵-회고)
