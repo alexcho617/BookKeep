@@ -86,7 +86,13 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
         isbn.text = detailBook.isbn
         page.text = "\(detailBook.currentReadingPage) / \(detailBook.page)"
         totalReadTime.text =  "총 읽은 시간: " + (detailBook.calculateTotalReadTime().converToValidFormat() ?? "-")
-        readIteration.text = detailBook.readIteration == 0 ? "첫 회독": "\(detailBook.readIteration)번 회독"
+        
+        if detailBook.readingStatus == .reading{
+            readIteration.text = detailBook.readIteration == 0 ? "처음 읽는 중": "\(detailBook.readIteration + 1)번째 읽는 중"
+        }else {
+            readIteration.text = "\(detailBook.readIteration)번 읽음"
+        }
+        
     }
     
     func setViews(){
@@ -133,6 +139,7 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
             make.top.equalTo(totalReadTime.snp.bottom).offset(Design.paddingDefault)
             make.trailing.equalTo(totalReadTime.snp.trailing)
         }
+        
         switch detailBook.readingStatus{
             
         case .reading, .done:

@@ -47,6 +47,8 @@ class DetailTableViewController: UIViewController{
     }
     
     func setView(){
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.tintColor = Design.colorPrimaryAccent
         navigationItem.rightBarButtonItems = [menuButton]
         tableView.backgroundColor = Design.colorPrimaryBackground
         tableView.delegate = self

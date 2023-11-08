@@ -80,7 +80,7 @@ final class ReadingCell: UICollectionViewCell {
         page.textColor = .secondaryLabel
         
         contentView.addSubview(readIteration)
-        readIteration.text = book.readIteration == 0 ? "첫 회독": "\(book.readIteration)번 회독"
+        readIteration.text = book.readIteration == 0 ? "처음 읽는 중": "\(book.readIteration + 1)번째 읽는 중"
         readIteration.font = Design.fontDefault
         readIteration.textColor = .secondaryLabel
 //        contentView.addSubview(readButton)
@@ -121,9 +121,11 @@ final class ReadingCell: UICollectionViewCell {
 
         }
         readIteration.snp.makeConstraints { make in
-            make.top.equalTo(page.snp.bottom).offset(Design.paddingDefault)
-            make.leading.equalTo(startDate)
-            make.trailing.lessThanOrEqualToSuperview().offset(-Design.paddingDefault)
+//            make.top.equalTo(page.snp.bottom).offset(Design.paddingDefault)
+//            make.leading.equalTo(startDate)
+//            make.trailing.lessThanOrEqualToSuperview().offset(-Design.paddingDefault)
+            make.trailing.equalToSuperview().offset(-2 * Design.paddingDefault)
+            make.bottom.equalToSuperview().offset(-Design.paddingDefault)
 
         }
 //        memoButton.snp.makeConstraints { make in
