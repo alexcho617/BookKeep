@@ -9,10 +9,16 @@ import UIKit
 enum Design{
     static let paddingDefault: CGFloat = 8.0
     
+    //testing set
+//    static let colorPrimaryBackground = UIColor(named: "BPrimaryBackground")
+//    static let colorSecondaryBackground = UIColor(named: "BSecondaryBackground")
+    static let colorPrimaryAccent = UIColor(named: "BPrimaryAccent")
+//    static let colorSecondaryAccent = UIColor(named: "BSecondaryAccent")
+    
+    //default set
     static let colorPrimaryBackground = UIColor(named: "PrimaryBackground")
     static let colorSecondaryBackground = UIColor(named: "SecondaryBackground")
-
-    static let colorPrimaryAccent = UIColor(named: "PrimaryAccent")
+//    static let colorPrimaryAccent = UIColor(named: "PrimaryAccent")
     static let colorSecondaryAccent = UIColor(named: "SecondaryAccent")
     
     static let colorTextTitle = colorSecondaryAccent
