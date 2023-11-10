@@ -66,6 +66,9 @@
 		57C79BF02ACAC42400E168F6 /* ReusableViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C79BEF2ACAC42400E168F6 /* ReusableViews.swift */; };
 		57CA82342ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CA82332ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift */; };
 		57E35A7C2AE4F17600040AC5 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 57E35A7B2AE4F17600040AC5 /* Toast */; };
+		57FD200B2AFE8DED0020FC7A /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 57FD200A2AFE8DED0020FC7A /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		57FD200D2AFE8DED0020FC7A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 57FD200C2AFE8DED0020FC7A /* FirebaseCrashlytics */; };
+		57FD200F2AFE8DED0020FC7A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 57FD200E2AFE8DED0020FC7A /* FirebaseMessaging */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +145,7 @@
 		57C79BED2ACABB9300E168F6 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		57C79BEF2ACAC42400E168F6 /* ReusableViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViews.swift; sourceTree = "<group>"; };
 		57CA82332ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCollectionViewCell.swift; sourceTree = "<group>"; };
+		57FD20102AFE8E480020FC7A /* BookKeep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BookKeep.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +160,9 @@
 				57A0F4CC2ADBF9E6008396D6 /* SPConfetti in Frameworks */,
 				5790CF062AD550AA0066D517 /* MagicTimer in Frameworks */,
 				577082B42AC2BC230052EA8A /* SnapKit in Frameworks */,
+				57FD200D2AFE8DED0020FC7A /* FirebaseCrashlytics in Frameworks */,
+				57FD200B2AFE8DED0020FC7A /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				57FD200F2AFE8DED0020FC7A /* FirebaseMessaging in Frameworks */,
 				57E35A7C2AE4F17600040AC5 /* Toast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -224,10 +231,11 @@
 				57ADE0262AC1A67000EA0EFE /* Constants */,
 				57ADE0292AC1A6FC00EA0EFE /* Realm */,
 				57ADE02A2AC1A70100EA0EFE /* API */,
+				57ADDFFC2AC1A38F00EA0EFE /* LaunchScreen.storyboard */,
 				57ADDFF32AC1A38D00EA0EFE /* SceneDelegate.swift */,
 				57ADDFF12AC1A38D00EA0EFE /* AppDelegate.swift */,
 				57ADDFFA2AC1A38F00EA0EFE /* Assets.xcassets */,
-				57ADDFFC2AC1A38F00EA0EFE /* LaunchScreen.storyboard */,
+				57FD20102AFE8E480020FC7A /* BookKeep.entitlements */,
 				57ADDFFF2AC1A38F00EA0EFE /* Info.plist */,
 				57A0F4DD2ADF7281008396D6 /* GoogleService-Info.plist */,
 			);
@@ -352,6 +360,9 @@
 				5790CF052AD550AA0066D517 /* MagicTimer */,
 				57A0F4CB2ADBF9E6008396D6 /* SPConfetti */,
 				57E35A7B2AE4F17600040AC5 /* Toast */,
+				57FD200A2AFE8DED0020FC7A /* FirebaseAnalyticsWithoutAdIdSupport */,
+				57FD200C2AFE8DED0020FC7A /* FirebaseCrashlytics */,
+				57FD200E2AFE8DED0020FC7A /* FirebaseMessaging */,
 			);
 			productName = BookKeep;
 			productReference = 57ADDFEE2AC1A38D00EA0EFE /* BookKeep.app */;
@@ -433,6 +444,7 @@
 				5790CF042AD550AA0066D517 /* XCRemoteSwiftPackageReference "MagicTimer" */,
 				57A0F4CA2ADBF9E6008396D6 /* XCRemoteSwiftPackageReference "SPConfetti" */,
 				57E35A7A2AE4F17500040AC5 /* XCRemoteSwiftPackageReference "toast-swift" */,
+				57FD20092AFE8DED0020FC7A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 57ADDFEF2AC1A38D00EA0EFE /* Products */;
 			projectDirPath = "";
@@ -717,6 +729,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BookKeep/BookKeep.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -730,6 +743,7 @@
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -752,6 +766,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BookKeep/BookKeep.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YTV3AHP8X4;
@@ -764,6 +779,7 @@
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -955,6 +971,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		57FD20092AFE8DED0020FC7A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 10.17.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -997,6 +1021,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 57E35A7A2AE4F17500040AC5 /* XCRemoteSwiftPackageReference "toast-swift" */;
 			productName = Toast;
+		};
+		57FD200A2AFE8DED0020FC7A /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57FD20092AFE8DED0020FC7A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		57FD200C2AFE8DED0020FC7A /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57FD20092AFE8DED0020FC7A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		57FD200E2AFE8DED0020FC7A /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57FD20092AFE8DED0020FC7A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
