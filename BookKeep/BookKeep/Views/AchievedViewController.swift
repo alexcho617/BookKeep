@@ -35,16 +35,14 @@ final class AchievedViewController: UIViewController, AchievedDelegate {
     private func setView(){
         view.backgroundColor = Design.colorPrimaryAccent
         view.addSubview(collectionView)
-        title = "업적"
-
-        let appearance = UINavigationBarAppearance()
-        appearance.shadowImage = UIImage()
-        appearance.backgroundImage = UIImage()
-        appearance.backgroundColor = Design.colorPrimaryAccent
-        navigationController?.navigationBar.tintColor = Design.colorPrimaryBackground
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithTransparentBackground()
         
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.tintColor = .white
+        
+        navigationItem.scrollEdgeAppearance = navigationBarAppearance
+        navigationItem.standardAppearance = navigationBarAppearance
+        navigationItem.compactAppearance = navigationBarAppearance
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -52,7 +50,7 @@ final class AchievedViewController: UIViewController, AchievedDelegate {
         collectionView.register(ToReadCell.self, forCellWithReuseIdentifier: "ToReadCell")
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(view)
+            make.top.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.equalTo(view).inset(Design.paddingDefault)
         }

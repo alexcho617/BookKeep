@@ -31,13 +31,13 @@ final class ReadingSectionHeaderView: UICollectionReusableView {
     private let addButton = {
         let view = UIButton()
         view.setTitle("책 추가하기", for: .normal)
-        view.setTitleColor(Design.colorPrimaryAccent, for: .normal)
-        view.backgroundColor = Design.colorPrimaryBackground
+        view.setTitleColor(Design.colorSecondaryAccent, for: .normal)
+        view.backgroundColor = Design.colorPrimaryAccent
         view.titleLabel?.font = Design.fontAccentDefault
         view.titleLabel?.textAlignment = .center
         view.layer.cornerRadius = Design.paddingDefault
-        view.layer.shadowOffset = CGSize(width: 8, height: 8)
-        view.layer.shadowOpacity = 0.5
+        view.layer.borderWidth = 2
+        view.layer.borderColor = Design.colorSecondaryAccent?.cgColor
         return view
     }()
     
@@ -50,7 +50,7 @@ final class ReadingSectionHeaderView: UICollectionReusableView {
     private func setConstraints(){
         welcomeLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.leading.equalToSuperview().offset(Design.paddingDefault)
+            make.leading.equalToSuperview().offset(2*Design.paddingDefault)
         }
         
         welcomeSecondLabel.snp.makeConstraints { make in
@@ -59,7 +59,7 @@ final class ReadingSectionHeaderView: UICollectionReusableView {
         }
         
         addButton.snp.makeConstraints { make in
-            make.top.equalTo(welcomeSecondLabel)
+            make.top.equalTo(welcomeLabel.snp.centerY)
             make.trailing.equalToSuperview().offset(-Design.paddingDefault)
             make.width.equalToSuperview().multipliedBy(0.3)
         }

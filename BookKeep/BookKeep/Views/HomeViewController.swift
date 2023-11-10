@@ -29,8 +29,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
     var baseView: UIStackView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureHierarchy()
-        setViewDesign()
+        setView()
         setConstraints()
         configureDataSource()
         bindData()
@@ -66,16 +65,18 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         
     }
 
-    private func configureHierarchy(){
+    private func setView(){
+        navigationController?.isNavigationBarHidden = true
         baseView = addBaseView()
         view.addSubview(baseView)
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: generateLayoutBySection())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.backgroundColor = .clear
         view.addSubview(collectionView)
         collectionView.delegate = self
-        //TODO: v1.0.4 empty cell 적용
+        //TODO: v1.0.5 empty cell 적용
         collectionView.register(EmptyCollectionViewCell.self, forCellWithReuseIdentifier: "emptyCell") //reuse 는 안함
         snapshot.appendSections([.homeReading,.homeToRead])
         
@@ -92,19 +93,6 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         }
     }
     
-    private func setViewDesign(){
-        collectionView.backgroundColor = .clear
-        title = "홈"
-        let appearance = UINavigationBarAppearance()
-        appearance.shadowImage = UIImage()
-        appearance.backgroundImage = UIImage()
-        appearance.backgroundColor = Design.colorPrimaryAccent
-        navigationController?.navigationBar.tintColor = Design.colorPrimaryBackground
-        
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.standardAppearance = appearance
-        
-    }
     
     private func showActionAlert(title: String, message: String, handler: (()->Void)?){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -175,7 +163,7 @@ extension HomeViewController{
         section.orthogonalScrollingBehavior = .groupPagingCentered
         
         //Header Layout
-        let sectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.3))
+        let sectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.25))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: sectionHeaderSize, elementKind: SectionSupplementaryKind.readingHeader.rawValue, alignment: .top)
         
         section.boundarySupplementaryItems = [sectionHeader]

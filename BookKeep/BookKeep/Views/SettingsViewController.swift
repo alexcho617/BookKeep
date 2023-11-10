@@ -30,6 +30,8 @@ class SettingsViewController: UIViewController {
         appearance.shadowImage = UIImage()
         appearance.backgroundImage = UIImage()
         appearance.backgroundColor = Design.colorPrimaryAccent
+        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Design.colorTextTitle!]
+
         navigationController?.navigationBar.tintColor = Design.colorPrimaryBackground
         
         navigationController?.navigationBar.scrollEdgeAppearance = appearance

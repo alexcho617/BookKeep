@@ -18,35 +18,10 @@ final class ReadingCell: UICollectionViewCell {
     var page = UILabel()
     var readIteration = UILabel()
     
-//    var readButton = {
-//        let button = UIButton()
-//        button.setImage(UIImage(systemName: "timer"), for: .normal)
-//        button.backgroundColor = Design.colorPrimaryAccent
-//        button.tintColor = Design.colorSecondaryAccent
-//        button.layer.cornerRadius = Design.paddingDefault
-//        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-//        button.layer.shadowOpacity = 0.5
-//        return button
-//    }()
-//
-//    var memoButton = {
-//        let button = UIButton()
-//        button.setImage(UIImage(systemName: "note.text.badge.plus"), for: .normal)
-//        button.backgroundColor = Design.colorPrimaryAccent
-//        button.tintColor = Design.colorSecondaryAccent
-//        button.layer.cornerRadius = Design.paddingDefault
-//        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-//        button.layer.shadowOpacity = 0.5
-//        return button
-//    }()
-    
     func setView(){
         guard let book = book else { return }
         contentView.backgroundColor = Design.colorSecondaryAccent
         contentView.layer.cornerRadius = Design.paddingDefault
-//        contentView.layer.shadowOffset = CGSize(width: 8, height: 8)
-//        contentView.layer.shadowOpacity = 0.5
-        
         contentView.addSubview(title)
         title.text = book.title
         title.font = Design.fontSubTitle
@@ -80,7 +55,7 @@ final class ReadingCell: UICollectionViewCell {
         page.textColor = .secondaryLabel
         
         contentView.addSubview(readIteration)
-        readIteration.text = book.readIteration == 0 ? "첫 회독": "\(book.readIteration)번 회독"
+        readIteration.text = book.readIteration == 0 ? "처음 읽는 중": "\(book.readIteration + 1)번째 읽는 중"
         readIteration.font = Design.fontDefault
         readIteration.textColor = .secondaryLabel
 //        contentView.addSubview(readButton)
@@ -121,9 +96,11 @@ final class ReadingCell: UICollectionViewCell {
 
         }
         readIteration.snp.makeConstraints { make in
-            make.top.equalTo(page.snp.bottom).offset(Design.paddingDefault)
-            make.leading.equalTo(startDate)
-            make.trailing.lessThanOrEqualToSuperview().offset(-Design.paddingDefault)
+//            make.top.equalTo(page.snp.bottom).offset(Design.paddingDefault)
+//            make.leading.equalTo(startDate)
+//            make.trailing.lessThanOrEqualToSuperview().offset(-Design.paddingDefault)
+            make.trailing.equalToSuperview().offset(-2 * Design.paddingDefault)
+            make.bottom.equalToSuperview().offset(-Design.paddingDefault)
 
         }
 //        memoButton.snp.makeConstraints { make in

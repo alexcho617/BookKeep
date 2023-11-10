@@ -73,15 +73,15 @@ class SearchViewController: UIViewController{
     }
     private func setViewDesign(){
         collectionView.backgroundColor = .clear
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = Design.colorPrimaryAccent
-        let buttonAppearance = UIBarButtonItemAppearance()
-        appearance.buttonAppearance = buttonAppearance
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.tintColor = Design.colorPrimaryBackground
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.standardAppearance = appearance
-        title = "검색하기"
+//        let appearance = UINavigationBarAppearance()
+//        appearance.backgroundColor = Design.colorPrimaryAccent
+//        let buttonAppearance = UIBarButtonItemAppearance()
+//        appearance.buttonAppearance = buttonAppearance
+//        navigationController?.navigationBar.isTranslucent = false
+//        navigationController?.navigationBar.tintColor = Design.colorPrimaryBackground
+//        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+//        navigationController?.navigationBar.standardAppearance = appearance
+//        title = "검색하기"
         activityIndicator.color = UIColor.label
         activityIndicator.backgroundColor = .clear
         searchBar.becomeFirstResponder()

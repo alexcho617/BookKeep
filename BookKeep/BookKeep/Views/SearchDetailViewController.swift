@@ -78,7 +78,7 @@ final class SearchDetailViewController: UIViewController {
     }()
     
     private lazy var addButton: UIBarButtonItem = {
-        let view = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(addToReadingList))
+        let view = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(addToReadingList))
           return view
       }()
     
@@ -124,10 +124,10 @@ final class SearchDetailViewController: UIViewController {
     }
     
     func setView(){
+        navigationController?.navigationBar.tintColor = Design.colorPrimaryAccent
         navigationItem.rightBarButtonItem = addButton
         view.backgroundColor = Design.colorPrimaryBackground
         view.addSubview(scrollView)
-        title = "책 추가하기"
         scrollView.addSubview(stackView)
     }
     
