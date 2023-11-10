@@ -23,18 +23,10 @@
                                 <color key="textColor" name="PrimaryBackground"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6aj-BH-Gah">
-                                <rect key="frame" x="150.33333333333334" y="463.66666666666669" width="92.333333333333343" height="26.333333333333314"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                <color key="textColor" name="PrimaryBackground"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="PrimaryAccent"/>
                         <constraints>
-                            <constraint firstItem="6aj-BH-Gah" firstAttribute="top" secondItem="1Jb-9y-i1h" secondAttribute="bottom" constant="8" id="GKf-lM-CJb"/>
-                            <constraint firstItem="6aj-BH-Gah" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="GoS-6M-jz0"/>
                             <constraint firstItem="1Jb-9y-i1h" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="OGK-By-gjA"/>
                             <constraint firstItem="1Jb-9y-i1h" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="hkl-M1-pwf"/>
                         </constraints>
@@ -47,7 +39,7 @@
     </scenes>
     <resources>
         <namedColor name="PrimaryAccent">
-            <color red="0.34901960784313724" green="0.43137254901960786" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.16078431372549021" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="PrimaryBackground">
             <color red="0.93725490196078431" green="0.92549019607843142" blue="0.8901960784313725" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

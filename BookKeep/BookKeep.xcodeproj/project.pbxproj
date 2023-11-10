@@ -44,8 +44,6 @@
 		57A0F4CE2ADC2134008396D6 /* AchievedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0F4CD2ADC2134008396D6 /* AchievedViewController.swift */; };
 		57A0F4D02ADC2145008396D6 /* AchievedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0F4CF2ADC2145008396D6 /* AchievedViewModel.swift */; };
 		57A0F4D52ADD98BB008396D6 /* AchievedHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0F4D42ADD98BB008396D6 /* AchievedHeaderCollectionReusableView.swift */; };
-		57A0F4DA2ADF7229008396D6 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 57A0F4D92ADF7229008396D6 /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		57A0F4DC2ADF7229008396D6 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 57A0F4DB2ADF7229008396D6 /* FirebaseCrashlytics */; };
 		57A0F4DE2ADF7281008396D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57A0F4DD2ADF7281008396D6 /* GoogleService-Info.plist */; };
 		57A0F4E12AE01C90008396D6 /* DetailTableViewSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0F4E02AE01C90008396D6 /* DetailTableViewSessionCell.swift */; };
 		57A193E32AE0EFA100DC679B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A193E22AE0EFA100DC679B /* SettingsViewController.swift */; };
@@ -157,10 +155,8 @@
 				577082B72AC2C1900052EA8A /* Realm in Frameworks */,
 				57A0F4CC2ADBF9E6008396D6 /* SPConfetti in Frameworks */,
 				5790CF062AD550AA0066D517 /* MagicTimer in Frameworks */,
-				57A0F4DC2ADF7229008396D6 /* FirebaseCrashlytics in Frameworks */,
 				577082B42AC2BC230052EA8A /* SnapKit in Frameworks */,
 				57E35A7C2AE4F17600040AC5 /* Toast in Frameworks */,
-				57A0F4DA2ADF7229008396D6 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,8 +351,6 @@
 				577082E32AC6B0BF0052EA8A /* Alamofire */,
 				5790CF052AD550AA0066D517 /* MagicTimer */,
 				57A0F4CB2ADBF9E6008396D6 /* SPConfetti */,
-				57A0F4D92ADF7229008396D6 /* FirebaseAnalyticsWithoutAdIdSupport */,
-				57A0F4DB2ADF7229008396D6 /* FirebaseCrashlytics */,
 				57E35A7B2AE4F17600040AC5 /* Toast */,
 			);
 			productName = BookKeep;
@@ -438,7 +432,6 @@
 				577082E22AC6B0BF0052EA8A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				5790CF042AD550AA0066D517 /* XCRemoteSwiftPackageReference "MagicTimer" */,
 				57A0F4CA2ADBF9E6008396D6 /* XCRemoteSwiftPackageReference "SPConfetti" */,
-				57A0F4D82ADF7229008396D6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				57E35A7A2AE4F17500040AC5 /* XCRemoteSwiftPackageReference "toast-swift" */,
 			);
 			productRefGroup = 57ADDFEF2AC1A38D00EA0EFE /* Products */;
@@ -742,7 +735,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexcho617.BookKeep;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -776,7 +769,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexcho617.BookKeep;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -954,14 +947,6 @@
 				minimumVersion = 1.4.0;
 			};
 		};
-		57A0F4D82ADF7229008396D6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.0.0;
-			};
-		};
 		57E35A7A2AE4F17500040AC5 /* XCRemoteSwiftPackageReference "toast-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/BastiaanJansen/toast-swift.git";
@@ -1007,16 +992,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 57A0F4CA2ADBF9E6008396D6 /* XCRemoteSwiftPackageReference "SPConfetti" */;
 			productName = SPConfetti;
-		};
-		57A0F4D92ADF7229008396D6 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 57A0F4D82ADF7229008396D6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsWithoutAdIdSupport;
-		};
-		57A0F4DB2ADF7229008396D6 /* FirebaseCrashlytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 57A0F4D82ADF7229008396D6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCrashlytics;
 		};
 		57E35A7B2AE4F17600040AC5 /* Toast */ = {
 			isa = XCSwiftPackageProductDependency;

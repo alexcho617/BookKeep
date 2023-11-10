@@ -104,3 +104,8 @@ assets/
 BookKeep/BookKeep/API/Key.swift
 *.xcuserstate
 BookKeep/BookKeep/GoogleService-Info.plist
+BookKeep/BookKeep/Views/.DS_Store
+BookKeep/.DS_Store
+BookKeep/BookKeep/.DS_Store
+BookKeep/BookKeep/Views/.DS_Store
+.DS_Store
