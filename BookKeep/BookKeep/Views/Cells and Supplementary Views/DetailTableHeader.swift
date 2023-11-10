@@ -40,8 +40,6 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
         button.tintColor = Design.colorSecondaryAccent
         button.setTitleColor(Design.colorSecondaryAccent, for: .normal)
         button.layer.cornerRadius = Design.paddingDefault
-        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-        button.layer.shadowOpacity = 0.5
         return button
     }()
     

@@ -18,35 +18,10 @@ final class ReadingCell: UICollectionViewCell {
     var page = UILabel()
     var readIteration = UILabel()
     
-//    var readButton = {
-//        let button = UIButton()
-//        button.setImage(UIImage(systemName: "timer"), for: .normal)
-//        button.backgroundColor = Design.colorPrimaryAccent
-//        button.tintColor = Design.colorSecondaryAccent
-//        button.layer.cornerRadius = Design.paddingDefault
-//        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-//        button.layer.shadowOpacity = 0.5
-//        return button
-//    }()
-//
-//    var memoButton = {
-//        let button = UIButton()
-//        button.setImage(UIImage(systemName: "note.text.badge.plus"), for: .normal)
-//        button.backgroundColor = Design.colorPrimaryAccent
-//        button.tintColor = Design.colorSecondaryAccent
-//        button.layer.cornerRadius = Design.paddingDefault
-//        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-//        button.layer.shadowOpacity = 0.5
-//        return button
-//    }()
-    
     func setView(){
         guard let book = book else { return }
         contentView.backgroundColor = Design.colorSecondaryAccent
         contentView.layer.cornerRadius = Design.paddingDefault
-//        contentView.layer.shadowOffset = CGSize(width: 8, height: 8)
-//        contentView.layer.shadowOpacity = 0.5
-        
         contentView.addSubview(title)
         title.text = book.title
         title.font = Design.fontSubTitle

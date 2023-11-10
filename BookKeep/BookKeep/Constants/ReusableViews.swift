@@ -66,8 +66,6 @@ struct DetailViewComponents{
         
         view.layer.cornerRadius = Design.paddingDefault
         view.clipsToBounds = true
-        view.layer.shadowOffset = CGSize(width: 4, height: 4)
-        view.layer.shadowOpacity = 0.5
         return view
     }()
     
@@ -137,8 +135,6 @@ struct DetailViewComponents{
         button.backgroundColor = Design.colorPrimaryAccent
         button.tintColor = Design.colorSecondaryAccent
         button.layer.cornerRadius = Design.paddingDefault
-        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-        button.layer.shadowOpacity = 0.5
         button.setTitle("읽기", for: .normal)
         button.setTitleColor(Design.colorSecondaryAccent, for: .normal)
         return button
@@ -150,8 +146,6 @@ struct DetailViewComponents{
         button.backgroundColor = Design.colorPrimaryAccent
         button.tintColor = Design.colorSecondaryAccent
         button.layer.cornerRadius = Design.paddingDefault
-        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-        button.layer.shadowOpacity = 0.5
         button.setTitle("메모추가", for: .normal)
         button.setTitleColor(Design.colorSecondaryAccent, for: .normal)
         return button
@@ -165,8 +159,6 @@ struct DetailViewComponents{
         button.tintColor = Design.colorSecondaryAccent
         button.setTitleColor(Design.colorSecondaryAccent, for: .normal)
         button.layer.cornerRadius = Design.paddingDefault
-        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-        button.layer.shadowOpacity = 0.5
         return button
     }()
     

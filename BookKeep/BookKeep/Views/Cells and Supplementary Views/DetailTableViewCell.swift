@@ -43,7 +43,7 @@ class DetailTableViewCell: UITableViewCell {
         secondaryLabel.snp.makeConstraints { make in
             make.top.equalTo(primaryLabel.snp.bottom).offset(4)
             make.trailing.equalToSuperview().inset(Design.paddingDefault)
-            make.bottom.equalToSuperview().offset(-4)
+            make.bottom.equalToSuperview().offset(-Design.paddingDefault)
         }
     }
     

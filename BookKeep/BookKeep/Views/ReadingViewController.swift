@@ -50,8 +50,6 @@ final class ReadingViewController: UIViewController {
         view.layer.borderWidth = 2
         view.layer.cornerRadius = Design.paddingDefault
         view.clipsToBounds = true
-        view.layer.shadowOffset = CGSize(width: 4, height: 4)
-        view.layer.shadowOpacity = 0.5
         return view
     }()
     let timerLabel = {

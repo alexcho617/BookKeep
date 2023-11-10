@@ -27,10 +27,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(baseView)
         baseView.backgroundColor = Design.colorSecondaryAccent
         baseView.layer.cornerRadius = Design.paddingDefault
-//        baseView.layer.shadowOffset = CGSize(width: 8, height: 8)
-//        baseView.layer.shadowOpacity = 0.5
-        
-        
+
         contentView.addSubview(title)
         title.font = Design.fontAccentDefault
         title.text = item.title

@@ -50,8 +50,7 @@ final class ReadingSectionHeaderView: UICollectionReusableView {
     private func setConstraints(){
         welcomeLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-//            make.top.equalToSuperview().offset(Design.paddingDefault)
-            make.leading.equalToSuperview().offset(Design.paddingDefault)
+            make.leading.equalToSuperview().offset(2*Design.paddingDefault)
         }
         
         welcomeSecondLabel.snp.makeConstraints { make in
