@@ -1,11 +1,11 @@
 # 📚 "북킵" 나만의 도서관 사서 - 도서관리, 독서기록
 
-<img width="128" alt="primary" src="https://github.com/alexcho617/BookKeep/assets/38528052/36ed9eb9-64fd-45ca-a39e-bae904ad4cd9">
+<img width="128" alt="appIcon" src="https://github.com/alexcho617/BookKeep/assets/38528052/039562c4-023d-41da-944d-1ddbffc37524">
 
 
 [🔗 앱스토어 바로가기](https://apps.apple.com/kr/app/%EB%B6%81%ED%82%B5-%EB%8F%84%EC%84%9C%EA%B4%80%EB%A6%AC-%EB%8F%85%EC%84%9C%EA%B8%B0%EB%A1%9D/id6469721694)
 
-<img width="2163" alt="appstore" src="https://github.com/alexcho617/BookKeep/assets/38528052/e5ff3f8d-8a2f-4cd6-a16b-003e277e540e">
+<img width="2163" alt="appstore" src="https://github.com/alexcho617/BookKeep/assets/38528052/d4383bd8-c823-4ff3-b58e-0d2026be5f11">
 
 ## ⭐ 프로젝트 소개
 북킵은 관심있는 책을 추가하고 도서를 상태별로 관리하며 독서기록과 메모를 남기는 앱입니다. Aladin API로 새로운 책을 추가하고 `enum`으로 책 상태를 관리합니다. 또한 `timer`를 사용하여 몰입감있는 독서 경험을 선사하며 독서기록과 메모를 `CRUD`할 수 있습니다.
@@ -200,18 +200,18 @@ if UserDefaults.standard.object(forKey: UserDefaultsKey.LastReadingState.rawValu
 
 ## 🍎 기능상세
 > Aladin Open API를 사용한 도서 검색 및 추가 | 페이지네이션 적용
-<img width="60%" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/ec2e6adb-25e6-4c6e-af09-7351ee1b394c">
+<img width="60%" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/69ae743d-13de-42cf-a231-8af87deac024">
 <br><br>
 
 > Enum을 사용한 도서상태 관리 | Compositional Layout 사용
-<img width="90%" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/9809e4e2-4472-4e84-b77c-c36a42f1d9ed">
+<img width="90%" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/ad5dd0f1-dce3-46ba-8694-4ee6bafcc38c">
 <br><br>
 
 > Timer를 사용한 독서 기록 | UserDefaults로 비정상 종료 대응
-<img width="60%" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/cca43f74-9f46-4766-8078-77e9e8c345a1">
+<img width="60%" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/02c9296d-012e-4a36-9a0e-1c1b41c99489">
 <br><br>
 
 > 도서별 메모 추가 및 관리 | Realm Nested Table 사용
-<img width="60%" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/927cd267-be86-469d-9056-67cf3bc101db">
+<img width="60%" alt="image" src="https://github.com/alexcho617/BookKeep/assets/38528052/c28dcec1-6ca4-4733-8e81-de09fa8cc012">
 <br>
 
