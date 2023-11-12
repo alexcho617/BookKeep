@@ -1,9 +1,9 @@
 # 📚 "북킵" 나만의 도서관 사서 - 도서관리, 독서기록
 
-<img width="128" alt="appIcon" src="https://github.com/alexcho617/BookKeep/assets/38528052/039562c4-023d-41da-944d-1ddbffc37524">
+<img width="128" alt="appIcon" src="https://github.com/alexcho617/BookKeep/assets/38528052/a1a43a75-518e-4195-87f2-c2126bbe7356">
+<br>
+<a href="https://apps.apple.com/kr/app/%EB%B6%81%ED%82%B5-%EB%8F%84%EC%84%9C%EA%B4%80%EB%A6%AC-%EB%8F%85%EC%84%9C%EA%B8%B0%EB%A1%9D/id6469721694?itsct=apps_box_badge&amp;itscg=30200" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 175px; height: 58px;"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1697932800" alt="Download on the App Store" style="border-radius: 13px; width: 175px; height: 58px;"></a>
 
-
-[🔗 앱스토어 바로가기](https://apps.apple.com/kr/app/%EB%B6%81%ED%82%B5-%EB%8F%84%EC%84%9C%EA%B4%80%EB%A6%AC-%EB%8F%85%EC%84%9C%EA%B8%B0%EB%A1%9D/id6469721694)
 
 <img width="2163" alt="appstore" src="https://github.com/alexcho617/BookKeep/assets/38528052/d4383bd8-c823-4ff3-b58e-0d2026be5f11">
 
