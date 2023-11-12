@@ -153,6 +153,7 @@ func moveSection(itemToMove: RealmBook,from sourceSection: SectionLayoutKind, to
 ### 독서 중 비정상 종료시 데이터 휘발됨
 
 해결방법: Reading View에 UserDefaults를 사용하여 비정상 종료시 독서기록 데이터 보존 및 복구처리
+<img width="75%" alt="appstore" src="https://github.com/alexcho617/BookKeep/assets/38528052/7efc2b85-e14d-46fe-92b5-bbaf518acddc">
 
 > 핵심 코드
 ```swift
@@ -191,7 +192,6 @@ if UserDefaults.standard.object(forKey: UserDefaultsKey.LastReadingState.rawValu
 
 ```
 
-<img width="75%" alt="appstore" src="https://github.com/alexcho617/BookKeep/assets/38528052/7efc2b85-e14d-46fe-92b5-bbaf518acddc">
 
 [기술 블로그 포스팅 - Velog](https://velog.io/@alexcho617/UserDefaults-%EA%B8%B0%EB%B0%98%EC%9C%BC%EB%A1%9C-%EC%95%B1-%EC%8B%A4%ED%96%89%EC%8B%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B3%B5%EA%B5%AC-%EB%B6%84%EA%B8%B0%EC%B2%98%EB%A6%AC)
 
