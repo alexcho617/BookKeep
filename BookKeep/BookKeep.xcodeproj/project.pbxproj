@@ -951,8 +951,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MagicTimerFW/MagicTimer.git";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.0.0;
+				branch = master;
+				kind = branch;
 			};
 		};
 		57A0F4CA2ADBF9E6008396D6 /* XCRemoteSwiftPackageReference "SPConfetti" */ = {

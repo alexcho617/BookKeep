@@ -104,8 +104,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/MagicTimerFW/MagicTimer.git",
       "state" : {
-        "revision" : "3aacf9b3a6e73473687d84758bf28ee2d5eeb2ff",
-        "version" : "1.0.4"
+        "branch" : "master",
+        "revision" : "23db92ff528b1e7ec5f50a82f223992b482766db"
+      }
+    },
+    {
+      "identity" : "mathoperators",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sadeghgoo/MathOperators.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "1bedb10d9a5914040606ca1b26d9c44a21fb19a6"
       }
     },
     {
