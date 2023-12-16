@@ -15,13 +15,16 @@ final class DetailTableHeader: UITableViewHeaderFooterView {
     var memoButtonAction: (() -> Void)?
     var readButtonAction: (() -> Void)?
     
+    //Init 으로  컴포넌트들을 받으면 lazy가 필요없지 않을까?
     private let viewComponents = DetailViewComponents()
     private let labelViews = LabelViews()
+    
     
     lazy var baseView = {
         let view = UIView()
         return view
     }()
+    
     
     lazy var bookTitle = viewComponents.bookTitle
     lazy var coverImageView = viewComponents.coverImageView
