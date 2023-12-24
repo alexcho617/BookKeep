@@ -68,6 +68,9 @@
 		57BD20AA2B366B960017E541 /* WidgetLatestBookExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 57BD20982B366B940017E541 /* WidgetLatestBookExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		57BD20B12B366DAA0017E541 /* UserDefaultsGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B02B366DAA0017E541 /* UserDefaultsGroup.swift */; };
 		57BD20B22B366DAA0017E541 /* UserDefaultsGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B02B366DAA0017E541 /* UserDefaultsGroup.swift */; };
+		57BD20B62B3826ED0017E541 /* LatestBookEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B52B3826ED0017E541 /* LatestBookEntryView.swift */; };
+		57BD20B82B38271F0017E541 /* LatestBookEntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B72B38271F0017E541 /* LatestBookEntryModel.swift */; };
+		57BD20BA2B38278D0017E541 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B92B38278D0017E541 /* Provider.swift */; };
 		57C5C9E42ADA5A02002CFC72 /* DetailTableFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C5C9E32ADA5A02002CFC72 /* DetailTableFooter.swift */; };
 		57C5C9E62ADA77DC002CFC72 /* ReadCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C5C9E52ADA77DC002CFC72 /* ReadCompleteViewController.swift */; };
 		57C5C9E82ADAA5FC002CFC72 /* ReadCompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C5C9E72ADAA5FC002CFC72 /* ReadCompleteViewModel.swift */; };
@@ -179,6 +182,9 @@
 		57BD20A72B366B960017E541 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		57BD20AF2B366C290017E541 /* WidgetLatestBookExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetLatestBookExtension.entitlements; sourceTree = "<group>"; };
 		57BD20B02B366DAA0017E541 /* UserDefaultsGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsGroup.swift; sourceTree = "<group>"; };
+		57BD20B52B3826ED0017E541 /* LatestBookEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestBookEntryView.swift; sourceTree = "<group>"; };
+		57BD20B72B38271F0017E541 /* LatestBookEntryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestBookEntryModel.swift; sourceTree = "<group>"; };
+		57BD20B92B38278D0017E541 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		57C5C9E32ADA5A02002CFC72 /* DetailTableFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableFooter.swift; sourceTree = "<group>"; };
 		57C5C9E52ADA77DC002CFC72 /* ReadCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadCompleteViewController.swift; sourceTree = "<group>"; };
 		57C5C9E72ADAA5FC002CFC72 /* ReadCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadCompleteViewModel.swift; sourceTree = "<group>"; };
@@ -402,11 +408,30 @@
 				57BD20AF2B366C290017E541 /* WidgetLatestBookExtension.entitlements */,
 				57BD209F2B366B950017E541 /* WidgetLatestBookBundle.swift */,
 				57BD20A12B366B950017E541 /* WidgetLatestBook.swift */,
+				57BD20B42B3826A50017E541 /* Provider */,
+				57BD20B32B38269C0017E541 /* Entry */,
 				57BD20A32B366B950017E541 /* AppIntent.swift */,
 				57BD20A52B366B960017E541 /* Assets.xcassets */,
 				57BD20A72B366B960017E541 /* Info.plist */,
 			);
 			path = WidgetLatestBook;
+			sourceTree = "<group>";
+		};
+		57BD20B32B38269C0017E541 /* Entry */ = {
+			isa = PBXGroup;
+			children = (
+				57BD20B52B3826ED0017E541 /* LatestBookEntryView.swift */,
+				57BD20B72B38271F0017E541 /* LatestBookEntryModel.swift */,
+			);
+			path = Entry;
+			sourceTree = "<group>";
+		};
+		57BD20B42B3826A50017E541 /* Provider */ = {
+			isa = PBXGroup;
+			children = (
+				57BD20B92B38278D0017E541 /* Provider.swift */,
+			);
+			path = Provider;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -621,6 +646,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57BD20B82B38271F0017E541 /* LatestBookEntryModel.swift in Sources */,
 				577082BB2AC2C3090052EA8A /* RealmBook.swift in Sources */,
 				577082DD2AC6ADB40052EA8A /* AladinSearch.swift in Sources */,
 				577082E62AC6D1820052EA8A /* SearchCollectionViewCell.swift in Sources */,
@@ -655,7 +681,9 @@
 				577082D02AC415F90052EA8A /* Observable.swift in Sources */,
 				57C5C9E62ADA77DC002CFC72 /* ReadCompleteViewController.swift in Sources */,
 				577082CC2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift in Sources */,
+				57BD20B62B3826ED0017E541 /* LatestBookEntryView.swift in Sources */,
 				57CA82342ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift in Sources */,
+				57BD20BA2B38278D0017E541 /* Provider.swift in Sources */,
 				57A0F4E12AE01C90008396D6 /* DetailTableViewSessionCell.swift in Sources */,
 				57A193E52AE168DD00DC679B /* SettingsViewModel.swift in Sources */,
 				57A193E32AE0EFA100DC679B /* SettingsViewController.swift in Sources */,
