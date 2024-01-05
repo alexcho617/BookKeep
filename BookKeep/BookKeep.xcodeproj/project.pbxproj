@@ -260,6 +260,7 @@
 		57ADDFE52AC1A38D00EA0EFE = {
 			isa = PBXGroup;
 			children = (
+				57BD20AF2B366C290017E541 /* WidgetLatestBookExtension.entitlements */,
 				57ADDFF02AC1A38D00EA0EFE /* BookKeep */,
 				57ADE0072AC1A38F00EA0EFE /* BookKeepTests */,
 				57ADE0112AC1A38F00EA0EFE /* BookKeepUITests */,
@@ -405,7 +406,6 @@
 		57BD209E2B366B950017E541 /* WidgetLatestBook */ = {
 			isa = PBXGroup;
 			children = (
-				57BD20AF2B366C290017E541 /* WidgetLatestBookExtension.entitlements */,
 				57BD209F2B366B950017E541 /* WidgetLatestBookBundle.swift */,
 				57BD20A12B366B950017E541 /* WidgetLatestBook.swift */,
 				57BD20B42B3826A50017E541 /* Provider */,

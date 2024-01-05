@@ -48,6 +48,7 @@ class ReadingViewModel{
         //update view
         elapsedTime.value = time
         //1초마다 저장
+        //⚠️TODO: Timer라벨이 업데이트 안되는 이슈. 
         UserDefaults.standard.set(elapsedTime.value, forKey: UserDefaultsKey.LastElapsedTime.rawValue)
     }
     
