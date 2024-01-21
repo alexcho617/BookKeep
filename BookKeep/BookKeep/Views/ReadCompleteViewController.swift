@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import SPConfetti
 import Toast
+import WidgetKit
 final class ReadCompleteViewController: UIViewController {
     var isbn: String = ""
     var startTime: Date?
@@ -193,6 +194,7 @@ extension ReadCompleteViewController: UITextFieldDelegate{
         vm.startTimeInput.value = startDatePicker.date
         vm.readTimeInput.value = readTimePicker.countDownDuration
         if vm.addSession(){
+            WidgetCenter.shared.reloadTimelines(ofKind: "WidgetLatestBook") //WidgetLatestBook.kind
             //책이 끝난 경우
             if vm.book.value?.currentReadingPage == vm.book.value?.page{
                 BooksRepository.shared.bookFinished(isbn: isbn)
@@ -214,9 +216,6 @@ extension ReadCompleteViewController: UITextFieldDelegate{
                     self.navigationHandler?()
                 }
             }
-            
-            
-            
         }else{
             let toast = Toast.text("⚠️\(0) ~ \(vm.book.value?.page ?? -999) 사이를 입력하세요",config: .init(dismissBy: [.time(time: 2),.swipe(direction: .natural)]))
             toast.show(haptic: .error)

@@ -68,9 +68,6 @@
 		57BD20AA2B366B960017E541 /* WidgetLatestBookExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 57BD20982B366B940017E541 /* WidgetLatestBookExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		57BD20B12B366DAA0017E541 /* UserDefaultsGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B02B366DAA0017E541 /* UserDefaultsGroup.swift */; };
 		57BD20B22B366DAA0017E541 /* UserDefaultsGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B02B366DAA0017E541 /* UserDefaultsGroup.swift */; };
-		57BD20B62B3826ED0017E541 /* LatestBookEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B52B3826ED0017E541 /* LatestBookEntryView.swift */; };
-		57BD20B82B38271F0017E541 /* LatestBookEntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B72B38271F0017E541 /* LatestBookEntryModel.swift */; };
-		57BD20BA2B38278D0017E541 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B92B38278D0017E541 /* Provider.swift */; };
 		57C5C9E42ADA5A02002CFC72 /* DetailTableFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C5C9E32ADA5A02002CFC72 /* DetailTableFooter.swift */; };
 		57C5C9E62ADA77DC002CFC72 /* ReadCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C5C9E52ADA77DC002CFC72 /* ReadCompleteViewController.swift */; };
 		57C5C9E82ADAA5FC002CFC72 /* ReadCompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C5C9E72ADAA5FC002CFC72 /* ReadCompleteViewModel.swift */; };
@@ -81,6 +78,9 @@
 		57FD200B2AFE8DED0020FC7A /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 57FD200A2AFE8DED0020FC7A /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		57FD200D2AFE8DED0020FC7A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 57FD200C2AFE8DED0020FC7A /* FirebaseCrashlytics */; };
 		57FD200F2AFE8DED0020FC7A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 57FD200E2AFE8DED0020FC7A /* FirebaseMessaging */; };
+		57FD282D2B5D0A41009BCB7D /* LatestBookProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B92B38278D0017E541 /* LatestBookProvider.swift */; };
+		57FD282E2B5D0B8B009BCB7D /* LatestBookEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B52B3826ED0017E541 /* LatestBookEntryView.swift */; };
+		57FD282F2B5D0B8F009BCB7D /* LatestBookEntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B72B38271F0017E541 /* LatestBookEntryModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -184,7 +184,7 @@
 		57BD20B02B366DAA0017E541 /* UserDefaultsGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsGroup.swift; sourceTree = "<group>"; };
 		57BD20B52B3826ED0017E541 /* LatestBookEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestBookEntryView.swift; sourceTree = "<group>"; };
 		57BD20B72B38271F0017E541 /* LatestBookEntryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestBookEntryModel.swift; sourceTree = "<group>"; };
-		57BD20B92B38278D0017E541 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
+		57BD20B92B38278D0017E541 /* LatestBookProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestBookProvider.swift; sourceTree = "<group>"; };
 		57C5C9E32ADA5A02002CFC72 /* DetailTableFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableFooter.swift; sourceTree = "<group>"; };
 		57C5C9E52ADA77DC002CFC72 /* ReadCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadCompleteViewController.swift; sourceTree = "<group>"; };
 		57C5C9E72ADAA5FC002CFC72 /* ReadCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadCompleteViewModel.swift; sourceTree = "<group>"; };
@@ -429,7 +429,7 @@
 		57BD20B42B3826A50017E541 /* Provider */ = {
 			isa = PBXGroup;
 			children = (
-				57BD20B92B38278D0017E541 /* Provider.swift */,
+				57BD20B92B38278D0017E541 /* LatestBookProvider.swift */,
 			);
 			path = Provider;
 			sourceTree = "<group>";
@@ -444,8 +444,8 @@
 				57ADDFEA2AC1A38D00EA0EFE /* Sources */,
 				57ADDFEB2AC1A38D00EA0EFE /* Frameworks */,
 				57ADDFEC2AC1A38D00EA0EFE /* Resources */,
-				57A0F4DF2ADF7C7B008396D6 /* ShellScript */,
 				57BD20AB2B366B960017E541 /* Embed Foundation Extensions */,
+				57A0F4DF2ADF7C7B008396D6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -646,7 +646,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57BD20B82B38271F0017E541 /* LatestBookEntryModel.swift in Sources */,
 				577082BB2AC2C3090052EA8A /* RealmBook.swift in Sources */,
 				577082DD2AC6ADB40052EA8A /* AladinSearch.swift in Sources */,
 				577082E62AC6D1820052EA8A /* SearchCollectionViewCell.swift in Sources */,
@@ -681,9 +680,7 @@
 				577082D02AC415F90052EA8A /* Observable.swift in Sources */,
 				57C5C9E62ADA77DC002CFC72 /* ReadCompleteViewController.swift in Sources */,
 				577082CC2AC3E8CA0052EA8A /* ReadingSectionHeaderView.swift in Sources */,
-				57BD20B62B3826ED0017E541 /* LatestBookEntryView.swift in Sources */,
 				57CA82342ACD8AF8008ACB57 /* EmptyCollectionViewCell.swift in Sources */,
-				57BD20BA2B38278D0017E541 /* Provider.swift in Sources */,
 				57A0F4E12AE01C90008396D6 /* DetailTableViewSessionCell.swift in Sources */,
 				57A193E52AE168DD00DC679B /* SettingsViewModel.swift in Sources */,
 				57A193E32AE0EFA100DC679B /* SettingsViewController.swift in Sources */,
@@ -722,7 +719,10 @@
 				57BD20A02B366B950017E541 /* WidgetLatestBookBundle.swift in Sources */,
 				57BD20A22B366B950017E541 /* WidgetLatestBook.swift in Sources */,
 				57BD20B22B366DAA0017E541 /* UserDefaultsGroup.swift in Sources */,
+				57FD282D2B5D0A41009BCB7D /* LatestBookProvider.swift in Sources */,
 				57BD20A42B366B950017E541 /* AppIntent.swift in Sources */,
+				57FD282E2B5D0B8B009BCB7D /* LatestBookEntryView.swift in Sources */,
+				57FD282F2B5D0B8F009BCB7D /* LatestBookEntryModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

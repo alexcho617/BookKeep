@@ -6,9 +6,14 @@
 //
 
 import WidgetKit
-
+import SwiftUI
 struct LatestBookEntryModel: TimelineEntry {
     var date: Date
     //TODO: add model data, Book info, image url etc..
+    var isbn: String
+    var bookTitle: String
+    var author: String
+    var coverURL: String
+    var coverImage: UIImage
     
 }

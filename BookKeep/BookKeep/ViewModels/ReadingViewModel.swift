@@ -85,6 +85,7 @@ class ReadingViewModel{
         handler()
     }
     
+    //미사용 함수
     func saveCurrentStatusToUD(){
         UserDefaults.standard.set(readingState.value.rawValue, forKey: UserDefaultsKey.LastReadingState.rawValue)
         UserDefaults.standard.set(elapsedTime.value, forKey: UserDefaultsKey.LastElapsedTime.rawValue)
