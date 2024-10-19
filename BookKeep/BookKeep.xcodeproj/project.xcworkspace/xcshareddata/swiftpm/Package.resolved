@@ -1,4 +1,5 @@
 {
+  "originHash" : "dd54122b6ad8bbfd6a63ded3141d59c31bec8b952de7b89825a49a4e58777657",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -102,10 +103,10 @@
     {
       "identity" : "magictimer",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/MagicTimerFW/MagicTimer.git",
+      "location" : "https://github.com/alexcho617/MagicTimer.git",
       "state" : {
         "branch" : "master",
-        "revision" : "23db92ff528b1e7ec5f50a82f223992b482766db"
+        "revision" : "f53b3bc3fcaf99376d9f2f9820bbd6cd1af68306"
       }
     },
     {
@@ -114,7 +115,7 @@
       "location" : "https://github.com/sadeghgoo/MathOperators.git",
       "state" : {
         "branch" : "main",
-        "revision" : "1bedb10d9a5914040606ca1b26d9c44a21fb19a6"
+        "revision" : "8c913ef7cad8dc3ae81f0750826822033c6c3e93"
       }
     },
     {
@@ -190,5 +191,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
