@@ -55,6 +55,12 @@ class ReadCompleteViewModel{
             
             addReadSessionToRealm(session: session)
             BooksRepository.shared.updateCurrentPage(isbn: isbn, to: endPage)
+            //TODO: Widget: Save Book Info to UserDefaults suite for widget
+            //For Widget
+            UserDefaults.groupShared.set(isbn, forKey: "ISBN")
+            UserDefaults.groupShared.set(book.coverUrl, forKey: "CoverURL")
+            UserDefaults.groupShared.set(book.title, forKey: "Title")
+            UserDefaults.groupShared.set(book.author, forKey: "Author")
             return true
         }else {
             return false

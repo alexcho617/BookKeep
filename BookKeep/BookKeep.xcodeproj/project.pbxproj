@@ -39,7 +39,6 @@
 		5790CEFB2AD3F8DA0066D517 /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CEFA2AD3F8DA0066D517 /* MemoViewController.swift */; };
 		5790CF012AD54ED40066D517 /* ReadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CF002AD54ED40066D517 /* ReadingViewController.swift */; };
 		5790CF032AD54EE70066D517 /* ReadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5790CF022AD54EE70066D517 /* ReadingViewModel.swift */; };
-		5790CF062AD550AA0066D517 /* MagicTimer in Frameworks */ = {isa = PBXBuildFile; productRef = 5790CF052AD550AA0066D517 /* MagicTimer */; };
 		57A0F4CC2ADBF9E6008396D6 /* SPConfetti in Frameworks */ = {isa = PBXBuildFile; productRef = 57A0F4CB2ADBF9E6008396D6 /* SPConfetti */; };
 		57A0F4CE2ADC2134008396D6 /* AchievedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0F4CD2ADC2134008396D6 /* AchievedViewController.swift */; };
 		57A0F4D02ADC2145008396D6 /* AchievedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0F4CF2ADC2145008396D6 /* AchievedViewModel.swift */; };
@@ -68,6 +67,7 @@
 		57BD20AA2B366B960017E541 /* WidgetLatestBookExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 57BD20982B366B940017E541 /* WidgetLatestBookExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		57BD20B12B366DAA0017E541 /* UserDefaultsGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B02B366DAA0017E541 /* UserDefaultsGroup.swift */; };
 		57BD20B22B366DAA0017E541 /* UserDefaultsGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B02B366DAA0017E541 /* UserDefaultsGroup.swift */; };
+		57C12F022CC37A8F00AB0CE3 /* MagicTimer in Frameworks */ = {isa = PBXBuildFile; productRef = 57C12F012CC37A8F00AB0CE3 /* MagicTimer */; };
 		57C5C9E42ADA5A02002CFC72 /* DetailTableFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C5C9E32ADA5A02002CFC72 /* DetailTableFooter.swift */; };
 		57C5C9E62ADA77DC002CFC72 /* ReadCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C5C9E52ADA77DC002CFC72 /* ReadCompleteViewController.swift */; };
 		57C5C9E82ADAA5FC002CFC72 /* ReadCompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C5C9E72ADAA5FC002CFC72 /* ReadCompleteViewModel.swift */; };
@@ -78,6 +78,9 @@
 		57FD200B2AFE8DED0020FC7A /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 57FD200A2AFE8DED0020FC7A /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		57FD200D2AFE8DED0020FC7A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 57FD200C2AFE8DED0020FC7A /* FirebaseCrashlytics */; };
 		57FD200F2AFE8DED0020FC7A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 57FD200E2AFE8DED0020FC7A /* FirebaseMessaging */; };
+		57FD282D2B5D0A41009BCB7D /* LatestBookProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B92B38278D0017E541 /* LatestBookProvider.swift */; };
+		57FD282E2B5D0B8B009BCB7D /* LatestBookEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B52B3826ED0017E541 /* LatestBookEntryView.swift */; };
+		57FD282F2B5D0B8F009BCB7D /* LatestBookEntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BD20B72B38271F0017E541 /* LatestBookEntryModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +182,9 @@
 		57BD20A72B366B960017E541 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		57BD20AF2B366C290017E541 /* WidgetLatestBookExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetLatestBookExtension.entitlements; sourceTree = "<group>"; };
 		57BD20B02B366DAA0017E541 /* UserDefaultsGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsGroup.swift; sourceTree = "<group>"; };
+		57BD20B52B3826ED0017E541 /* LatestBookEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestBookEntryView.swift; sourceTree = "<group>"; };
+		57BD20B72B38271F0017E541 /* LatestBookEntryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestBookEntryModel.swift; sourceTree = "<group>"; };
+		57BD20B92B38278D0017E541 /* LatestBookProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestBookProvider.swift; sourceTree = "<group>"; };
 		57C5C9E32ADA5A02002CFC72 /* DetailTableFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableFooter.swift; sourceTree = "<group>"; };
 		57C5C9E52ADA77DC002CFC72 /* ReadCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadCompleteViewController.swift; sourceTree = "<group>"; };
 		57C5C9E72ADAA5FC002CFC72 /* ReadCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadCompleteViewModel.swift; sourceTree = "<group>"; };
@@ -197,8 +203,8 @@
 				577082C72AC2E1510052EA8A /* Kingfisher in Frameworks */,
 				577082B92AC2C1900052EA8A /* RealmSwift in Frameworks */,
 				577082B72AC2C1900052EA8A /* Realm in Frameworks */,
+				57C12F022CC37A8F00AB0CE3 /* MagicTimer in Frameworks */,
 				57A0F4CC2ADBF9E6008396D6 /* SPConfetti in Frameworks */,
-				5790CF062AD550AA0066D517 /* MagicTimer in Frameworks */,
 				577082B42AC2BC230052EA8A /* SnapKit in Frameworks */,
 				57FD200D2AFE8DED0020FC7A /* FirebaseCrashlytics in Frameworks */,
 				57FD200B2AFE8DED0020FC7A /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
@@ -254,6 +260,7 @@
 		57ADDFE52AC1A38D00EA0EFE = {
 			isa = PBXGroup;
 			children = (
+				57BD20AF2B366C290017E541 /* WidgetLatestBookExtension.entitlements */,
 				57ADDFF02AC1A38D00EA0EFE /* BookKeep */,
 				57ADE0072AC1A38F00EA0EFE /* BookKeepTests */,
 				57ADE0112AC1A38F00EA0EFE /* BookKeepUITests */,
@@ -399,14 +406,32 @@
 		57BD209E2B366B950017E541 /* WidgetLatestBook */ = {
 			isa = PBXGroup;
 			children = (
-				57BD20AF2B366C290017E541 /* WidgetLatestBookExtension.entitlements */,
 				57BD209F2B366B950017E541 /* WidgetLatestBookBundle.swift */,
 				57BD20A12B366B950017E541 /* WidgetLatestBook.swift */,
+				57BD20B42B3826A50017E541 /* Provider */,
+				57BD20B32B38269C0017E541 /* Entry */,
 				57BD20A32B366B950017E541 /* AppIntent.swift */,
 				57BD20A52B366B960017E541 /* Assets.xcassets */,
 				57BD20A72B366B960017E541 /* Info.plist */,
 			);
 			path = WidgetLatestBook;
+			sourceTree = "<group>";
+		};
+		57BD20B32B38269C0017E541 /* Entry */ = {
+			isa = PBXGroup;
+			children = (
+				57BD20B52B3826ED0017E541 /* LatestBookEntryView.swift */,
+				57BD20B72B38271F0017E541 /* LatestBookEntryModel.swift */,
+			);
+			path = Entry;
+			sourceTree = "<group>";
+		};
+		57BD20B42B3826A50017E541 /* Provider */ = {
+			isa = PBXGroup;
+			children = (
+				57BD20B92B38278D0017E541 /* LatestBookProvider.swift */,
+			);
+			path = Provider;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -419,8 +444,8 @@
 				57ADDFEA2AC1A38D00EA0EFE /* Sources */,
 				57ADDFEB2AC1A38D00EA0EFE /* Frameworks */,
 				57ADDFEC2AC1A38D00EA0EFE /* Resources */,
-				57A0F4DF2ADF7C7B008396D6 /* ShellScript */,
 				57BD20AB2B366B960017E541 /* Embed Foundation Extensions */,
+				57A0F4DF2ADF7C7B008396D6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -434,12 +459,12 @@
 				577082B82AC2C1900052EA8A /* RealmSwift */,
 				577082C62AC2E1510052EA8A /* Kingfisher */,
 				577082E32AC6B0BF0052EA8A /* Alamofire */,
-				5790CF052AD550AA0066D517 /* MagicTimer */,
 				57A0F4CB2ADBF9E6008396D6 /* SPConfetti */,
 				57E35A7B2AE4F17600040AC5 /* Toast */,
 				57FD200A2AFE8DED0020FC7A /* FirebaseAnalyticsWithoutAdIdSupport */,
 				57FD200C2AFE8DED0020FC7A /* FirebaseCrashlytics */,
 				57FD200E2AFE8DED0020FC7A /* FirebaseMessaging */,
+				57C12F012CC37A8F00AB0CE3 /* MagicTimer */,
 			);
 			productName = BookKeep;
 			productReference = 57ADDFEE2AC1A38D00EA0EFE /* BookKeep.app */;
@@ -538,10 +563,10 @@
 				577082B52AC2C1900052EA8A /* XCRemoteSwiftPackageReference "realm-swift" */,
 				577082C52AC2E1510052EA8A /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				577082E22AC6B0BF0052EA8A /* XCRemoteSwiftPackageReference "Alamofire" */,
-				5790CF042AD550AA0066D517 /* XCRemoteSwiftPackageReference "MagicTimer" */,
 				57A0F4CA2ADBF9E6008396D6 /* XCRemoteSwiftPackageReference "SPConfetti" */,
 				57E35A7A2AE4F17500040AC5 /* XCRemoteSwiftPackageReference "toast-swift" */,
 				57FD20092AFE8DED0020FC7A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				57C12F002CC37A8F00AB0CE3 /* XCRemoteSwiftPackageReference "MagicTimer" */,
 			);
 			productRefGroup = 57ADDFEF2AC1A38D00EA0EFE /* Products */;
 			projectDirPath = "";
@@ -694,7 +719,10 @@
 				57BD20A02B366B950017E541 /* WidgetLatestBookBundle.swift in Sources */,
 				57BD20A22B366B950017E541 /* WidgetLatestBook.swift in Sources */,
 				57BD20B22B366DAA0017E541 /* UserDefaultsGroup.swift in Sources */,
+				57FD282D2B5D0A41009BCB7D /* LatestBookProvider.swift in Sources */,
 				57BD20A42B366B950017E541 /* AppIntent.swift in Sources */,
+				57FD282E2B5D0B8B009BCB7D /* LatestBookEntryView.swift in Sources */,
+				57FD282F2B5D0B8F009BCB7D /* LatestBookEntryModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -873,7 +901,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexcho617.BookKeep;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -910,7 +938,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexcho617.BookKeep;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1148,20 +1176,20 @@
 				minimumVersion = 5.8.0;
 			};
 		};
-		5790CF042AD550AA0066D517 /* XCRemoteSwiftPackageReference "MagicTimer" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MagicTimerFW/MagicTimer.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		57A0F4CA2ADBF9E6008396D6 /* XCRemoteSwiftPackageReference "SPConfetti" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ivanvorobei/SPConfetti.git";
 			requirement = {
 				kind = upToNextMinorVersion;
 				minimumVersion = 1.4.0;
+			};
+		};
+		57C12F002CC37A8F00AB0CE3 /* XCRemoteSwiftPackageReference "MagicTimer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alexcho617/MagicTimer.git";
+			requirement = {
+				branch = master;
+				kind = branch;
 			};
 		};
 		57E35A7A2AE4F17500040AC5 /* XCRemoteSwiftPackageReference "toast-swift" */ = {
@@ -1208,15 +1236,15 @@
 			package = 577082E22AC6B0BF0052EA8A /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
-		5790CF052AD550AA0066D517 /* MagicTimer */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5790CF042AD550AA0066D517 /* XCRemoteSwiftPackageReference "MagicTimer" */;
-			productName = MagicTimer;
-		};
 		57A0F4CB2ADBF9E6008396D6 /* SPConfetti */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 57A0F4CA2ADBF9E6008396D6 /* XCRemoteSwiftPackageReference "SPConfetti" */;
 			productName = SPConfetti;
+		};
+		57C12F012CC37A8F00AB0CE3 /* MagicTimer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57C12F002CC37A8F00AB0CE3 /* XCRemoteSwiftPackageReference "MagicTimer" */;
+			productName = MagicTimer;
 		};
 		57E35A7B2AE4F17600040AC5 /* Toast */ = {
 			isa = XCSwiftPackageProductDependency;

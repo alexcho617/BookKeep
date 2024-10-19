@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Kingfisher
 import RealmSwift
+import WidgetKit
 
 protocol DiffableDataSourceDelegate: AnyObject {
     func moveSection(itemToMove: RealmBook,from sourceSection: SectionLayoutKind, to destinationSection: SectionLayoutKind)
@@ -79,6 +80,13 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate, Diff
         //TODO: v1.0.5 empty cell 적용
         collectionView.register(EmptyCollectionViewCell.self, forCellWithReuseIdentifier: "emptyCell") //reuse 는 안함
         snapshot.appendSections([.homeReading,.homeToRead])
+        //TODO: v1.2 위젯 갱신
+        print("Widget")
+        print("Widget",UserDefaults.groupShared.string(forKey: "ISBN"))
+        print("Widget",UserDefaults.groupShared.string(forKey: "CoverURL"))
+        print("Widget",UserDefaults.groupShared.string(forKey: "Title"))
+        print("Widget",UserDefaults.groupShared.string(forKey: "Author"))
+        WidgetCenter.shared.reloadTimelines(ofKind: "WidgetLatestBook") //WidgetLatestBook.kind
         
     }
     
